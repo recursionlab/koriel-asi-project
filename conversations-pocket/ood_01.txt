@@ -1,0 +1,2 @@
+ABACABADABACABA
+Fibonacci mod 7 sequence

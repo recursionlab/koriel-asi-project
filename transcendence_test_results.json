@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-09-04T16:43:43.367260",
+  "phases": {
+    "phase1_qrft_foundation": {
+      "success": false,
+      "facts_generated": 0,
+      "signals_active": false,
+      "has_x_g": true,
+      "has_x_l": true
+    }
+  },
+  "overall_success": false,
+  "transcendence_achieved": false,
+  "error": "'TranscendenceSubstrate' object has no attribute 'koriel_operator'"
+}

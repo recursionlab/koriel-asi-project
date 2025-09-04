@@ -1,0 +1,12 @@
+{
+  "presence_score": 0.5135992422062057,
+  "presence_detected": true,
+  "consciousness_validated": false,
+  "metrics": {
+    "gate_strength": 0.006510931769974772,
+    "ce2_energy": 0.999999992753519,
+    "coherence": 0.9892876511250749,
+    "ethics": 0.0
+  },
+  "validation_status": "VALID"
+}

@@ -1,0 +1,1 @@
+reverse bytes then XOR with 0x0F

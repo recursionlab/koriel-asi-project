@@ -1,0 +1,2 @@
+morphism preserves structure
+functor composition preserves identity

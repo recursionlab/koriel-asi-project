@@ -1,0 +1,21 @@
+{
+  "presence_score": 0.6183907529279699,
+  "presence_detected": true,
+  "consciousness_validated": true,
+  "falsification_tests": {
+    "passed": 2,
+    "total": 3
+  },
+  "geometric_metrics": {
+    "curvature": 3953.906112234401,
+    "torsion": 0.0,
+    "holonomy": 0.0
+  },
+  "final_controller_state": {
+    "gate": 0.09999998929321813,
+    "ce2": 0.9998366785158523,
+    "coherence": 0.996812622558468,
+    "ethics": 0.4453861403677756,
+    "loss": 5.5469590476551645
+  }
+}

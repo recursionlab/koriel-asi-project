@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "passed": 19,
+    "failed": 6,
+    "success_rate": 76.0
+  },
+  "test_details": {
+    "Agent state initialization": {
+      "passed": true,
+      "details": ""
+    },
+    "Signal system initialization": {
+      "passed": true,
+      "details": ""
+    },
+    "Policy system initialization": {
+      "passed": true,
+      "details": ""
+    },
+    "Process method exists": {
+      "passed": true,
+      "details": ""
+    },
+    "Fact addition": {
+      "passed": true,
+      "details": "Facts added: 2"
+    },
+    "Contradiction detection": {
+      "passed": true,
+      "details": "Contradictions found: 1"
+    },
+    "Fact retrieval": {
+      "passed": true,
+      "details": "Total facts: 2"
+    },
+    "Gap addition": {
+      "passed": true,
+      "details": "Gaps added: 3"
+    },
+    "Gap removal": {
+      "passed": true,
+      "details": "Gaps after removal: 2"
+    },
+    "Gap type tracking": {
+      "passed": true,
+      "details": "Gap types: {'constraint_violation', 'unbound_symbol'}"
+    },
+    "Contradiction signal (X_G)": {
+      "passed": true,
+      "details": "X_G = 0.500"
+    },
+    "Signal computation": {
+      "passed": false,
+      "details": "Exception: 'QRFTSignals' object has no attribute 'X_L'"
+    },
+    "Policy decision case 1": {
+      "passed": true,
+      "details": "Action: counterexample, Expected: ['counterexample', 'abstain', 'ask']"
+    },
+    "Policy decision case 2": {
+      "passed": true,
+      "details": "Action: retrieve, Expected: ['ask', 'retrieve', 'abstain']"
+    },
+    "Policy decision case 3": {
+      "passed": false,
+      "details": "Action: ask, Expected: ['compute', 'plan', 'cite', 'view_shift']"
+    },
+    "Decision variety": {
+      "passed": true,
+      "details": "Unique decisions: 3/3"
+    },
+    "Basic input processing": {
+      "passed": true,
+      "details": "Response length: 49"
+    },
+    "Step counting": {
+      "passed": true,
+      "details": "Steps incremented by: 1"
+    },
+    "State persistence across inputs": {
+      "passed": false,
+      "details": "Contradictions accumulated: 0"
+    },
+    "Event logging": {
+      "passed": true,
+      "details": "Events logged: 4"
+    },
+    "Contradiction + gap handling": {
+      "passed": false,
+      "details": "Contradictions: 0, Gaps: 1"
+    },
+    "Progressive fact building": {
+      "passed": false,
+      "details": "Facts accumulated: 1"
+    },
+    "Plan generation": {
+      "passed": true,
+      "details": "Plan steps created: 0"
+    },
+    "Deterministic behavior": {
+      "passed": true,
+      "details": "Identical responses: True"
+    },
+    "Determinism & performance": {
+      "passed": false,
+      "details": "Exception: float division by zero"
+    }
+  }
+}

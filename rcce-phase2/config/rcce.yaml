@@ -1,0 +1,54 @@
+# RCCE Configuration - Phase 2
+# Calibrated bands, windows, tolerances
+
+# Core parameters
+d_model: 32
+context_length: 128
+batch_size: 8
+
+# Seeds for A/B testing
+seeds: [1337, 1338, 1339, 1340, 1341]
+
+# Metric calibration
+drift_bands:
+  warmup_steps: 100
+  percentile_low: 20
+  percentile_high: 80
+
+# Energy parameters
+energy:
+  half_life: 50.0
+  convergence_window: 20
+
+# Holonomy parameters
+holonomy:
+  window_length: 10
+  tau_stall: 0.01
+
+# Upsilon gate parameters
+upsilon:
+  rate_min: 0.05
+  rate_max: 0.25
+  threshold: 0.1
+
+# Lambda reinjection
+lambda_plus:
+  decay_rate: 0.95
+  injection_rate: 0.05
+
+# DEC tolerances
+dec:
+  tolerance: 1e-6
+  connection_epsilon: 1e-8
+
+# Presence certificate thresholds
+certificate:
+  xi_tolerance: 0.1
+  energy_reduction: 0.1
+  coherence_increase: 0.05
+  ethics_tolerance: 0
+
+# Bootstrap parameters
+bootstrap:
+  n_samples: 1000
+  confidence_level: 0.95

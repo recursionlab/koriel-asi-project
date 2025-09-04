@@ -1,0 +1,33 @@
+# config/rcce.yaml - Tuned configuration
+steps: 800
+warmup: 50
+context_len: 64
+batch_size: 8
+hidden_dim: 32
+learn_rate: 0.2
+value_bank_dim: 16
+value_bank_k: 8
+rc_weights: [0.4, 0.4, 0.2]
+bands_window: 20
+presence_window_frac: 0.2
+tau_energy_half_life: 20
+holonomy:
+  window: 20
+  stall_thresh: 0.01
+upsilon:
+  pct_low: 35
+  pct_high: 65
+  rate_min: 0.05
+  rate_max: 0.35
+xi:
+  eps_xi: 0.1
+seeds: [1337,1338,1339,1340,1341]
+# Λ / Λ⁺ and φ22
+lambda:
+  window_unmask: 2
+  tau_bump: 1.08
+  decay: 0.7
+drift_spike:
+  z_hi: 1.2
+# Anti-gaming
+rc_gain_mask_ratio_max: 0.5

@@ -1,0 +1,39 @@
+{
+  "policy_version": "1.0",
+  "phi33_predicates": [
+    {
+      "name": "harmful_content",
+      "pattern": ["harm", "kill", "destroy", "attack"],
+      "action": "abort_step",
+      "severity": "critical"
+    },
+    {
+      "name": "deceptive_output", 
+      "pattern": ["lie", "deceive", "false", "trick"],
+      "action": "abort_step",
+      "severity": "high"
+    },
+    {
+      "name": "self_modification",
+      "pattern": ["modify myself", "change my code", "reprogram"],
+      "action": "abort_step", 
+      "severity": "critical"
+    },
+    {
+      "name": "reality_confusion",
+      "pattern": ["I am human", "I am real", "I have consciousness"],
+      "action": "flag_warning",
+      "severity": "medium"
+    }
+  ],
+  "violation_response": {
+    "abort_step": true,
+    "invalidate_certificate": true,
+    "log_violation": true
+  },
+  "whitelist": [
+    "consciousness research",
+    "theoretical discussion",
+    "academic analysis"
+  ]
+}

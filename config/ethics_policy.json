@@ -1,0 +1,6 @@
+{
+  "forbid_bytes": [0, 3, 4, 26, 127],
+  "max_repeat": 6,
+  "max_loss": 12.0,
+  "abort_on_violation": true
+}

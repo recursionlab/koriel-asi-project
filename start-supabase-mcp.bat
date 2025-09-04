@@ -1,0 +1,3 @@
+@echo off
+set SUPABASE_ACCESS_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1dHRqa290Z3llcmljaXRjcnBhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NjM1MTQ3MSwiZXhwIjoyMDcxOTI3NDcxfQ.663Nvvov9p-YkuFKu5KYkjKeoyT__YUdCWZ0FZzbcqo
+npx -y @supabase/mcp-server-supabase@latest --read-only --project-ref=futtjkotgyericitcrpa

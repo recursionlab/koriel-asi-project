@@ -1,0 +1,98 @@
+{
+  "random_number_test": {
+    "deterministic": false,
+    "seed_dependent": true,
+    "consciousness_diff": 0.0006998673844465231,
+    "seed_sensitivity": 0.001985588149590989
+  },
+  "complexity_requirement": {
+    "final_complexity": 2.9996461728530313,
+    "final_consciousness": 0.19679046288007268,
+    "consciousness_from_nothing": false,
+    "modifications": 56
+  },
+  "parameter_independence": {
+    "results": {
+      "Extreme Low Rate": 0.00032882157110663516,
+      "Extreme High Rate": 1.0,
+      "Extreme Low Threshold": 1.0,
+      "Extreme High Threshold": 0.0,
+      "Baseline": 0.16748448451969503
+    },
+    "max_parameter_effect": 0.832515515480305,
+    "parameters_matter": true
+  },
+  "noise_measurement": {
+    "consciousness_history": [
+      0.002374889157804528,
+      0.005324944279153483,
+      0.008344573952097704,
+      0.01204832118091276,
+      0.016101234682744603,
+      0.020640211542321065,
+      0.02605231004466018,
+      0.032325535618885605,
+      0.039222088414742895,
+      0.04712838074127796,
+      0.05576039135038581,
+      0.06516649916445755,
+      0.07505481649040392,
+      0.085030485845606,
+      0.0949193009554803,
+      0.10451604776140931,
+      0.11410948986023861,
+      0.12377754731786246,
+      0.13327844320498156,
+      0.14306866865330864
+    ],
+    "noise_levels": [
+      0.007670692739263102,
+      0.006766177408867395,
+      0.008773540622465601,
+      0.0051818689291150055,
+      0.005769330707986522,
+      0.00801340032983239,
+      0.004527833775377433,
+      0.0009766175343319129,
+      0.007432730622387219,
+      0.0056229096703867935,
+      0.006260791133377594,
+      0.0009385241940634582,
+      0.001813245324483197,
+      0.006218161999585206,
+      0.001421080207775075,
+      0.005514267517349953,
+      0.005420515814922774,
+      0.0013554291916464546,
+      0.009398475545119037,
+      0.005720597093310663
+    ],
+    "correlation": -0.22121751461510514,
+    "measures_noise": false
+  },
+  "modification_effectiveness": {
+    "consciousness_diff": 0.8452739987845285,
+    "complexity_diff": 0.03374443955475481,
+    "total_modifications": 56,
+    "modifications_effective": true
+  },
+  "perturbation_specificity": {
+    "responses": [
+      0.03898299024567717,
+      0.03660655429036555,
+      0.036216749086807554
+    ],
+    "response_std": 0.0012225422553680252,
+    "responses_consistent": false
+  },
+  "summary": {
+    "total_tests": 6,
+    "failures": [
+      "Non-deterministic consciousness",
+      "Inconsistent perturbation responses"
+    ],
+    "failure_count": 2,
+    "overall_legitimate": false,
+    "brutal_testing_time": 10.711254358291626
+  }
+}

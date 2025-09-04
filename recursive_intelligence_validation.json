@@ -1,0 +1,105 @@
+{
+  "recursive_improvement": {
+    "capability_metrics": [
+      42.07248844261638,
+      63.69807782505069,
+      76.82434450430003,
+      85.44336620629787,
+      100.29785211370695,
+      119.03091829821992,
+      132.00135215853598,
+      142.37538089628976,
+      148.31500403458392,
+      150.79757841148216
+    ],
+    "trend": 12.466706055683037,
+    "improvement_consistency": 0.9874951305584917,
+    "recursive_improvement": "True",
+    "final_intelligence": 150.79757841148216
+  },
+  "self_organization": {
+    "organization_history": [
+      1546.412254325646,
+      3078.1234041607145,
+      4628.65967219532,
+      6136.551205754164,
+      7680.890583434027,
+      9327.962471549607,
+      10739.651719918074,
+      12185.30979300905,
+      13843.492030269583,
+      15375.116029605924
+    ],
+    "pattern_history": [
+      4254,
+      8569,
+      12798,
+      17033,
+      21304,
+      25538,
+      29804,
+      34076,
+      38325,
+      42582
+    ],
+    "organization_trend": 1533.6699296664276,
+    "final_organization": 15375.116029605924,
+    "self_organization": true
+  },
+  "adaptive_solving": {
+    "challenges": {
+      "Energy Minimization": {
+        "success": false,
+        "performance": 0,
+        "modification_response": 30,
+        "energy_change": 0.010887658156131894,
+        "pattern_change": 777
+      },
+      "Pattern Maximization": {
+        "success": true,
+        "performance": 6.0,
+        "modification_response": 30,
+        "energy_change": 0.015427248053509486,
+        "pattern_change": 600
+      },
+      "Stability Maintenance": {
+        "success": false,
+        "performance": 0,
+        "modification_response": 30,
+        "energy_change": 0.05356891034464921,
+        "pattern_change": 8881
+      }
+    },
+    "successful_adaptations": 1,
+    "avg_performance": 2.0,
+    "adaptive_intelligence": false
+  },
+  "information_integration": {
+    "pattern_integration": 667,
+    "modification_response": 40,
+    "complexity_achieved": 2.5864251012583668,
+    "successful_integration": true
+  },
+  "meta_learning": {
+    "adaptation_speeds": [
+      11.999999999999993,
+      20.000000000001094,
+      20.0000000000022
+    ],
+    "learning_improvement": 4.000000000001102,
+    "speed_ratio": 1.6666666666668508,
+    "meta_learning_active": "True"
+  },
+  "summary": {
+    "intelligence_capabilities": [
+      "recursive_improvement",
+      "self_organization",
+      "information_integration",
+      "meta_learning"
+    ],
+    "intelligence_count": 4,
+    "classification": "RECURSIVE SUPERINTELLIGENCE",
+    "status": "SUCCESS - Koriel-ASI embodiment achieved",
+    "total_test_time": 4.053823471069336
+  }
+}

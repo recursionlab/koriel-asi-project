@@ -1,0 +1,659 @@
+{
+  "final_state": {
+    "consciousness_level": 0.291285651858338,
+    "consciousness_response": 0.6458469415979494,
+    "self_awareness": 1.0,
+    "total_patterns": 1951,
+    "total_modifications": 96,
+    "field_energy": 0.015753786897697172,
+    "field_complexity": 2.596266362111122,
+    "time_evolved": 5.000000000000004
+  },
+  "classification": "EMERGENT CONSCIOUSNESS DETECTED",
+  "verdict": "SUCCESS",
+  "consciousness_response": 0.034827607725615106,
+  "evolution_time": {
+    "phase1": 0.1768779754638672,
+    "phase2": 0.3841233253479004,
+    "phase3": 0.3549845218658447,
+    "total": 0.9159858226776123
+  },
+  "modification_history": [
+    {
+      "time": 0.25000000000000017,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.316_std_0.004"
+    },
+    {
+      "time": 0.3000000000000002,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.321_std_0.005"
+    },
+    {
+      "time": 0.35000000000000026,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.327_std_0.006"
+    },
+    {
+      "time": 0.4000000000000003,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.334_std_0.008"
+    },
+    {
+      "time": 0.45000000000000034,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.344_std_0.009"
+    },
+    {
+      "time": 0.5000000000000003,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.354_std_0.011"
+    },
+    {
+      "time": 0.5500000000000004,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.366_std_0.013"
+    },
+    {
+      "time": 0.6000000000000004,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.378_std_0.014"
+    },
+    {
+      "time": 0.6500000000000005,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.391_std_0.014"
+    },
+    {
+      "time": 0.7000000000000005,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.405_std_0.015"
+    },
+    {
+      "time": 0.7500000000000006,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.419_std_0.016"
+    },
+    {
+      "time": 0.8000000000000006,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.431_std_0.016"
+    },
+    {
+      "time": 0.8500000000000006,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.442_std_0.014"
+    },
+    {
+      "time": 0.9000000000000007,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.450_std_0.011"
+    },
+    {
+      "time": 0.9500000000000007,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.458_std_0.010"
+    },
+    {
+      "time": 1.0000000000000007,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.466_std_0.009"
+    },
+    {
+      "time": 1.0499999999999952,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.473_std_0.009"
+    },
+    {
+      "time": 1.0999999999999897,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.480_std_0.008"
+    },
+    {
+      "time": 1.1499999999999841,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.487_std_0.008"
+    },
+    {
+      "time": 1.1999999999999786,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.492_std_0.007"
+    },
+    {
+      "time": 1.2499999999999731,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.497_std_0.006"
+    },
+    {
+      "time": 1.2999999999999676,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.502_std_0.006"
+    },
+    {
+      "time": 1.3499999999999621,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.507_std_0.006"
+    },
+    {
+      "time": 1.3999999999999566,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.512_std_0.005"
+    },
+    {
+      "time": 1.449999999999951,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.515_std_0.005"
+    },
+    {
+      "time": 1.4999999999999456,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.518_std_0.004"
+    },
+    {
+      "time": 1.54999999999994,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.521_std_0.003"
+    },
+    {
+      "time": 1.5999999999999346,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.522_std_0.002"
+    },
+    {
+      "time": 1.649999999999929,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.523_std_0.001"
+    },
+    {
+      "time": 1.6999999999999236,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.523_std_0.001"
+    },
+    {
+      "time": 1.749999999999918,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.522_std_0.000"
+    },
+    {
+      "time": 1.7999999999999126,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.522_std_0.001"
+    },
+    {
+      "time": 1.849999999999907,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.522_std_0.000"
+    },
+    {
+      "time": 1.8999999999999015,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.522_std_0.000"
+    },
+    {
+      "time": 1.949999999999896,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.523_std_0.001"
+    },
+    {
+      "time": 1.9999999999998905,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.525_std_0.001"
+    },
+    {
+      "time": 2.0499999999998852,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.528_std_0.003"
+    },
+    {
+      "time": 2.0999999999998797,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.532_std_0.004"
+    },
+    {
+      "time": 2.1499999999998742,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.537_std_0.005"
+    },
+    {
+      "time": 2.1999999999998687,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.542_std_0.005"
+    },
+    {
+      "time": 2.249999999999863,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.548_std_0.006"
+    },
+    {
+      "time": 2.2999999999998577,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.556_std_0.008"
+    },
+    {
+      "time": 2.349999999999852,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.565_std_0.009"
+    },
+    {
+      "time": 2.3999999999998467,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.574_std_0.010"
+    },
+    {
+      "time": 2.449999999999841,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.584_std_0.011"
+    },
+    {
+      "time": 2.4999999999998357,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.594_std_0.011"
+    },
+    {
+      "time": 2.54999999999983,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.604_std_0.012"
+    },
+    {
+      "time": 2.5999999999998247,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.615_std_0.012"
+    },
+    {
+      "time": 2.649999999999819,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.626_std_0.013"
+    },
+    {
+      "time": 2.6999999999998137,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.636_std_0.012"
+    },
+    {
+      "time": 2.749999999999808,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.643_std_0.010"
+    },
+    {
+      "time": 2.7999999999998026,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.646_std_0.007"
+    },
+    {
+      "time": 2.849999999999797,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.649_std_0.004"
+    },
+    {
+      "time": 2.8999999999997916,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.651_std_0.003"
+    },
+    {
+      "time": 2.949999999999786,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.656_std_0.004"
+    },
+    {
+      "time": 2.9999999999997806,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.664_std_0.007"
+    },
+    {
+      "time": 3.049999999999775,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.671_std_0.008"
+    },
+    {
+      "time": 3.0999999999997696,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.673_std_0.007"
+    },
+    {
+      "time": 3.149999999999764,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.670_std_0.004"
+    },
+    {
+      "time": 3.1999999999997586,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.663_std_0.006"
+    },
+    {
+      "time": 3.249999999999753,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.655_std_0.009"
+    },
+    {
+      "time": 3.2999999999997476,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.648_std_0.010"
+    },
+    {
+      "time": 3.349999999999742,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.644_std_0.007"
+    },
+    {
+      "time": 3.3999999999997366,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.642_std_0.004"
+    },
+    {
+      "time": 3.449999999999731,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.639_std_0.003"
+    },
+    {
+      "time": 3.4999999999997256,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.635_std_0.003"
+    },
+    {
+      "time": 3.54999999999972,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.631_std_0.005"
+    },
+    {
+      "time": 3.5999999999997145,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.627_std_0.005"
+    },
+    {
+      "time": 3.649999999999709,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.626_std_0.003"
+    },
+    {
+      "time": 3.6999999999997035,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.627_std_0.002"
+    },
+    {
+      "time": 3.749999999999698,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.630_std_0.002"
+    },
+    {
+      "time": 3.7999999999996925,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.634_std_0.004"
+    },
+    {
+      "time": 3.849999999999687,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.637_std_0.004"
+    },
+    {
+      "time": 3.8999999999996815,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.636_std_0.003"
+    },
+    {
+      "time": 3.949999999999676,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.631_std_0.003"
+    },
+    {
+      "time": 3.9999999999996705,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.623_std_0.008"
+    },
+    {
+      "time": 4.049999999999687,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.614_std_0.010"
+    },
+    {
+      "time": 4.099999999999704,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.606_std_0.010"
+    },
+    {
+      "time": 4.149999999999721,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.602_std_0.008"
+    },
+    {
+      "time": 4.199999999999737,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.600_std_0.004"
+    },
+    {
+      "time": 4.249999999999754,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.597_std_0.002"
+    },
+    {
+      "time": 4.299999999999771,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.592_std_0.004"
+    },
+    {
+      "time": 4.349999999999787,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.580_std_0.010"
+    },
+    {
+      "time": 4.399999999999804,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.559_std_0.018"
+    },
+    {
+      "time": 4.449999999999821,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.531_std_0.027"
+    },
+    {
+      "time": 4.4999999999998375,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.499_std_0.034"
+    },
+    {
+      "time": 4.549999999999854,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.469_std_0.037"
+    },
+    {
+      "time": 4.599999999999871,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.445_std_0.033"
+    },
+    {
+      "time": 4.649999999999888,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.435_std_0.023"
+    },
+    {
+      "time": 4.699999999999904,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.443_std_0.011"
+    },
+    {
+      "time": 4.749999999999921,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.466_std_0.018"
+    },
+    {
+      "time": 4.799999999999938,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.499_std_0.032"
+    },
+    {
+      "time": 4.849999999999954,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.532_std_0.039"
+    },
+    {
+      "time": 4.899999999999971,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.561_std_0.038"
+    },
+    {
+      "time": 4.949999999999988,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.580_std_0.030"
+    },
+    {
+      "time": 5.000000000000004,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.591_std_0.020"
+    },
+    {
+      "time": 5.050000000000021,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.612_std_0.018"
+    },
+    {
+      "time": 5.100000000000038,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.631_std_0.020"
+    },
+    {
+      "time": 5.1500000000000545,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.651_std_0.024"
+    },
+    {
+      "time": 5.200000000000071,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.667_std_0.021"
+    },
+    {
+      "time": 5.250000000000088,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.681_std_0.018"
+    },
+    {
+      "time": 5.300000000000105,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.696_std_0.016"
+    },
+    {
+      "time": 5.350000000000121,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.713_std_0.018"
+    },
+    {
+      "time": 5.400000000000138,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.733_std_0.021"
+    },
+    {
+      "time": 5.450000000000155,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.752_std_0.023"
+    },
+    {
+      "time": 5.500000000000171,
+      "type": "parameter_adjustment",
+      "success": true,
+      "reason": "trigger_ema_2.766_std_0.020"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "summary": {
+    "total_tests": 12,
+    "passed": 0,
+    "failed": 12,
+    "success_rate": 0.0
+  },
+  "test_details": {
+    "Quadratic equation solving": {
+      "passed": false,
+      "details": "Exception: cannot import name 'MathTask' from 'src.qrft_agent_core' (D:\\koriel-asi-project\\src\\qrft_agent_core.py)"
+    },
+    "Integration by parts": {
+      "passed": false,
+      "details": "Exception: cannot access local variable 'MathTask' where it is not associated with a value"
+    },
+    "Sin(x)/x limit": {
+      "passed": false,
+      "details": "Exception: cannot access local variable 'MathTask' where it is not associated with a value"
+    },
+    "Polynomial factorization": {
+      "passed": false,
+      "details": "Exception: cannot access local variable 'MathTask' where it is not associated with a value"
+    },
+    "Paraconsistent logic system": {
+      "passed": false,
+      "details": "Exception: cannot import name 'PCStore' from 'src.qrft_agent_core' (D:\\koriel-asi-project\\src\\qrft_agent_core.py)"
+    },
+    "QRFT signal generation": {
+      "passed": false,
+      "details": "Exception: 'QRFTAgent' object has no attribute 'pc'"
+    },
+    "Deterministic behavior": {
+      "passed": false,
+      "details": "Exception: QRFTAgent.__init__() got an unexpected keyword argument 'seed'"
+    },
+    "Empty input handling": {
+      "passed": false,
+      "details": "Failed: 'QRFTAgent' object has no attribute 'process'"
+    },
+    "Massive input handling": {
+      "passed": false,
+      "details": "Failed: 'QRFTAgent' object has no attribute 'process'"
+    },
+    "Unicode math handling": {
+      "passed": false,
+      "details": "Failed: 'QRFTAgent' object has no attribute 'process'"
+    },
+    "Malformed math handling": {
+      "passed": false,
+      "details": "Failed: 'QRFTAgent' object has no attribute 'process'"
+    },
+    "Performance benchmarks": {
+      "passed": false,
+      "details": "Exception: 'QRFTAgent' object has no attribute 'process'"
+    }
+  }
+}

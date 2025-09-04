@@ -1,0 +1,617 @@
+{
+  "performance_report": {
+    "total_agents_tested": 5,
+    "total_facts_processed": 12,
+    "total_gaps_identified": 22,
+    "total_contradictions_found": 0,
+    "total_reasoning_chains": 29,
+    "math_engine_working": true,
+    "all_signals_implemented": true,
+    "reasoning_chain_tracking": true,
+    "enhanced_contradiction_detection": true
+  },
+  "final_state_summary": {
+    "state": {
+      "session_id": "bc431dae-eb8f-4850-a078-a3e33f33bdc2",
+      "step_count": 7,
+      "current_query": "What is the numerical value of that integral?",
+      "facts_count": 1,
+      "gaps_count": 8,
+      "contradictions_count": 0,
+      "plan_steps_count": 0,
+      "pending_steps_count": 0,
+      "last_action": "retrieve"
+    },
+    "signals": {
+      "X_G": 0.0,
+      "X_L": 1.0,
+      "X_F": 0.75,
+      "X_T": 0.0
+    },
+    "facts": [
+      "is(What, the numerical value of that integral?)"
+    ],
+    "gaps": [
+      "Could not solve: I need to solve the quadratic equation x^2 + 3x - 4 = 0",
+      "Could not solve: What is the numerical value of that integral?",
+      "Question about: What are the solutions to the quadratic equation?",
+      "Question about: How do we resolve the security contradiction?",
+      "Could not solve: How do we resolve the security contradiction?",
+      "Question about: What is the numerical value of that integral?",
+      "Could not solve: integrate e^x dx from 0 to 1",
+      "Could not solve: What are the solutions to the quadratic equation?"
+    ],
+    "contradictions": [],
+    "plan": [],
+    "reasoning_chains": {
+      "total_chains": 7,
+      "active_chains": 0,
+      "completed_chains": 7,
+      "current_depth": 0,
+      "current_chain": null,
+      "chains": [
+        {
+          "id": "56e978e0",
+          "type": "general",
+          "query": "Security and openness are contradictory requirements",
+          "start_time": 1756996521.1087623,
+          "steps": [
+            {
+              "action": "parse",
+              "target": "Security and openness are contradictory requirements",
+              "result": null,
+              "reasoning": "Extracted 0 facts",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 1,
+              "contradictions_count": 0
+            },
+            {
+              "action": "signals",
+              "target": "QRFT_computation",
+              "result": "X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "reasoning": "Computed QRFT control signals",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 1,
+              "contradictions_count": 0
+            },
+            {
+              "action": "decision",
+              "target": "ask",
+              "result": null,
+              "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 1,
+              "contradictions_count": 0
+            },
+            {
+              "action": "execute",
+              "target": "ask",
+              "result": "I need more information about: Could not solve: I need to solve the quadratic equation x^2 + 3x - 4 = 0",
+              "reasoning": "Executed ask action",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 1,
+              "contradictions_count": 0
+            }
+          ],
+          "facts_at_start": 0,
+          "gaps_at_start": 1,
+          "status": "completed",
+          "end_time": 1756996521.1087623,
+          "final_result": "I need more information about: Could not solve: I need to solve the quadratic equation x^2 + 3x - 4 = 0",
+          "facts_gained": 0,
+          "gaps_resolved": 0
+        },
+        {
+          "id": "6b2e4ac5",
+          "type": "mathematical",
+          "query": "What are the solutions to the quadratic equation?",
+          "start_time": 1756996521.1087623,
+          "steps": [
+            {
+              "action": "parse",
+              "target": "What are the solutions to the quadratic equation?",
+              "result": null,
+              "reasoning": "Extracted 0 facts",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 2,
+              "contradictions_count": 0
+            },
+            {
+              "action": "signals",
+              "target": "QRFT_computation",
+              "result": "X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "reasoning": "Computed QRFT control signals",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 2,
+              "contradictions_count": 0
+            },
+            {
+              "action": "decision",
+              "target": "retrieve",
+              "result": null,
+              "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 2,
+              "contradictions_count": 0
+            },
+            {
+              "action": "execute",
+              "target": "retrieve",
+              "result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+              "reasoning": "Executed retrieve action",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 3,
+              "contradictions_count": 0
+            }
+          ],
+          "facts_at_start": 0,
+          "gaps_at_start": 1,
+          "status": "completed",
+          "end_time": 1756996521.1087623,
+          "final_result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+          "facts_gained": 0,
+          "gaps_resolved": -2
+        },
+        {
+          "id": "694268bf",
+          "type": "mathematical",
+          "query": "How do we resolve the security contradiction?",
+          "start_time": 1756996521.1087623,
+          "steps": [
+            {
+              "action": "parse",
+              "target": "How do we resolve the security contradiction?",
+              "result": null,
+              "reasoning": "Extracted 0 facts",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 4,
+              "contradictions_count": 0
+            },
+            {
+              "action": "signals",
+              "target": "QRFT_computation",
+              "result": "X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "reasoning": "Computed QRFT control signals",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 4,
+              "contradictions_count": 0
+            },
+            {
+              "action": "decision",
+              "target": "ask",
+              "result": null,
+              "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 4,
+              "contradictions_count": 0
+            },
+            {
+              "action": "execute",
+              "target": "ask",
+              "result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+              "reasoning": "Executed ask action",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 5,
+              "contradictions_count": 0
+            }
+          ],
+          "facts_at_start": 0,
+          "gaps_at_start": 3,
+          "status": "completed",
+          "end_time": 1756996521.1087623,
+          "final_result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+          "facts_gained": 0,
+          "gaps_resolved": -2
+        },
+        {
+          "id": "de08a730",
+          "type": "mathematical",
+          "query": "integrate e^x dx from 0 to 1",
+          "start_time": 1756996521.1087623,
+          "steps": [
+            {
+              "action": "parse",
+              "target": "integrate e^x dx from 0 to 1",
+              "result": null,
+              "reasoning": "Extracted 0 facts",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 5,
+              "contradictions_count": 0
+            },
+            {
+              "action": "signals",
+              "target": "QRFT_computation",
+              "result": "X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "reasoning": "Computed QRFT control signals",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 5,
+              "contradictions_count": 0
+            },
+            {
+              "action": "decision",
+              "target": "ask",
+              "result": null,
+              "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:1.00 X_F:1.00 X_T:0.00",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 5,
+              "contradictions_count": 0
+            },
+            {
+              "action": "execute",
+              "target": "ask",
+              "result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+              "reasoning": "Executed ask action",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 0,
+              "gaps_count": 6,
+              "contradictions_count": 0
+            }
+          ],
+          "facts_at_start": 0,
+          "gaps_at_start": 5,
+          "status": "completed",
+          "end_time": 1756996521.1087623,
+          "final_result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+          "facts_gained": 0,
+          "gaps_resolved": -1
+        },
+        {
+          "id": "df51059e",
+          "type": "mathematical",
+          "query": "What is the numerical value of that integral?",
+          "start_time": 1756996521.1087623,
+          "steps": [
+            {
+              "action": "parse",
+              "target": "What is the numerical value of that integral?",
+              "result": null,
+              "reasoning": "Extracted 1 facts",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 1,
+              "gaps_count": 7,
+              "contradictions_count": 0
+            },
+            {
+              "action": "signals",
+              "target": "QRFT_computation",
+              "result": "X_G:0.00 X_L:1.00 X_F:0.75 X_T:0.00",
+              "reasoning": "Computed QRFT control signals",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 1,
+              "gaps_count": 7,
+              "contradictions_count": 0
+            },
+            {
+              "action": "decision",
+              "target": "retrieve",
+              "result": null,
+              "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:1.00 X_F:0.75 X_T:0.00",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 1,
+              "gaps_count": 7,
+              "contradictions_count": 0
+            },
+            {
+              "action": "execute",
+              "target": "retrieve",
+              "result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+              "reasoning": "Executed retrieve action",
+              "timestamp": 1756996521.1087623,
+              "facts_count": 1,
+              "gaps_count": 8,
+              "contradictions_count": 0
+            }
+          ],
+          "facts_at_start": 0,
+          "gaps_at_start": 6,
+          "status": "completed",
+          "end_time": 1756996521.1087623,
+          "final_result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+          "facts_gained": 1,
+          "gaps_resolved": -2
+        }
+      ]
+    },
+    "math_available": true
+  },
+  "reasoning_chain_summary": {
+    "total_chains": 5,
+    "active_chains": 0,
+    "completed_chains": 5,
+    "current_depth": 0,
+    "current_chain": null,
+    "chains": [
+      {
+        "id": "a2cffa1f",
+        "type": "general",
+        "query": "All humans are mortal",
+        "start_time": 1756996521.1077638,
+        "steps": [
+          {
+            "action": "parse",
+            "target": "All humans are mortal",
+            "result": null,
+            "reasoning": "Extracted 0 facts",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 0,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          },
+          {
+            "action": "signals",
+            "target": "QRFT_computation",
+            "result": "X_G:0.00 X_L:0.00 X_F:1.00 X_T:0.00",
+            "reasoning": "Computed QRFT control signals",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 0,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          },
+          {
+            "action": "decision",
+            "target": "ask",
+            "result": null,
+            "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:0.00 X_F:1.00 X_T:0.00",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 0,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          },
+          {
+            "action": "execute",
+            "target": "ask",
+            "result": "I need more information about: clarification",
+            "reasoning": "Executed ask action",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 0,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          }
+        ],
+        "facts_at_start": 0,
+        "gaps_at_start": 0,
+        "status": "completed",
+        "end_time": 1756996521.1077638,
+        "final_result": "I need more information about: clarification",
+        "facts_gained": 0,
+        "gaps_resolved": 0
+      },
+      {
+        "id": "027a2363",
+        "type": "general",
+        "query": "Socrates is a human",
+        "start_time": 1756996521.1077638,
+        "steps": [
+          {
+            "action": "parse",
+            "target": "Socrates is a human",
+            "result": null,
+            "reasoning": "Extracted 1 facts",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          },
+          {
+            "action": "signals",
+            "target": "QRFT_computation",
+            "result": "X_G:0.00 X_L:0.00 X_F:0.50 X_T:0.00",
+            "reasoning": "Computed QRFT control signals",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          },
+          {
+            "action": "decision",
+            "target": "ask",
+            "result": null,
+            "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:0.00 X_F:0.50 X_T:0.00",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          },
+          {
+            "action": "execute",
+            "target": "ask",
+            "result": "I need more information about: clarification",
+            "reasoning": "Executed ask action",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 0,
+            "contradictions_count": 0
+          }
+        ],
+        "facts_at_start": 0,
+        "gaps_at_start": 0,
+        "status": "completed",
+        "end_time": 1756996521.1077638,
+        "final_result": "I need more information about: clarification",
+        "facts_gained": 1,
+        "gaps_resolved": 0
+      },
+      {
+        "id": "a19636a0",
+        "type": "general",
+        "query": "Therefore, what can we conclude about Socrates?",
+        "start_time": 1756996521.1077638,
+        "steps": [
+          {
+            "action": "parse",
+            "target": "Therefore, what can we conclude about Socrates?",
+            "result": null,
+            "reasoning": "Extracted 1 facts",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          },
+          {
+            "action": "signals",
+            "target": "QRFT_computation",
+            "result": "X_G:0.00 X_L:0.75 X_F:1.00 X_T:1.00",
+            "reasoning": "Computed QRFT control signals",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          },
+          {
+            "action": "decision",
+            "target": "view_shift",
+            "result": null,
+            "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:0.75 X_F:1.00 X_T:1.00",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          },
+          {
+            "action": "execute",
+            "target": "view_shift",
+            "result": "Switching perspective on: Therefore, what can we conclude about Socrates?",
+            "reasoning": "Executed view_shift action",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          }
+        ],
+        "facts_at_start": 1,
+        "gaps_at_start": 0,
+        "status": "completed",
+        "end_time": 1756996521.1077638,
+        "final_result": "Switching perspective on: Therefore, what can we conclude about Socrates?",
+        "facts_gained": 0,
+        "gaps_resolved": -1
+      },
+      {
+        "id": "732e8cf7",
+        "type": "mathematical",
+        "query": "solve x^2 + 5x + 6 = 0",
+        "start_time": 1756996521.1077638,
+        "steps": [
+          {
+            "action": "parse",
+            "target": "solve x^2 + 5x + 6 = 0",
+            "result": null,
+            "reasoning": "Extracted 1 facts",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          },
+          {
+            "action": "signals",
+            "target": "QRFT_computation",
+            "result": "X_G:0.00 X_L:0.75 X_F:1.00 X_T:1.00",
+            "reasoning": "Computed QRFT control signals",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          },
+          {
+            "action": "decision",
+            "target": "retrieve",
+            "result": null,
+            "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:0.75 X_F:1.00 X_T:1.00",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 1,
+            "contradictions_count": 0
+          },
+          {
+            "action": "execute",
+            "target": "retrieve",
+            "result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+            "reasoning": "Executed retrieve action",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 1,
+            "gaps_count": 2,
+            "contradictions_count": 0
+          }
+        ],
+        "facts_at_start": 1,
+        "gaps_at_start": 1,
+        "status": "completed",
+        "end_time": 1756996521.1077638,
+        "final_result": "Mathematical computation failed: Mathematical computation failed: type object 're' has no attribute 'search'",
+        "facts_gained": 0,
+        "gaps_resolved": -1
+      },
+      {
+        "id": "7d5ab6ff",
+        "type": "general",
+        "query": "What is the relationship between the solutions?",
+        "start_time": 1756996521.1077638,
+        "steps": [
+          {
+            "action": "parse",
+            "target": "What is the relationship between the solutions?",
+            "result": null,
+            "reasoning": "Extracted 2 facts",
+            "timestamp": 1756996521.1077638,
+            "facts_count": 2,
+            "gaps_count": 3,
+            "contradictions_count": 0
+          },
+          {
+            "action": "signals",
+            "target": "QRFT_computation",
+            "result": "X_G:0.00 X_L:0.90 X_F:0.67 X_T:0.33",
+            "reasoning": "Computed QRFT control signals",
+            "timestamp": 1756996521.1087623,
+            "facts_count": 2,
+            "gaps_count": 3,
+            "contradictions_count": 0
+          },
+          {
+            "action": "decision",
+            "target": "ask",
+            "result": null,
+            "reasoning": "Policy selected action based on signals: X_G:0.00 X_L:0.90 X_F:0.67 X_T:0.33",
+            "timestamp": 1756996521.1087623,
+            "facts_count": 2,
+            "gaps_count": 3,
+            "contradictions_count": 0
+          },
+          {
+            "action": "execute",
+            "target": "ask",
+            "result": "I need more information about: Could not solve: solve x^2 + 5x + 6 = 0",
+            "reasoning": "Executed ask action",
+            "timestamp": 1756996521.1087623,
+            "facts_count": 2,
+            "gaps_count": 3,
+            "contradictions_count": 0
+          }
+        ],
+        "facts_at_start": 1,
+        "gaps_at_start": 2,
+        "status": "completed",
+        "end_time": 1756996521.1087623,
+        "final_result": "I need more information about: Could not solve: solve x^2 + 5x + 6 = 0",
+        "facts_gained": 1,
+        "gaps_resolved": -1
+      }
+    ]
+  },
+  "timestamp": 1756996521.1097603
+}

@@ -1,0 +1,30 @@
+{
+  "benchmark_suite": "RCCE Consciousness Detection v1.0",
+  "timestamp": 1756870812.8630266,
+  "training_certificate": {
+    "presence_score": 0.6182607887761162,
+    "presence_detected": true,
+    "consciousness_validated": true,
+    "falsification_tests": {
+      "passed": 2,
+      "total": 3
+    },
+    "geometric_metrics": {
+      "curvature": 4579.379393005359,
+      "torsion": 0.0,
+      "holonomy": 0.0
+    },
+    "final_controller_state": {
+      "gate": 0.0999999656480233,
+      "ce2": 0.9993802634368865,
+      "coherence": 0.9967748293172836,
+      "ethics": 0.4454587709359331,
+      "loss": 5.5625298724153565
+    }
+  },
+  "consciousness_benchmarks": {
+    "benchmark_timestamp": 1756870812.859025,
+    "total_tests": 9,
+    "tests_passed": 5,
+    "overall_score": 0.6380436127237006,
+    "consciousness_detected": 

@@ -1,0 +1,75 @@
+{
+  "summary": {
+    "total_tests": 15,
+    "passed": 9,
+    "failed": 6,
+    "success_rate": 60.0,
+    "verdict": "NEEDS_WORK"
+  },
+  "performance_metrics": {
+    "contradiction_throughput": 1001.0907613705309,
+    "gap_throughput": 1001027.2076372314
+  },
+  "test_details": {
+    "Mathematical computation stress": {
+      "passed": false,
+      "details": "Exception: float division by zero"
+    },
+    "Massive contradiction handling": {
+      "passed": false,
+      "details": "Processed 1000 statements in 1.00s, found 0 contradictions"
+    },
+    "Signal stability under contradictions": {
+      "passed": true,
+      "details": "X_G signal: 0.000 (should be near 1.0)"
+    },
+    "System functionality post-contradictions": {
+      "passed": true,
+      "details": "System still responds: True"
+    },
+    "Massive gap creation": {
+      "passed": true,
+      "details": "Created 1000 gaps in 0.00s (1001027.2 gaps/s)"
+    },
+    "Signal computation with massive gaps": {
+      "passed": true,
+      "details": "Signal computation took 0.000s, X_L = 0.500"
+    },
+    "Gap removal efficiency": {
+      "passed": true,
+      "details": "Removed 100 gaps in 0.000s, 900 remaining"
+    },
+    "Complex premise processing": {
+      "passed": false,
+      "details": "Processed 8 premises, learned 2 facts in 0.00s"
+    },
+    "Multi-step reasoning queries": {
+      "passed": true,
+      "details": "Answered 5 queries in 0.00s"
+    },
+    "Logical contradiction detection": {
+      "passed": false,
+      "details": "Detected 0 contradictions in reasoning chain"
+    },
+    "Strategic plan generation": {
+      "passed": true,
+      "details": "Generated 0 plan steps"
+    },
+    "Concurrent agent execution": {
+      "passed": true,
+      "details": "5/5 agents completed successfully"
+    },
+    "Concurrent processing throughput": {
+      "passed": true,
+      "details": "Processed 100 queries concurrently in 0.00s (33341.0 q/s)"
+    },
+    "Agent data isolation": {
+      "passed": false,
+      "details": "Fact counts: [0, 0, 0, 0, 0] (should be varied)"
+    },
+    "Memory & performance limits": {
+      "passed": false,
+      "details": "Exception: float division by zero"
+    }
+  }
+}
