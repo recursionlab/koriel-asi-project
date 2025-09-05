@@ -2,6 +2,11 @@
 import os, numpy as np, typing as T
 from pathlib import Path
 
+try:
+    from datasets import load_dataset  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    load_dataset = None
+
 def _default_corpus() -> T.List[bytes]:
     s = [
         b"recursive systems grow by invariants\n",
@@ -13,17 +18,43 @@ def _default_corpus() -> T.List[bytes]:
     ]
     return s
 
-def load_corpus(root: str="conversations-pocket") -> T.List[np.ndarray]:
-    root = os.environ.get("KORIEL_CORPUS_DIR", root)
-    p = Path(root)
+def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = None,
+                text_column: str = "text") -> T.List[np.ndarray]:
+    """Load a text corpus from disk or HuggingFace Datasets.
+
+    Priority is given to the ``dataset`` argument or the environment variable
+    ``KORIEL_CORPUS_DATASET``.  When provided, the HuggingFace dataset is
+    streamed and each record's ``text_column`` is converted to a byte array.
+
+    Otherwise, ``root`` (or ``KORIEL_CORPUS_DIR``) is treated as a directory of
+    ``.txt`` shards and read recursively.
+    """
+
+    ds_name = os.environ.get("KORIEL_CORPUS_DATASET", dataset)
     lines: T.List[bytes] = []
-    if p.exists() and p.is_dir():
-        for fp in sorted(p.glob("*.txt")):
-            try:
-                lines.append(fp.read_bytes())
-            except Exception:
-                pass
-    if not lines: lines = _default_corpus()
+    if ds_name and load_dataset is not None:
+        try:
+            ds = load_dataset(ds_name, split="train", streaming=True)
+            for ex in ds:
+                txt = ex.get(text_column)
+                if isinstance(txt, str):
+                    lines.append(txt.encode("utf-8"))
+        except Exception:
+            lines = []
+
+    if not lines:
+        root = os.environ.get("KORIEL_CORPUS_DIR", root)
+        p = Path(root)
+        if p.exists() and p.is_dir():
+            for fp in sorted(p.rglob("*.txt")):
+                try:
+                    lines.append(fp.read_bytes())
+                except Exception:
+                    pass
+
+    if not lines:
+        lines = _default_corpus()
+
     return [np.frombuffer(x, dtype=np.uint8) for x in lines]
 
 def make_stream(corpus, ctx: int, steps: int, seed: int):
