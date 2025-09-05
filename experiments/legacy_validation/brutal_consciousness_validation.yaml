@@ -1,0 +1,25 @@
+experiment:
+  name: "brutal_consciousness_validation"
+  category: "legacy_validation"
+  description: "Heavy consciousness validation with extended evolution"
+  
+safety:
+  max_execution_time: 1800   # 30 minutes
+  max_memory_mb: 2048        # 2GB
+  max_output_files: 5
+  max_output_size_mb: 500
+  
+resources:
+  cpu_intensive: true
+  memory_intensive: true
+  disk_intensive: false
+  
+permissions:
+  allow_self_modification: false
+  allow_file_creation: true
+  allow_network_access: false
+  
+warnings:
+  - "This experiment runs for up to 30 minutes"
+  - "High CPU and memory usage expected"
+  - "Monitor system resources during execution"

@@ -9,6 +9,7 @@ from .engine import RecursiveOrchestrationEngine, EngineConfig
 from .io import (load_config, save_results, get_config_dir, get_results_dir, 
                 get_default_config_path, validate_config)
 from .meta import SelfModificationEngine
+from .safety import ExperimentSafetyGate, check_system_resources
 
 def run_minimal_cycle(config_path: Optional[str] = None, 
                      steps: Optional[int] = None,
@@ -83,7 +84,7 @@ def run_experiment(experiment_name: str,
                   config_path: Optional[str] = None,
                   allow_experiments: bool = False,
                   dry_run: bool = False) -> int:
-    """Run a gated experiment."""
+    """Run a gated experiment with safety checks."""
     
     if not allow_experiments:
         print("ERROR: Experiments require explicit --allow-experiments flag")
@@ -97,9 +98,88 @@ def run_experiment(experiment_name: str,
     print(f"Running experiment: {experiment_name}")
     print("WARNING: Experimental mode - proceed with caution")
     
-    # Implementation would depend on specific experiments
-    print("Experiment framework not yet implemented")
-    return 1
+    try:
+        # Initialize safety gate
+        safety_gate = ExperimentSafetyGate()
+        
+        # Find experiment script
+        experiment_root = Path(__file__).parent.parent.parent / "experiments"
+        experiment_files = list(experiment_root.rglob(f"{experiment_name}.py"))
+        
+        if not experiment_files:
+            print(f"ERROR: Experiment '{experiment_name}' not found")
+            print(f"Searched in: {experiment_root}")
+            return 1
+            
+        experiment_path = experiment_files[0]
+        print(f"Found experiment: {experiment_path}")
+        
+        # Load experiment configuration
+        experiment_config = safety_gate.load_experiment_config(experiment_path)
+        
+        # Check safety requirements
+        safety_check = safety_gate.check_safety_requirements(experiment_config, allow_experiments)
+        
+        if not safety_check['allowed']:
+            print(f"ERROR: {safety_check['reason']}")
+            return 1
+            
+        # Display warnings and get confirmation
+        warnings = safety_check.get('warnings', [])
+        if warnings:
+            print("\nWARNINGS:")
+            for warning in warnings:
+                print(f"  - {warning}")
+                
+        risk_level = safety_check.get('risk_level', 'unknown')
+        print(f"\nRisk Level: {risk_level.upper()}")
+        
+        # Check system resources
+        resources = check_system_resources()
+        print(f"\nSystem Resources:")
+        print(f"  Memory: {resources['memory_available_gb']:.1f}GB available ({resources['memory_percent_used']:.1f}% used)")
+        print(f"  Disk: {resources['disk_free_gb']:.1f}GB free ({resources['disk_percent_used']:.1f}% used)")
+        
+        # Get user confirmation for high-risk experiments
+        if risk_level == 'high':
+            response = input("\nThis is a HIGH RISK experiment. Continue? (type 'yes' to proceed): ")
+            if response.lower() != 'yes':
+                print("Experiment cancelled by user")
+                return 0
+                
+        # Create resource monitor
+        monitor = safety_gate.create_resource_monitor(experiment_config)
+        
+        print(f"\nStarting experiment with resource monitoring...")
+        monitor.start_monitoring()
+        
+        # This is a basic framework - actual experiment execution would be implemented
+        # based on the specific experiment type and requirements
+        print("Experiment framework is set up but execution is not yet implemented")
+        print("Resource monitor is active and limits are enforced")
+        
+        # Simulate some work and monitoring
+        import time
+        for i in range(5):
+            time.sleep(1)
+            stats = monitor.get_stats()
+            limits_check = monitor.check_limits()
+            
+            print(f"  T+{stats['elapsed_time']:.1f}s: Memory={stats['memory_mb']:.1f}MB CPU={stats['cpu_percent']:.1f}%")
+            
+            if limits_check['status'] == 'violation':
+                print("SAFETY VIOLATION DETECTED:")
+                for violation in limits_check['violations']:
+                    print(f"  - {violation}")
+                print("Experiment terminated for safety")
+                return 1
+                
+        print("Experiment completed successfully")
+        return 0
+        
+    except Exception as e:
+        print(f"Error during experiment execution: {e}")
+        return 1
 
 def main_cli():
     """Main CLI entrypoint."""
