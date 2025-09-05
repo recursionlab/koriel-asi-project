@@ -1,0 +1,129 @@
+{
+  "timestamp": 1757100006.8957715,
+  "model_path": "src/byte_lm",
+  "inspection_type": "directory",
+  "directory_info": {
+    "exists": true,
+    "size_bytes": 4096,
+    "size_mb": 0.0,
+    "modified_time": 1757099178.8543282,
+    "is_file": false,
+    "is_dir": true,
+    "extension": ""
+  },
+  "files": {
+    "train.py": {
+      "exists": true,
+      "size_bytes": 4173,
+      "size_mb": 0.0,
+      "modified_time": 1757099178.8543282,
+      "is_file": true,
+      "is_dir": false,
+      "extension": ".py"
+    },
+    "__init__.py": {
+      "exists": true,
+      "size_bytes": 0,
+      "size_mb": 0.0,
+      "modified_time": 1757099178.8543282,
+      "is_file": true,
+      "is_dir": false,
+      "extension": ".py"
+    },
+    "data.py": {
+      "exists": true,
+      "size_bytes": 3827,
+      "size_mb": 0.0,
+      "modified_time": 1757099178.8543282,
+      "is_file": true,
+      "is_dir": false,
+      "extension": ".py"
+    },
+    "model.py": {
+      "exists": true,
+      "size_bytes": 5107,
+      "size_mb": 0.0,
+      "modified_time": 1757099178.8543282,
+      "is_file": true,
+      "is_dir": false,
+      "extension": ".py"
+    },
+    "generate.py": {
+      "exists": true,
+      "size_bytes": 3241,
+      "size_mb": 0.0,
+      "modified_time": 1757099178.8543282,
+      "is_file": true,
+      "is_dir": false,
+      "extension": ".py"
+    }
+  },
+  "analysis": {
+    "checkpoint_files": 0,
+    "config_files": 0,
+    "python_files": 5
+  },
+  "inspections": {
+    "python_file_train.py": {
+      "format": "python_source",
+      "analysis": {
+        "total_lines": 117,
+        "non_empty_lines": 93,
+        "has_class_definitions": false,
+        "has_forward_method": false,
+        "imports": [
+          "import torch",
+          "import torch.nn as nn",
+          "import torch.optim as optim",
+          "from torch.utils.data import DataLoader",
+          "import pandas as pd",
+          "from tqdm import tqdm",
+          "import os",
+          "from rcc.controller import ("
+        ],
+        "class_definitions": [],
+        "model_indicators": [
+          "RCCE"
+        ]
+      }
+    },
+    "python_file___init__.py": {
+      "format": "python_source",
+      "analysis": {
+        "total_lines": 1,
+        "non_empty_lines": 0,
+        "has_class_definitions": false,
+        "has_forward_method": false,
+        "imports": [],
+        "class_definitions": [],
+        "model_indicators": []
+      }
+    },
+    "python_file_data.py": {
+      "format": "python_source",
+      "analysis": {
+        "total_lines": 106,
+        "non_empty_lines": 88,
+        "has_class_definitions": true,
+        "has_forward_method": false,
+        "imports": [
+          "import os",
+          "import json",
+          "import torch",
+          "from torch.utils.data import Dataset",
+          "from pathlib import Path"
+        ],
+        "class_definitions": [
+          "class ByteDataset(Dataset):"
+        ],
+        "model_indicators": []
+      }
+    }
+  },
+  "inspector_info": {
+    "torch_available": true,
+    "transformers_available": true,
+    "numpy_available": true,
+    "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]"
+  }
+}

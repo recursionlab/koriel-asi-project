@@ -104,6 +104,7 @@ Thumbs.db
 
 # Python (legacy from previous setup)
 .venv/
+env/
 __pycache__/
 *.pyc
 *.pyo
@@ -111,6 +112,11 @@ __pycache__/
 *.csv
 data/processed/*
 */.ipynb_checkpoints/*
+
+# Probe script outputs (generated reports)
+*_report.json
+repo_search_report.json
+model_report.json
 
 # Auto-mesh artifacts
 ops/ingest/
