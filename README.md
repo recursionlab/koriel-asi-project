@@ -45,7 +45,4 @@ A more detailed walkthrough covering training and benchmark evaluation is availa
 the [quick-start guide](docs/quickstart.md).
 
 ## Outputs
-* Per run: `logs/metrics.csv`, `logs/shadow_codex.jsonl`
-* A/B summary: `logs/ab_summary.json`
-* Presence certificate (ON runs): `presence.json`
 
