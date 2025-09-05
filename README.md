@@ -40,9 +40,3 @@ Set-ExecutionPolicy -Scope Process Bypass
 ./scripts/run_tests.ps1
 ```
 
-## Quick start
-A more detailed walkthrough covering training and benchmark evaluation is available in
-the [quick-start guide](docs/quickstart.md).
-
-## Outputs
-

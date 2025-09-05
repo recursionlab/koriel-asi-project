@@ -11,7 +11,8 @@ def load_cfg():
     import yaml
     with open("config/rcce.yaml","r",encoding="utf-8") as f:
         return yaml.safe_load(f)
-def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True):
+def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True,
+        corpus_dir: str | None = None, dataset: str | None = None):
     import yaml
     cfg = load_cfg(); cfg["seed_base"]=seed
     np.random.seed(seed)
@@ -19,7 +20,7 @@ def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True):
     sc = ShadowCodex(logs_dir/f"shadow_codex_{out_prefix}_{seed}.jsonl")
     with open("config/ethics_policy.json","r",encoding="utf-8") as f:
         policy=json.load(f)
-    data = load_corpus()
+    data = load_corpus("conversations-pocket" if corpus_dir is None else corpus_dir, dataset=dataset)
     ctx = cfg["context_len"]; batch = cfg["batch_size"]; steps = cfg["steps"]; warm = cfg["warmup"]
     model = TinyByteLM(ctx=ctx, d=cfg["hidden_dim"], seed=seed)
     ctrl = Controller(cfg, policy, d=cfg["hidden_dim"])
@@ -83,4 +84,9 @@ def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True):
         print("INVALID")
     return metrics, ups_rate
 if __name__=="__main__":
-    run()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--corpus-dir", help="Directory of .txt shards to use as corpus")
+    ap.add_argument("--dataset", help="HuggingFace dataset name to stream")
+    args = ap.parse_args()
+    run(corpus_dir=args.corpus_dir, dataset=args.dataset)
