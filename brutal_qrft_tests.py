@@ -18,7 +18,7 @@ import traceback
 
 # Import minimal QRFT components
 try:
-    from src.qrft_core import QRFTRuntime, QRFTConfig, QRFTState, ParticleType
+    from qrft import QRFTRuntime, QRFTConfig, QRFTState, ParticleType
     print("+ Core QRFT imports successful")
 except ImportError as e:
     print(f"- Core imports failed: {e}")
@@ -59,7 +59,7 @@ class BrutalQRFTTester:
         # Test 1: Basic equation solving
         try:
             # Import math engine
-            from src.qrft_agent_core import QRFTAgent, MathTask
+            from qrft import QRFTAgent, MathTask
             agent = QRFTAgent()
             
             # Solve x^2 - 4 = 0
@@ -116,7 +116,7 @@ class BrutalQRFTTester:
         print("-" * 40)
         
         try:
-            from src.qrft_agent_core import PCStore
+            from qrft import PCStore
             pc = PCStore()
             
             # Test 1: Basic contradiction detection
@@ -160,7 +160,7 @@ class BrutalQRFTTester:
         print("-" * 40)
         
         try:
-            from src.qrft_agent_core import QRFTAgent
+            from qrft import QRFTAgent
             agent = QRFTAgent()
             
             # Test X_G (contradiction signal)
@@ -198,7 +198,7 @@ class BrutalQRFTTester:
         print("-" * 40)
         
         try:
-            from src.qrft_agent_core import QRFTAgent
+            from qrft import QRFTAgent
             
             # Run same input multiple times
             results = []
@@ -234,7 +234,7 @@ class BrutalQRFTTester:
         print("-" * 40)
         
         try:
-            from src.qrft_agent_core import QRFTAgent
+            from qrft import QRFTAgent
             agent = QRFTAgent()
             
             # Test 1: Empty input
@@ -277,7 +277,7 @@ class BrutalQRFTTester:
         print("-" * 40)
         
         try:
-            from src.qrft_agent_core import QRFTAgent
+            from qrft import QRFTAgent
             agent = QRFTAgent()
             
             # Benchmark 1: Math solving speed

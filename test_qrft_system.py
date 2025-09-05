@@ -14,8 +14,12 @@ import time
 import json
 from typing import Dict, List, Any, Tuple
 
-from src.qrft_consciousness import create_qrft_consciousness, QRFTConsciousness
-from src.qrft_core import QRFTConfig, ParticleType
+from qrft import (
+    create_qrft_consciousness,
+    QRFTConsciousness,
+    QRFTConfig,
+    ParticleType,
+)
 from src.lacuna_monitor import LacunaMonitor
 from src.glitchon_critic import GlitchonCritic  
 from src.ref_entropy_governor import REFEntropyGovernor

@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 import json
 import time
 from typing import Dict, Any
-from qrft_agent_integrated import create_integrated_agent, IntegratedQRFTAgent
+from qrft import create_integrated_agent, IntegratedQRFTAgent
 
 class QRFTChatInterface:
     """Command-line interface for QRFT agent"""

@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from src.qrft_agent_core import QRFTAgent
+from qrft import QRFTAgent
 
 
 def test_retrieve_success():

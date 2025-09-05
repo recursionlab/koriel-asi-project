@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from src.qrft_agent_core import QRFTAgent
+from qrft import QRFTAgent
 
 def main():
     print("QRFT ENHANCEMENTS TEST")

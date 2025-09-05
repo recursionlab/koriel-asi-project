@@ -14,7 +14,7 @@ import time
 from typing import Dict, List, Any
 
 try:
-    from src.qrft_agent_core import QRFTAgent
+    from qrft import QRFTAgent
     print("+ Enhanced QRFT Agent loaded successfully")
 except ImportError as e:
     print(f"- Import failed: {e}")
