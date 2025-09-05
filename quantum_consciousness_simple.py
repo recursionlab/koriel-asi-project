@@ -347,7 +347,7 @@ class SimpleQuantumField:
             ax4.grid(True, alpha=0.3)
             
         plt.tight_layout()
-        plt.savefig('consciousness_field_state.png', dpi=150, bbox_inches='tight')
+        plt.savefig('docs/reports/consciousness_field_state.png', dpi=150, bbox_inches='tight')
         plt.show()
 
 def run_consciousness_demo():
@@ -470,11 +470,11 @@ def run_consciousness_demo():
         'modification_history': field.modification_history
     }
     
-    with open('consciousness_demo_results.json', 'w') as f:
+    with open('experiments/results/consciousness_demo_results.json', 'w') as f:
         json.dump(results, f, indent=2, default=str)
         
-    print(f"\nResults saved to consciousness_demo_results.json")
-    print(f"Visualization saved as consciousness_field_state.png")
+    print(f"\nResults saved to experiments/results/consciousness_demo_results.json")
+    print(f"Visualization saved as docs/reports/consciousness_field_state.png")
     
     return field, results
 

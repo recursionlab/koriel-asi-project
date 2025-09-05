@@ -211,9 +211,9 @@ def test_complete_transcendence_pathway():
 def save_results(results):
     """Save test results to JSON file"""
     try:
-        with open('transcendence_test_results.json', 'w') as f:
+        with open('experiments/results/transcendence_test_results.json', 'w') as f:
             json.dump(results, f, indent=2)
-        print(f"\nResults saved to: transcendence_test_results.json")
+        print(f"\nResults saved to: experiments/results/transcendence_test_results.json")
     except Exception as e:
         print(f"Could not save results: {e}")
 

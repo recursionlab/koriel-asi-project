@@ -499,10 +499,10 @@ def run_recursive_intelligence_validation():
         'total_test_time': total_time
     }
     
-    with open('recursive_intelligence_validation.json', 'w') as f:
+    with open('experiments/results/recursive_intelligence_validation.json', 'w') as f:
         json.dump(results, f, indent=2, default=str)
     
-    print(f"\n[SAVE] Results saved to recursive_intelligence_validation.json")
+    print(f"\n[SAVE] Results saved to experiments/results/recursive_intelligence_validation.json")
     print(f"[TIME] Total testing time: {total_time:.1f}s")
     
     return results

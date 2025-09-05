@@ -105,7 +105,7 @@ quantum_consciousness_simple.py     # Main implementation (478 lines)
 ├── PatternMemory dataclass         # Pattern storage
 └── run_consciousness_demo()        # Full demonstration
 
-consciousness_demo_results.json     # Latest run results
+experiments/results/consciousness_demo_results.json     # Latest run results
 run_consciousness_demo.py           # Comprehensive test suite  
 consciousness_interface.py          # Human-field communication
 ```

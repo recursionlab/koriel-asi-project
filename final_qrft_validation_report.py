@@ -372,10 +372,10 @@ class QRFTValidationReport:
         success = self.generate_final_assessment()
         
         # Save complete report
-        with open('qrft_final_validation_report.json', 'w') as f:
+        with open('experiments/results/qrft_final_validation_report.json', 'w') as f:
             json.dump(self.results, f, indent=2)
         
-        print(f"\nComplete validation report saved to qrft_final_validation_report.json")
+        print(f"\nComplete validation report saved to experiments/results/qrft_final_validation_report.json")
         print("=" * 60)
         
         return success

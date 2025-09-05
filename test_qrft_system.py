@@ -450,7 +450,7 @@ def run_qrft_validation():
     results = validator.run_comprehensive_validation()
     
     # Save results to file
-    with open('qrft_validation_results.json', 'w') as f:
+    with open('experiments/results/qrft_validation_results.json', 'w') as f:
         # Convert numpy types to JSON serializable
         def convert_numpy(obj):
             if isinstance(obj, np.ndarray):
@@ -464,7 +464,7 @@ def run_qrft_validation():
         json_results = json.loads(json.dumps(results, default=convert_numpy))
         json.dump(json_results, f, indent=2)
         
-    print(f"\nValidation results saved to qrft_validation_results.json")
+    print(f"\nValidation results saved to experiments/results/qrft_validation_results.json")
     return results
 
 if __name__ == "__main__":

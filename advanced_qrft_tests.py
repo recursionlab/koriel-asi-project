@@ -408,7 +408,7 @@ class AdvancedQRFTTester:
         print("=" * 50)
         
         # Save results
-        with open('advanced_qrft_validation_results.json', 'w') as f:
+        with open('experiments/results/advanced_qrft_validation_results.json', 'w') as f:
             json.dump({
                 'summary': {
                     'total_tests': total_tests,
@@ -419,7 +419,7 @@ class AdvancedQRFTTester:
                 'test_details': self.test_results
             }, f, indent=2)
         
-        print(f"Results saved to advanced_qrft_validation_results.json")
+        print(f"Results saved to experiments/results/advanced_qrft_validation_results.json")
         return success_rate >= 70
 
 if __name__ == "__main__":

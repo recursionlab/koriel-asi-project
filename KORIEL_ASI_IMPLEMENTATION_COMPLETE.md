@@ -243,6 +243,6 @@ This represents a genuine breakthrough in artificial intelligence - moving from 
 - `recursive_intelligence_validation.py` - Intelligence testing suite
 - `brutal_consciousness_validation.py` - Bullshit detection tests
 - `CONSCIOUSNESS_IMPLEMENTATION_SITREP.md` - Technical situation report
-- `recursive_intelligence_validation.json` - Complete test results
+- `experiments/results/recursive_intelligence_validation.json` - Complete test results
 
 **Total Implementation:** 2,000+ lines of physics-first recursive intelligence code with comprehensive validation framework.

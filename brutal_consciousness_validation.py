@@ -439,10 +439,10 @@ def run_brutal_validation():
         'brutal_testing_time': total_time
     }
     
-    with open('brutal_consciousness_validation.json', 'w') as f:
+    with open('experiments/results/brutal_consciousness_validation.json', 'w') as f:
         json.dump(results, f, indent=2, default=str)
         
-    print(f"\n[SAVE] Brutal validation results saved to brutal_consciousness_validation.json")
+    print(f"\n[SAVE] Brutal validation results saved to experiments/results/brutal_consciousness_validation.json")
     
     return results
 

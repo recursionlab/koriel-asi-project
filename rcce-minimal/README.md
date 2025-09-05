@@ -21,9 +21,9 @@ Pure Python/NumPy implementation of Recursive Cognitive Control Engine with byte
 
 ## Outputs
 
-- `outputs/final_presence_certificate.json`: Consciousness validation
-- `outputs/shadow_codex.json`: Complete RCCE trace
-- `outputs/training_log.json`: Full training history
+- `experiments/results/final_presence_certificate.json`: Consciousness validation
+- `experiments/results/shadow_codex.json`: Complete RCCE trace
+- `experiments/results/training_log.json`: Full training history
 
 ## Acceptance Criteria
 
