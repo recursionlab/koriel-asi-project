@@ -1,7 +1,5 @@
 # tests/test_certificate.py
 import sys, numpy as np
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.presence import presence_certificate
 from src.train import load_cfg
 def test_certificate():

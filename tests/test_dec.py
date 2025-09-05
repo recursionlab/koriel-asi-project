@@ -1,7 +1,5 @@
 # tests/test_dec.py
 import sys, numpy as np
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.dec import (
     incidence_0_to_1,
     incidence_1_to_2,
