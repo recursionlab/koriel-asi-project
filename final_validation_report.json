@@ -1,0 +1,88 @@
+{
+  "experiment_directory": "experiments/smoke_test_validation",
+  "validation_timestamp": "2025-09-05T19:12:17.831605",
+  "overall_valid": true,
+  "artifacts": {
+    "metadata": {
+      "valid": true,
+      "errors": [],
+      "file": "experiments/smoke_test_validation/metadata.json",
+      "schema": "/home/runner/work/koriel-asi-project/koriel-asi-project/tools/metadata_schema.json",
+      "metadata": {
+        "experiment_id": "basic_1337_20250905_191210",
+        "task": "basic",
+        "seed": 1337,
+        "git_sha": "aac8835",
+        "timestamp": "2025-09-05T19:12:10.295958",
+        "output_directory": "experiments/smoke_test_validation",
+        "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+        "environment": {
+          "working_directory": "/home/runner/work/koriel-asi-project/koriel-asi-project",
+          "user": "runner",
+          "system": "posix"
+        },
+        "parameters": {
+          "demo_type": "rcce_basic",
+          "timesteps": 80,
+          "attention_dim": 32,
+          "value_dim": 16,
+          "topic_bins": 4
+        },
+        "schema_version": "1.0"
+      }
+    },
+    "results": {
+      "valid": true,
+      "errors": [],
+      "file": "experiments/smoke_test_validation/results.json",
+      "results": {
+        "status": "success",
+        "demo_results": {
+          "timesteps": 80,
+          "final_RC": 0.9999999999892472,
+          "final_energy": 7.250813629769582e-05,
+          "mean_coherence": 0.990450628938617,
+          "upsilon_fires": 1,
+          "ethics_violations": 0,
+          "drift_stability": 0.040238122106733186,
+          "entropy_evolution": {
+            "initial": 3.1144509736080987,
+            "final": 3.4657359027996497,
+            "mean": 3.4568266772141505
+          },
+          "consciousness_score": -0.9998658317639132,
+          "metrics_summary": {
+            "D": 0.006329391903277087,
+            "H": 3.4568266772141505,
+            "C": -0.9998658317639132,
+            "RC": 0.990450628938617,
+            "E": 0.0010434244628461033,
+            "ZI": -0.011210824575524109,
+            "ce2": 3.1177647522614818,
+            "ethic": 0.0,
+            "Y": 0.0125
+          }
+        },
+        "validation": {
+          "rc_improvement": true,
+          "ethics_clean": true,
+          "stability_check": true,
+          "upsilon_active": true
+        },
+        "artifacts_generated": [
+          "metadata.json",
+          "results.json",
+          "logs.txt",
+          "rcce_run_metrics.csv"
+        ]
+      }
+    },
+    "logs": {
+      "valid": true,
+      "errors": [],
+      "file": "experiments/smoke_test_validation/logs.txt",
+      "line_count": 11,
+      "total_lines": 12
+    }
+  }
+}

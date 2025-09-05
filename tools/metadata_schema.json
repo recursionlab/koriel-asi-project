@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "KORIEL ASI Experiment Metadata",
+  "description": "Schema for experiment metadata artifacts",
+  "type": "object",
+  "required": [
+    "experiment_id",
+    "task",
+    "seed", 
+    "git_sha",
+    "timestamp",
+    "output_directory",
+    "python_version",
+    "environment",
+    "parameters",
+    "schema_version"
+  ],
+  "properties": {
+    "experiment_id": {
+      "type": "string",
+      "description": "Unique identifier for the experiment",
+      "pattern": "^[a-zA-Z0-9_]+$"
+    },
+    "task": {
+      "type": "string",
+      "description": "Type of demo task executed",
+      "enum": ["basic", "advanced", "stress", "validation"]
+    },
+    "seed": {
+      "type": "integer",
+      "description": "Random seed used for reproducibility",
+      "minimum": 0
+    },
+    "git_sha": {
+      "type": "string",
+      "description": "Git commit SHA when experiment was run",
+      "pattern": "^[a-fA-F0-9]{7,40}|unknown$"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO timestamp when experiment was run",
+      "format": "date-time"
+    },
+    "output_directory": {
+      "type": "string",
+      "description": "Directory where artifacts were saved"
+    },
+    "python_version": {
+      "type": "string",
+      "description": "Python version used to run experiment"
+    },
+    "environment": {
+      "type": "object",
+      "required": ["working_directory", "user", "system"],
+      "properties": {
+        "working_directory": {
+          "type": "string",
+          "description": "Working directory when experiment was run"
+        },
+        "user": {
+          "type": "string",
+          "description": "User who ran the experiment"
+        },
+        "system": {
+          "type": "string",
+          "description": "Operating system"
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "required": ["demo_type"],
+      "properties": {
+        "demo_type": {
+          "type": "string",
+          "description": "Specific type of demo implementation"
+        },
+        "timesteps": {
+          "type": "integer",
+          "description": "Number of simulation timesteps",
+          "minimum": 1
+        },
+        "attention_dim": {
+          "type": "integer", 
+          "description": "Attention dimension parameter",
+          "minimum": 1
+        },
+        "value_dim": {
+          "type": "integer",
+          "description": "Value dimension parameter", 
+          "minimum": 1
+        },
+        "topic_bins": {
+          "type": "integer",
+          "description": "Number of topic bins",
+          "minimum": 1
+        }
+      }
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Version of this metadata schema",
+      "pattern": "^\\d+\\.\\d+$"
+    }
+  },
+  "additionalProperties": false
+}
