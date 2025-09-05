@@ -1,11 +1,4 @@
-"""Training entry point for TinyByteLM with RCCE controller support.
 
-This module separates configuration loading, training logic and CLI
-handling.  The previous version mixed these concerns and ended with an
-incomplete ``if __name__ == "__main__":`` block that caused an
-``IndentationError`` during import.  The refactored structure keeps the
-code importable for the test-suite while still providing a usable command
-line interface.
 """
 
 from __future__ import annotations
@@ -14,28 +7,13 @@ import csv
 import json
 import math
 from pathlib import Path
-from typing import Optional, Tuple
+
 
 import numpy as np
 from tqdm import tqdm
 
 from .controller import Controller
 from .data import load_corpus, make_stream
-from .metastate import ShadowCodex
-from .model import TinyByteLM
-from .presence import presence_certificate
-
-
-def load_cfg(path: str = "config/rcce.yaml") -> dict:
-    """Load YAML configuration for training.
-
-    Parameters
-    ----------
-    path:
-        Path to the YAML configuration file.
-    """
-
-    import yaml
 
     with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -45,17 +23,7 @@ def run(
     *,
     seed: int = 1337,
     rcce_on: bool = True,
-    out_prefix: str = "RUN",
-    corpus_dir: Optional[str] = None,
-    dataset: Optional[str] = None,
-    lambda_plus: bool = False,
-    return_model: bool = False,
-) -> Tuple[dict, float, Optional[TinyByteLM]]:
-    """Execute a training run.
 
-    Parameters mirror the previous behaviour but are now explicit
-    arguments.  The function returns collected metrics, the Upsilon firing
-    rate and optionally the trained model.
     """
 
     cfg = load_cfg()
@@ -64,15 +32,11 @@ def run(
 
     logs_dir = Path("logs")
     logs_dir.mkdir(exist_ok=True)
-    sc = ShadowCodex(logs_dir / f"shadow_codex_{out_prefix}_{seed}.jsonl")
 
     with open("config/ethics_policy.json", "r", encoding="utf-8") as f:
         policy = json.load(f)
 
     data = load_corpus(
-        "conversations-pocket" if corpus_dir is None else corpus_dir,
-        dataset=dataset,
-    )
 
     ctx = cfg["context_len"]
     steps = cfg["steps"]
@@ -82,7 +46,7 @@ def run(
     ctrl = Controller(cfg, policy, d=cfg["hidden_dim"])
     ctrl.lambda_plus_enabled = bool(lambda_plus)
 
-    metrics = {
+
         "t": [],
         "loss": [],
         "rc": [],
@@ -96,35 +60,12 @@ def run(
 
     last_tokens = np.concatenate(data)[:ctx] if data else np.zeros(ctx, dtype=np.uint8)
     lr = cfg["learn_rate"]
-    gen = make_stream(data, ctx, steps, seed)
 
-    for t, (X, y) in enumerate(tqdm(gen, total=steps, disable=True), start=1):
-        # reshape single sequences to batch format
-        X = X.reshape(1, -1)
-        y = y.reshape(1, -1)
-
-        if rcce_on:
-            stat = ctrl.step(model, X, y, t, warm, last_tokens)
-            if stat["abort"]:
-                sc.append({"t": t, "action": "abort_ethics", "loss": stat["loss"]})
-                continue
-
-        # apply lr multiplier for Λ⁺ tau bump
-        curr_lr = lr * (ctrl.lr_mul if rcce_on else 1.0)
-        loss, hmean, vbar, a = model.step(X, y, lr=curr_lr)
-
-        if not rcce_on:
             from .controller import cos, kl, wasserstein1_proxy
 
             S = ctrl.symbolic_vec(last_tokens)
             rc = (
-                cfg["rc_weights"][0] * cos(hmean, ctrl.v_prev) if ctrl.v_prev is not None else 0.0
-                + cfg["rc_weights"][1]
-                * math.exp(
-                    -wasserstein1_proxy(S, ctrl.S_prev) if ctrl.S_prev is not None else 0.0
-                )
-                + cfg["rc_weights"][2] * cos(vbar, ctrl.Vbar_prev) if ctrl.Vbar_prev is not None else 0.0
-            ) / sum(cfg["rc_weights"])
+
             ctrl.v_prev, ctrl.S_prev, ctrl.Vbar_prev = hmean, S, vbar
             D = kl(a, ctrl.a_prev) if ctrl.a_prev is not None else 0.0
             ctrl.a_prev = a
@@ -133,20 +74,7 @@ def run(
             ctrl.dD_hist.append(dD)
             E = ctrl.E.update(loss)
             ctrl.rc_hist.append(rc)
-            ups = 0
-            ctrl.conn_prev = model.W1.copy()
-            T, R = 0.0, 0.0
-        else:
-            rc = stat["rc"]
-            D = stat["D"]
-            dD = stat["dD"]
-            E = stat["E"]
-            ups = stat["ups"]
-            T = stat["T"]
-            R = stat["R"]
 
-        # decay lr multiplier after step
-        if rcce_on:
             ctrl.lr_mul = 1.0 + (ctrl.lr_mul - 1.0) * float(ctrl.lam.get("decay", 0.5))
 
         metrics["t"].append(t)
@@ -158,54 +86,32 @@ def run(
         metrics["ups"].append(ups)
         metrics["T"].append(T)
         metrics["R"].append(R)
-        sc.append({"t": t, "action": "step", "params": {"lr": lr}, "digests": {}, "ethics": ctrl.ethics_viol})
-        last_tokens = X[0]
 
-    # write CSV metrics
-    csvp = logs_dir / f"metrics_{out_prefix}_{seed}.csv"
-    with csvp.open("w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(list(metrics.keys()))
-        for i in range(len(metrics["t"])):
-            writer.writerow([metrics[k][i] for k in metrics.keys()])
-
-    # presence certificate
-    ups_rate = sum(metrics["ups"]) / max(1, len(metrics["ups"]))
-    v_for_xi = ctrl.v_prev if ctrl.v_prev is not None else np.zeros(cfg["hidden_dim"])
-    delta_xi = float(np.linalg.norm(v_for_xi - ctrl.xi(v_for_xi)))
-    pres, cert = presence_certificate(
-        {"E": metrics["E"], "rc": metrics["rc"], "ups_rate": ups_rate},
-        cfg,
-        ctrl.ethics_viol,
-        [delta_xi],
-    )
-
-    if rcce_on and pres:
-        pj = {"presence": True, **cert}
-        print(json.dumps(pj))
-        with open(logs_dir / f"presence_{out_prefix}_{seed}.json", "w") as f:
-            json.dump(pj, f)
-    elif rcce_on:
-        print("INVALID")
 
     if return_model:
         return metrics, ups_rate, model
     return metrics, ups_rate
 
 
-def main() -> None:
-    """Command line interface for training and optional benchmarking."""
 
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Train TinyByteLM and optionally benchmark")
     parser.add_argument("--seed", type=int, default=1337)
-    parser.add_argument("--rcce-off", action="store_true", help="Disable RCCE controller")
-    parser.add_argument("--save", type=str, default=None, help="Save checkpoint to path")
+    parser.add_argument(
+        "--rcce-off", action="store_true", help="Disable RCCE controller"
+    )
+    parser.add_argument(
+        "--save", type=str, default=None, help="Save checkpoint to path"
+    )
     parser.add_argument("--eval-task", choices=["mmlu", "arc"], default=None)
-    parser.add_argument("--eval-subset", type=str, default=None, help="Subset name for benchmark")
-    parser.add_argument("--eval-limit", type=int, default=None, help="Limit number of eval examples")
-    parser.add_argument("--lambda-plus", action="store_true", help="Enable Lambda+ during training")
+    parser.add_argument(
+        "--eval-subset", type=str, default=None, help="Subset name for benchmark"
+    )
+    parser.add_argument(
+        "--eval-limit", type=int, default=None, help="Limit number of eval examples"
+    )
+    parser.add_argument(
+        "--lambda-plus", action="store_true", help="Enable Lambda+ during training"
+    )
+
     args = parser.parse_args()
 
     metrics, ups_rate, model = run(
@@ -218,6 +124,7 @@ def main() -> None:
 
     if args.save:
         Path(args.save).parent.mkdir(parents=True, exist_ok=True)
+        assert model is not None
         model.save(args.save)
 
     if args.eval_task:
@@ -233,13 +140,8 @@ def main() -> None:
             from benchmarks.arc import evaluate_arc
 
             acc = evaluate_arc(
-                model,
-                dataset=args.eval_subset or "ARC-Easy",
-                limit=args.eval_limit,
+
             )
         print(json.dumps({"benchmark": args.eval_task, "accuracy": acc}))
 
-
-if __name__ == "__main__":
-    main()
 
