@@ -7,6 +7,26 @@ Thank you for your interest in improving this project!
 - Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guidelines.
 - Use clear naming and add docstrings for public functions and classes.
 
+## Pre-commit hooks
+- Install the formatting and linting hooks:
+
+  ```bash
+  pip install pre-commit
+  pre-commit install
+  ```
+
+- Run the hooks on changed files before committing:
+
+  ```bash
+  pre-commit run --files <file1> [<file2> ...]
+  ```
+
+  To check the entire codebase, use:
+
+  ```bash
+  pre-commit run --all-files
+  ```
+
 ## Testing
 - Add unit tests for new features in the `tests/` directory.
 - Before submitting a pull request run:
