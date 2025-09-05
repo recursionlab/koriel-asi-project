@@ -22,15 +22,15 @@ def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = Non
                 text_column: str = "text") -> T.List[np.ndarray]:
     """Load a text corpus from disk or HuggingFace Datasets.
 
-    Priority is given to the ``dataset`` argument or the environment variable
-    ``KORIEL_CORPUS_DATASET``.  When provided, the HuggingFace dataset is
+    Priority is given to the ``dataset`` argument if provided; otherwise, the environment variable
+    ``KORIEL_CORPUS_DATASET`` is used. When a dataset is selected, the HuggingFace dataset is
     streamed and each record's ``text_column`` is converted to a byte array.
 
     Otherwise, ``root`` (or ``KORIEL_CORPUS_DIR``) is treated as a directory of
     ``.txt`` shards and read recursively.
     """
 
-    ds_name = os.environ.get("KORIEL_CORPUS_DATASET", dataset)
+    ds_name = dataset if dataset is not None else os.environ.get("KORIEL_CORPUS_DATASET")
     lines: T.List[bytes] = []
     if ds_name and load_dataset is not None:
         try:
