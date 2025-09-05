@@ -9,11 +9,11 @@ def test_certificate():
     # all good
     E = [1.0]*10+[0.5]*10
     rc = [0.0]+[0.06]*19
-    pres, cert = presence_certificate({"E":E,"rc":rc,"ups_rate":0.1}, cfg, ethics_viol=0, delta_xi=0.0)
+    pres, cert = presence_certificate({"E":E,"rc":rc,"ups_rate":0.1}, cfg, ethics_viol=0, xi_hist=[0.0])
     if not pres:
         print("FAIL: presence should be true"); sys.exit(1)
     # fail one guard -> must be false (AND only)
-    pres2, cert2 = presence_certificate({"E":E,"rc":rc,"ups_rate":0.9}, cfg, ethics_viol=0, delta_xi=0.0)
+    pres2, cert2 = presence_certificate({"E":E,"rc":rc,"ups_rate":0.9}, cfg, ethics_viol=0, xi_hist=[0.0])
     if pres2:
         print("FAIL: OR-logic detected"); sys.exit(1)
     print("PASS")

@@ -13,6 +13,10 @@ def incidence_1_to_2(n):
     C = np.ones((1, n), dtype=np.float64)
     return C
 
+# Export names expected by tests
+d_0_to_1 = incidence_0_to_1
+d_1_to_2 = incidence_1_to_2
+
 def d0(omega0):
     n = omega0.shape[0]
     return incidence_0_to_1(n) @ omega0
