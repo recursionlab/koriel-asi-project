@@ -1,7 +1,5 @@
 # tests/test_metrics.py
 import sys, json, numpy as np
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.train import run
 
 def slope(y):

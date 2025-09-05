@@ -1,7 +1,6 @@
 # tests/test_ab.py
 import sys, json
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.ab import main
 def test_ab():
     main()
