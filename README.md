@@ -2,6 +2,19 @@
 
 This repository explores field-theoretic approaches to artificial super intelligence and quantum reality field theory. Over time the project has accumulated many experiments, tests and research artifacts which makes navigation difficult. This document outlines a high level plan for regaining structure and keeping new contributions organized.
 
+## Installation
+
+Install the project along with its runtime dependencies using `pip`:
+
+```bash
+# install directly from the source tree
+pip install -e .
+
+# or generate requirements.txt and use it
+python scripts/generate_requirements.py
+pip install -r requirements.txt
+```
+
 ## Recommended Directory Layout
 
 - `src/` – core Python modules implementing the main algorithms.
@@ -17,7 +30,7 @@ This repository explores field-theoretic approaches to artificial super intellig
 1. Prefer snake_case for Python files and directories.
 2. Keep imports relative within `src` and avoid executing heavy code at import time.
 3. Consolidate duplicated logic in scripts into reusable functions under `src`.
-4. Pin dependencies in `requirements.txt` and keep it in sync with `pyproject.toml`.
+4. Declare runtime dependencies in `pyproject.toml` and regenerate `requirements.txt` using `scripts/generate_requirements.py` when needed.
 5. Add new tests alongside features and ensure `pytest` passes.
 
 ## Next Steps
