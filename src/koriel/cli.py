@@ -6,7 +6,8 @@ from pathlib import Path
 from typing import Optional, List
 
 from .engine import RecursiveOrchestrationEngine, EngineConfig
-from .io import load_config, save_results, get_config_dir, get_results_dir
+from .io import (load_config, save_results, get_config_dir, get_results_dir, 
+                get_default_config_path, validate_config)
 from .meta import SelfModificationEngine
 
 def run_minimal_cycle(config_path: Optional[str] = None, 
@@ -21,15 +22,38 @@ def run_minimal_cycle(config_path: Optional[str] = None,
         return 0
         
     try:
-        # Load configuration
+        # Load configuration with defaults
         if config_path:
             config_data = load_config(config_path)
-            engine_config = EngineConfig(**config_data.get('engine', {}))
         else:
-            engine_config = EngineConfig()
-            
+            # Use default config
+            default_config_path = get_default_config_path()
+            if default_config_path.exists():
+                config_data = load_config(default_config_path)
+                print(f"Using default configuration: {default_config_path}")
+            else:
+                print("No configuration specified and default config not found")
+                print("Using built-in defaults")
+                config_data = {
+                    'engine': {
+                        'field_size': 256,
+                        'field_length': 20.0,
+                        'dt': 0.001,
+                        'evolution_steps': 1000,
+                        'c_rate': 0.05,
+                        'c_thresh': 0.5
+                    }
+                }
+        
+        # Validate configuration
+        config_data = validate_config(config_data)
+        
+        # Override steps if specified
         if steps:
-            engine_config.evolution_steps = steps
+            config_data['engine']['evolution_steps'] = steps
+            
+        # Create engine config from loaded config
+        engine_config = EngineConfig(**config_data.get('engine', {}))
             
         # Initialize and run engine
         engine = RecursiveOrchestrationEngine(engine_config)
