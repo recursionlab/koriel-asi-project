@@ -4,16 +4,12 @@ Train tiny byte-LM with RCCE controller integration.
 """
 import argparse
 import os
-import sys
 import torch
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
-
-from byte_lm.data import get_dataset
-from byte_lm.model import TinyByteTransformer, count_parameters
-from byte_lm.train import train_one_epoch
-from rcc.controller import init_rcce_state
+from src.byte_lm.data import get_dataset
+from src.byte_lm.model import TinyByteTransformer, count_parameters
+from src.byte_lm.train import train_one_epoch
+from src.rcc.controller import init_rcce_state
 
 def main():
     parser = argparse.ArgumentParser(description='Train tiny byte-LM with RCCE')

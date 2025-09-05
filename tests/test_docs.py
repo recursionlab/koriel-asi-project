@@ -1,7 +1,5 @@
 # tests/test_dec.py
 import sys, numpy as np
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.dec import d_0_to_1, d_1_to_2, d2_norm, torsion_curvature
 def test_dec_identities():
     f0 = np.linspace(0,1,33)

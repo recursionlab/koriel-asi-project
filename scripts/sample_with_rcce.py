@@ -4,17 +4,13 @@ Sample from trained byte-LM with RCCE modulation active.
 """
 import argparse
 import os
-import sys
 import torch
 import pandas as pd
 from rich.console import Console
 from rich.table import Table
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
-
-from byte_lm.model import TinyByteTransformer
-from byte_lm.generate import generate_with_rcce, tokens_to_text
+from src.byte_lm.model import TinyByteTransformer
+from src.byte_lm.generate import generate_with_rcce, tokens_to_text
 
 def main():
     parser = argparse.ArgumentParser(description='Sample from tiny byte-LM with RCCE')
