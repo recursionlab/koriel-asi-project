@@ -117,3 +117,4 @@ data/processed/*
 
 # Auto-mesh artifacts
 ops/ingest/
+artifacts/
