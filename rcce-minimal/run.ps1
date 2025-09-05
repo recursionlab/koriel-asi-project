@@ -20,12 +20,12 @@ Write-Host "Executing RCCE training..." -ForegroundColor Cyan
 python src/train.py
 
 # Check results
-if (Test-Path "outputs/final_presence_certificate.json") {
+if (Test-Path "experiments/results/final_presence_certificate.json") {
     Write-Host "Training completed successfully!" -ForegroundColor Green
-    Write-Host "Presence certificate generated: outputs/final_presence_certificate.json" -ForegroundColor Cyan
-    Write-Host "Shadow codex saved: outputs/shadow_codex.json" -ForegroundColor Cyan
+    Write-Host "Presence certificate generated: experiments/results/final_presence_certificate.json" -ForegroundColor Cyan
+    Write-Host "Shadow codex saved: experiments/results/shadow_codex.json" -ForegroundColor Cyan
 } else {
-    Write-Host "Training may have failed. Check outputs directory." -ForegroundColor Yellow
+    Write-Host "Training may have failed. Check experiments/results directory." -ForegroundColor Yellow
 }
 
 Write-Host "RCCE session complete." -ForegroundColor Green

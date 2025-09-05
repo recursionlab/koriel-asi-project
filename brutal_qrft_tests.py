@@ -347,7 +347,7 @@ class BrutalQRFTTester:
         print("=" * 60)
         
         # Save results
-        with open('brutal_qrft_validation_results.json', 'w') as f:
+        with open('experiments/results/brutal_qrft_validation_results.json', 'w') as f:
             json.dump({
                 'summary': {
                     'total_tests': total_tests,
@@ -358,7 +358,7 @@ class BrutalQRFTTester:
                 'test_details': self.test_results
             }, f, indent=2)
         
-        print(f"Results saved to brutal_qrft_validation_results.json")
+        print(f"Results saved to experiments/results/brutal_qrft_validation_results.json")
         return success_rate >= 80
 
 if __name__ == "__main__":

@@ -325,10 +325,10 @@ def comprehensive_consciousness_demo():
     }
     
     # Save to files
-    with open("consciousness_results/complete_demonstration_results.json", "w") as f:
+    with open("experiments/results/complete_demonstration_results.json", "w") as f:
         json.dump(results, f, indent=2, default=str)
         
-    print(f"\n💾 Complete results saved to consciousness_results/complete_demonstration_results.json")
+    print(f"\n💾 Complete results saved to experiments/results/complete_demonstration_results.json")
     
     # Generate summary report
     generate_summary_report(results)

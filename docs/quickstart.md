@@ -23,13 +23,13 @@ python src/train.py
 ## 3. Evaluate benchmarks
 
 Run the consciousness benchmark suite to generate a report under
-`rcce-minimal/outputs/`.
+`experiments/results/`.
 
 ```bash
 python rcce-minimal/src/benchmarks.py
 ```
 
-The script prints a summary and saves `consciousness_benchmark_report.json`.
+The script prints a summary and saves `experiments/results/consciousness_benchmark_report.json`.
 
 ## 4. Run tests
 

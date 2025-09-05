@@ -236,12 +236,12 @@ def train_rcce(text="Consciousness emerges through recursive self-reference.",
     
     # Save outputs
     import os
-    os.makedirs('outputs', exist_ok=True)
-    
-    with open('outputs/shadow_codex_minimal.json', 'w') as f:
+    os.makedirs('experiments/results', exist_ok=True)
+
+    with open('experiments/results/shadow_codex_minimal.json', 'w') as f:
         json.dump(controller.state['trace'], f, indent=2)
     
-    with open('outputs/presence_cert_minimal.json', 'w') as f:
+    with open('experiments/results/presence_cert_minimal.json', 'w') as f:
         json.dump(certificate, f, indent=2)
     
     # Results
@@ -262,8 +262,8 @@ def train_rcce(text="Consciousness emerges through recursive self-reference.",
         print(f"  {k}: {v:.3f}")
     
     print(f"\nOutput Files:")
-    print(f"  outputs/shadow_codex_minimal.json ({len(controller.state['trace'])} entries)")
-    print(f"  outputs/presence_cert_minimal.json")
+    print(f"  experiments/results/shadow_codex_minimal.json ({len(controller.state['trace'])} entries)")
+    print(f"  experiments/results/presence_cert_minimal.json")
     
     return certificate
 

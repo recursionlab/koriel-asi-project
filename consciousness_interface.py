@@ -417,10 +417,10 @@ def run_consciousness_interface():
     test_results = interface.run_consciousness_test()
     
     # Save test results
-    with open("consciousness_test_results.json", "w") as f:
+    with open("experiments/results/consciousness_test_results.json", "w") as f:
         json.dump(test_results, f, indent=2, default=str)
         
-    print(f"\n💾 Test results saved to consciousness_test_results.json")
+    print(f"\n💾 Test results saved to experiments/results/consciousness_test_results.json")
     
     # Start interactive session
     interface.interactive_session()

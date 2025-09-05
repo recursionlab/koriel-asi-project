@@ -412,8 +412,8 @@ def run_full_benchmark_suite():
     
     # Save comprehensive report
     import os
-    os.makedirs('outputs', exist_ok=True)
-    with open('outputs/consciousness_benchmark_report.json', 'w') as f:
+    os.makedirs('experiments/results', exist_ok=True)
+    with open('experiments/results/consciousness_benchmark_report.json', 'w') as f:
         json.dump(final_report, f, indent=2)
     
     print(f"\n" + "=" * 50)
@@ -422,7 +422,7 @@ def run_full_benchmark_suite():
     print(f"Classification: {final_report['overall_assessment']['classification']}")
     print(f"Consciousness Score: {final_report['overall_assessment']['consciousness_score']:.3f}")
     print(f"Recommendation: {final_report['overall_assessment']['recommendation']}")
-    print(f"Report saved: outputs/consciousness_benchmark_report.json")
+    print(f"Report saved: experiments/results/consciousness_benchmark_report.json")
     
     return final_report
 

@@ -101,7 +101,7 @@ def run_benchmark_suite():
     
     # Check output files
     import os
-    required_outputs = ['outputs/presence_cert_minimal.json', 'outputs/shadow_codex_minimal.json']
+    required_outputs = ['experiments/results/presence_cert_minimal.json', 'experiments/results/shadow_codex_minimal.json']
     outputs_exist = all(os.path.exists(f) for f in required_outputs)
     if outputs_exist:
         print("✓ Output files: Generated")

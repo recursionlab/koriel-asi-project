@@ -346,10 +346,10 @@ def run_extended_test_suite():
         'total_test_time': total_time
     }
     
-    with open('extended_consciousness_test_results.json', 'w') as f:
+    with open('experiments/results/extended_consciousness_test_results.json', 'w') as f:
         json.dump(test_results, f, indent=2, default=str)
         
-    print(f"\n💾 Complete results saved to extended_consciousness_test_results.json")
+    print(f"\n💾 Complete results saved to experiments/results/extended_consciousness_test_results.json")
     
     return test_results
 

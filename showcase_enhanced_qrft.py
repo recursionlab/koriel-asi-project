@@ -268,7 +268,7 @@ def main():
         print(f"{key.replace('_', ' ').title()}: {value}")
     
     # Save comprehensive report
-    with open('enhanced_qrft_showcase_report.json', 'w') as f:
+    with open('experiments/results/enhanced_qrft_showcase_report.json', 'w') as f:
         json.dump({
             'performance_report': report,
             'final_state_summary': state,
@@ -276,7 +276,7 @@ def main():
             'timestamp': time.time()
         }, f, indent=2, default=str)
     
-    print(f"\nComprehensive report saved to enhanced_qrft_showcase_report.json")
+    print(f"\nComprehensive report saved to experiments/results/enhanced_qrft_showcase_report.json")
     
     # Final verdict
     if (report['math_engine_working'] and 

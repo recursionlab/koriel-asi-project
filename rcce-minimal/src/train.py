@@ -18,7 +18,7 @@ class RCCETrainer:
                  model: ByteLM,
                  controller: RCCEController,
                  learning_rate: float = 0.001,
-                 output_dir: str = "outputs"):
+                 output_dir: str = "experiments/results"):
         self.model = model
         self.controller = controller
         self.learning_rate = learning_rate

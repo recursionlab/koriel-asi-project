@@ -483,7 +483,7 @@ class ExtremeQRFTStressTester:
         print("=" * 60)
         
         # Save results
-        with open('extreme_qrft_stress_results.json', 'w') as f:
+        with open('experiments/results/extreme_qrft_stress_results.json', 'w') as f:
             json.dump({
                 'summary': {
                     'total_tests': total_tests,
@@ -496,7 +496,7 @@ class ExtremeQRFTStressTester:
                 'test_details': self.test_results
             }, f, indent=2)
         
-        print(f"Results saved to extreme_qrft_stress_results.json")
+        print(f"Results saved to experiments/results/extreme_qrft_stress_results.json")
         return success_rate >= 70
 
 if __name__ == "__main__":

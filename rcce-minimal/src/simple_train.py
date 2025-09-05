@@ -168,7 +168,7 @@ def simple_train():
     learning_rate = 0.01
     n_epochs = 10
     
-    os.makedirs('outputs', exist_ok=True)
+    os.makedirs('experiments/results', exist_ok=True)
     
     for epoch in range(n_epochs):
         total_loss = 0.0
@@ -216,10 +216,10 @@ def simple_train():
     certificate = presence.generate_certificate(rcce_summary)
     
     # Save results
-    with open('outputs/shadow_codex.json', 'w') as f:
+    with open('experiments/results/shadow_codex.json', 'w') as f:
         json.dump(controller.trace, f, indent=2)
     
-    with open('outputs/presence_certificate.json', 'w') as f:
+    with open('experiments/results/presence_certificate.json', 'w') as f:
         json.dump(certificate, f, indent=2)
     
     # Results summary
@@ -236,8 +236,8 @@ def simple_train():
         print(f"  {key}: {value:.3f}")
     
     print(f"\nFiles generated:")
-    print(f"  outputs/shadow_codex.json ({len(controller.trace)} trace entries)")
-    print(f"  outputs/presence_certificate.json")
+    print(f"  experiments/results/shadow_codex.json ({len(controller.trace)} trace entries)")
+    print(f"  experiments/results/presence_certificate.json")
     
     return certificate
 
