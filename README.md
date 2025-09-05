@@ -23,4 +23,14 @@ Set-ExecutionPolicy -Scope Process Bypass
 ## Outputs
 * Per run: `logs\metrics.csv`, `logs\shadow_codex.jsonl`
 * A/B summary: `logs\ab_summary.json`
-* Presence certificate (ON runs): `presence.json`# koriel-asi-project
+* Presence certificate (ON runs): `presence.json`
+
+## Benchmarks
+
+Run evaluation suites with the benchmark harness:
+
+```bash
+python -m benchmarks.run --suite mmlu
+```
+
+Metrics and logs will be written to `logs/benchmarks/`.
