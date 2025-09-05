@@ -111,3 +111,6 @@ __pycache__/
 *.csv
 data/processed/*
 */.ipynb_checkpoints/*
+
+# Auto-mesh artifacts
+ops/ingest/
