@@ -8,7 +8,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 import time
-from qrft_agent_integrated import create_integrated_agent
+from qrft import create_integrated_agent
 
 def test_mathematical_parsing_failures():
     """Test the SymPy parsing failures we discovered"""

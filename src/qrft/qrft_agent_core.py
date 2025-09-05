@@ -16,15 +16,15 @@ import uuid
 
 # Local data utilities
 try:  # pragma: no cover - import style varies between contexts
-    from .data import load_corpus
+    from ..data import load_corpus
 except Exception:  # pragma: no cover
     from data import load_corpus
 
 # Import math engine
 try:
-    from qrft_math_engine import QRFTMathEngine
+    from .qrft_math_engine import QRFTMathEngine
     MATH_ENGINE_AVAILABLE = True
-except ImportError:
+except Exception:
     MATH_ENGINE_AVAILABLE = False
     print("Warning: QRFTMathEngine not available")
 

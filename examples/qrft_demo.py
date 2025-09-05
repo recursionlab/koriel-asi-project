@@ -13,8 +13,12 @@ import time
 import matplotlib.pyplot as plt
 from typing import Dict, Any
 
-from qrft_consciousness import create_qrft_consciousness, ConsciousnessEvent, EventType
-from qrft_core import ParticleType
+from qrft import (
+    create_qrft_consciousness,
+    ConsciousnessEvent,
+    EventType,
+    ParticleType,
+)
 
 class ConsciousnessDemo:
     """Demo of QRFT consciousness system with realistic AI scenarios"""

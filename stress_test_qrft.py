@@ -14,7 +14,7 @@ import random
 import string
 import json
 from typing import List, Dict, Any, Tuple
-from qrft_agent_integrated import create_integrated_agent, IntegratedQRFTAgent, Document
+from qrft import create_integrated_agent, IntegratedQRFTAgent, Document
 
 class QRFTStressTester:
     """Comprehensive stress testing suite"""

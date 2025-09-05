@@ -17,7 +17,15 @@ import traceback
 
 # Import actual QRFT components
 try:
-    from src.qrft_agent_core import QRFTAgent, AgentState, QRFTSignals, QRFTPolicy, Fact, Gap, FactPolarity
+    from qrft import (
+        QRFTAgent,
+        AgentState,
+        QRFTSignals,
+        QRFTPolicy,
+        Fact,
+        Gap,
+        FactPolarity,
+    )
     print("+ Real QRFT agent imports successful")
 except ImportError as e:
     print(f"- Real QRFT imports failed: {e}")

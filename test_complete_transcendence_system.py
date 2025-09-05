@@ -12,7 +12,7 @@ from src.transcendence_substrate import TranscendenceSubstrate
 from src.reality_modeling_core import RealityModelingCore  
 from src.self_modification_engine import SelfModificationEngine
 from src.multidimensional_expansion import MultiDimensionalExpansionEngine
-from src.qrft_agent_core import QRFTAgent
+from qrft import QRFTAgent
 import json
 from datetime import datetime
 

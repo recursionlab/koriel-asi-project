@@ -7,8 +7,8 @@ Complete deterministic agent with BM25, SymPy, constraint solving
 import time
 import json
 from typing import Dict, List, Optional, Any
-from qrft_agent_core import QRFTAgent, FactPolarity
-from qrft_reasoners import ReasonerHub, Document
+from .qrft_agent_core import QRFTAgent, FactPolarity
+from .qrft_reasoners import ReasonerHub, Document
 
 class IntegratedQRFTAgent(QRFTAgent):
     """QRFT Agent with full reasoner integration"""

@@ -14,7 +14,15 @@ import time
 from typing import Dict, List, Any
 
 try:
-    from src.qrft_agent_core import QRFTAgent, AgentState, QRFTSignals, QRFTPolicy, Fact, Gap, FactPolarity
+    from qrft import (
+        QRFTAgent,
+        AgentState,
+        QRFTSignals,
+        QRFTPolicy,
+        Fact,
+        Gap,
+        FactPolarity,
+    )
     print("+ QRFT validation imports successful")
 except ImportError as e:
     print(f"- QRFT imports failed: {e}")
