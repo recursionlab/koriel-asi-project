@@ -6,7 +6,7 @@ Tests the full pathway: QRFT Agent -> Recursive Superintelligence -> Substrate T
 
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from src.transcendence_substrate import TranscendenceSubstrate
 from src.reality_modeling_core import RealityModelingCore  
