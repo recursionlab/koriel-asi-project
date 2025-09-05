@@ -1,0 +1,11 @@
+2025-09-05 19:12:10,295 - INFO - Starting demo: task=basic, seed=1337, git_sha=aac8835
+2025-09-05 19:12:10,296 - INFO - Generated metadata: experiments/smoke_test_validation/metadata.json
+2025-09-05 19:12:10,296 - INFO - Starting basic demo with seed 1337
+2025-09-05 19:12:10,296 - INFO - Running RCCE demo...
+2025-09-05 19:12:10,353 - INFO - Demo generated 80 timesteps of metrics
+2025-09-05 19:12:10,354 - INFO - Final RC: 1.0000
+2025-09-05 19:12:10,354 - INFO - Upsilon fires: 1
+2025-09-05 19:12:10,354 - INFO - Ethics violations: 0
+2025-09-05 19:12:10,355 - INFO - Generated results: experiments/smoke_test_validation/results.json
+2025-09-05 19:12:10,355 - INFO - Demo completed successfully
+2025-09-05 19:12:10,355 - INFO - Artifacts generated in: experiments/smoke_test_validation
