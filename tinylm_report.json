@@ -1,0 +1,19 @@
+{
+  "inspected_path": "/home/runner/work/koriel-asi-project/koriel-asi-project/checkpoints/tinylm.pt",
+  "timestamp_utc": "2025-09-05T19:11:44.601932Z",
+  "env": {
+    "python": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]"
+  },
+  "contains": [
+    "tinylm.pt"
+  ],
+  "hf_config_present": false,
+  "hf_config_error": "OSError(\"It looks like the config file at 'checkpoints/tinylm.pt' is not a valid JSON file.\")",
+  "tokenizer_error": "OSError(\"It looks like the config file at 'checkpoints/tinylm.pt' is not a valid JSON file.\")",
+  "hf_model_error": "OSError(\"It looks like the config file at 'checkpoints/tinylm.pt' is not a valid JSON file.\")",
+  "state_dict_found": true,
+  "state_dict_files": [
+    "checkpoints/tinylm.pt"
+  ],
+  "estimated_param_count_from_state_dict": 477952
+}
