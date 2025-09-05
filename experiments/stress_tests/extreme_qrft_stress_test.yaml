@@ -1,0 +1,26 @@
+experiment:
+  name: "extreme_qrft_stress_test"
+  category: "stress_tests"
+  description: "Extreme stress testing of QRFT system components"
+  
+safety:
+  max_execution_time: 600    # 10 minutes
+  max_memory_mb: 4096        # 4GB
+  max_output_files: 20
+  max_output_size_mb: 1000   # 1GB
+  
+resources:
+  cpu_intensive: true
+  memory_intensive: true
+  disk_intensive: true
+  
+permissions:
+  allow_self_modification: false
+  allow_file_creation: true
+  allow_network_access: false
+  
+warnings:
+  - "EXTREME stress test - may consume significant system resources"
+  - "Monitor system temperature and resource usage"
+  - "May generate large output files"
+  - "Consider running in isolated environment"

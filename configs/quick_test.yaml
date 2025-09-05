@@ -1,0 +1,16 @@
+# Quick test configuration with smaller parameters
+engine:
+  field_size: 64             # Smaller for faster test
+  field_length: 10.0
+  dt: 0.001
+  evolution_steps: 50        # Very short test
+  c_rate: 0.05
+  c_thresh: 0.5
+
+safety:
+  max_energy: 5.0
+  enable_safety_checks: true
+
+output:
+  results_dir: "results"
+  save_field_evolution: false

@@ -1,0 +1,15 @@
+# Code Owners
+# Global owners for all files
+* @recursionlab
+
+# Specific areas
+/src/ @recursionlab
+/tests/ @recursionlab
+/experiments/ @recursionlab
+/.github/ @recursionlab
+
+# Configuration and documentation
+/config/ @recursionlab
+/docs/ @recursionlab
+pyproject.toml @recursionlab
+README.md @recursionlab

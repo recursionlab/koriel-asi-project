@@ -5,9 +5,25 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "koriel"
 version = "0.1.0"
+description = "Koriel ASI - Recursive Consciousness Coherence Engine"
 dependencies = [
     "numpy",
     "tqdm",
     "pyyaml",
+    "matplotlib",
+    "psutil",
+]
+
+[project.scripts]
+koriel = "koriel.cli:main_cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "experimental: marks tests for experimental features",
 ]
 

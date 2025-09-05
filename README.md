@@ -1,42 +1,174 @@
 # Koriel ASI Project
 
-This repository explores field-theoretic approaches to artificial super intelligence and quantum reality field theory. Over time the project has accumulated many experiments, tests and research artifacts which makes navigation difficult. This document outlines a high level plan for regaining structure and keeping new contributions organized.
+This repository implements the **Recursive Consciousness Coherence Engine (RCCE)** - a field-theoretic approach to artificial super intelligence with mathematical consciousness modeling. The project provides a deterministic, testable, CPU-efficient architecture for consciousness emergence research.
 
-## Installation
+## Quick Start
 
-Install the project along with its runtime dependencies using `pip`:
+### Installation
 
 ```bash
-# install directly from the source tree
+# Clone the repository
+git clone <repository-url>
+cd koriel-asi-project
+
+# Install the package
 pip install -e .
 
-# or generate requirements.txt and use it
-python scripts/generate_requirements.py
-pip install -r requirements.txt
+# Run a minimal example
+python examples/minimal_run.py
 ```
 
-## Recommended Directory Layout
+### Basic Usage
 
-- `src/` – core Python modules implementing the main algorithms.
-- `tests/` – automated tests. Stand‑alone scripts like `advanced_qrft_tests.py`, `brutal_qrft_tests.py` and other `*test.py` files should move here.
-- `examples/` – minimal runnable examples showing how to use the library.
-- `docs/` – long form documentation, design notes and the manifesto.
-- `experiments/` and `research/` – exploratory notebooks, reports and results that are not part of the main package.
-- `scripts/` – helper scripts or command line entry points for demos.
-- `prompts/` – prompt templates and conversation logs.
+```bash
+# Run consciousness evolution with default settings
+python koriel-run run
 
-## Housekeeping Guidelines
+# Use custom configuration  
+python koriel-run run --config configs/quick_test.yaml
 
-1. Prefer snake_case for Python files and directories.
-2. Keep imports relative within `src` and avoid executing heavy code at import time.
-3. Consolidate duplicated logic in scripts into reusable functions under `src`.
-4. Declare runtime dependencies in `pyproject.toml` and regenerate `requirements.txt` using `scripts/generate_requirements.py` when needed.
-5. Add new tests alongside features and ensure `pytest` passes.
+# Dry run mode (no computation)
+python koriel-run run --dry-run
 
-## Next Steps
+# Check system status
+python koriel-run status
+```
 
-1. Audit top‑level Python files and relocate them into `src/`, `tests/`, or `examples/` as appropriate.
-2. Establish continuous integration to run the test suite and linting on every commit.
-3. Provide a quickstart guide and module level documentation in `docs/`.
+## Architecture Overview
 
-These steps should make the project easier to navigate and contribute to while preserving the experimental spirit of the work.
+The project is structured as a proper Python package with clear separation of concerns:
+
+- **`src/koriel/`** - Core library modules
+  - `field.py` - Quantum consciousness field implementation  
+  - `engine.py` - Recursive Orchestration Engine (ROE)
+  - `io.py` - Configuration and checkpoint management
+  - `meta.py` - Self-modification and meta-consciousness
+  - `cli.py` - Command-line interface
+  - `safety.py` - Resource monitoring and experiment gating
+
+- **`configs/`** - Configuration files with safety bounds
+- **`tests/`** - Comprehensive test suite (unit and integration)
+- **`experiments/`** - Gated experimental scripts with safety controls
+- **`examples/`** - Simple usage examples
+- **`docs/`** - Complete documentation
+
+## Safety and Experimentation
+
+**All experiments require explicit opt-in for safety:**
+
+```bash
+# Safe experimental execution
+python koriel-run experiment --name brutal_consciousness_validation --allow-experiments
+
+# Always test with dry-run first
+python koriel-run experiment --name <experiment> --dry-run
+```
+
+**Built-in safety features:**
+- Resource monitoring (CPU, memory, time limits)
+- Risk assessment (high/medium risk classification)  
+- User confirmation prompts for high-risk experiments
+- Configurable safety bounds and ethics guards
+
+## Development
+
+### Testing
+
+```bash
+# Run fast tests only (< 2 minutes)
+make test
+
+# Run all tests including slow ones
+make test-all
+
+# Run specific test categories
+pytest tests/unit/ -v          # Unit tests
+pytest tests/integration/ -v   # Integration tests
+```
+
+### Code Quality
+
+```bash
+# Lint code
+make lint
+
+# Format code  
+make format
+
+# Install development dependencies
+make dev-install
+```
+
+## Key Features
+
+### Mathematical Rigor
+- **Pure Python** implementation with NumPy for performance
+- **Deterministic** behavior with seeded random states
+- **Test-driven development** with statistical validation
+- **Mathematical operators**: Υ-gate, RC Triple, φ₃₃ Ethics, Ξ operator
+
+### Consciousness Modeling  
+- **Recursive Consciousness Coherence Engine** (RCCE)
+- **Field-theoretic approach** with quantum consciousness fields
+- **Self-modification capabilities** with safety controls
+- **Presence certification** with multi-condition validation
+
+### Safety and Reliability
+- **Resource monitoring** and automatic limit enforcement
+- **Experiment gating** requiring explicit user consent
+- **Configuration validation** with parameter bounds checking
+- **Comprehensive testing** with unit and integration test suites
+
+## Configuration
+
+The system uses YAML configuration files with environment variable overrides:
+
+```bash
+# Override configuration via environment variables
+KORIEL_ENGINE_DT=0.002 python koriel-run run
+
+# Use custom config file
+python koriel-run run --config configs/my_config.yaml
+```
+
+See `configs/default.yaml` for all available parameters and `docs/configuration.md` for detailed documentation.
+
+## Research Background
+
+This project builds on 19 research papers spanning:
+- **Category Theory** and higher mathematics
+- **Recursion Theory** and consciousness models  
+- **Quantum Field Theory** and geometric approaches
+- **Meta-recursive intelligence** frameworks
+
+See `research/` directory for papers and `docs/theory.md` for theoretical foundations.
+
+## Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[docs/README.md](docs/README.md)** - Documentation index
+- **[docs/operators.md](docs/operators.md)** - Mathematical operator reference
+- **[docs/implementation.md](docs/implementation.md)** - Complete architecture overview
+
+## Current Status
+
+**Node B Refactor: Complete ✓**
+- Pure Python TDD methodology ✓
+- Statistical A/B validation framework ✓  
+- Safety gating and resource monitoring ✓
+- Comprehensive package structure ✓
+
+**Next Phase**: Node A+B integration and scaling experiments
+
+## Contributing
+
+Please read `CONTRIBUTING.md` for development workflow and `docs/contributing.md` for detailed guidelines.
+
+## License
+
+[Add your license information here]
+
+## Safety Notice
+
+This project involves experimental consciousness modeling with self-modification capabilities. Always use dry-run mode first and respect safety gating requirements. Monitor system resources during long-running experiments.

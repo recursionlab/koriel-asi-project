@@ -94,4 +94,3 @@ if __name__ == "__main__":
     if args.save:
         Path(args.save).parent.mkdir(parents=True, exist_ok=True)
         model.save(args.save)
-    print(json.dumps({"ups_rate": rate, "len": len(m.get("t", []))}))

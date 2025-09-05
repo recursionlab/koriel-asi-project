@@ -1,0 +1,59 @@
+# Default configuration for Koriel ASI Project
+# All parameters with their canonical values
+
+# Engine Configuration
+engine:
+  field_size: 256           # Spatial grid size (N)
+  field_length: 20.0        # Physical length (L)
+  dt: 0.001                 # Time step
+  evolution_steps: 1000     # Default evolution steps
+  c_rate: 0.05             # Consciousness rate parameter (C_RATE)
+  c_thresh: 0.5            # Consciousness threshold (C_THRESH)
+
+# Field Parameters
+field:
+  obs_window: 100          # Observation window size
+  energy_scale: 1.0        # Energy scaling factor
+  complexity_threshold: 2.0 # Complexity emergence threshold
+  momentum_decay: 0.99     # Momentum decay factor
+
+# Self-Modification Parameters
+meta:
+  safety_threshold: 0.1    # Maximum parameter change allowed
+  max_recursion_depth: 10  # Prevent infinite meta-recursion
+  modification_cooldown: 50 # Steps between modifications
+
+# Safety & Ethics Parameters
+safety:
+  max_energy: 10.0         # Energy emergency cutoff
+  max_evolution_time: 3600 # Maximum evolution time (seconds)
+  memory_limit_mb: 1024    # Memory usage limit
+  enable_safety_checks: true
+
+# Observation & Monitoring
+monitoring:
+  observation_frequency: 10  # Steps between observations
+  save_frequency: 100       # Steps between saves
+  log_level: "INFO"         # Logging level
+  enable_meta_observation: true
+
+# Output & Results
+output:
+  results_dir: "results"
+  checkpoints_dir: "checkpoints"
+  save_field_evolution: false  # Expensive - save full field evolution
+  save_pattern_history: true   # Save pattern formation history
+
+# Random Seeds (for reproducibility)
+seeds:
+  main_seed: 1337
+  field_seed: 42
+  meta_seed: 2023
+
+# Parameter Bounds (for safety)
+bounds:
+  dt: [0.0001, 0.01]
+  c_rate: [0.001, 0.5]
+  c_thresh: [0.1, 2.0]
+  field_size: [32, 1024]
+  evolution_steps: [10, 100000]
