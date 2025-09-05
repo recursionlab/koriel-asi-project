@@ -1,0 +1,41 @@
+{
+  "status": "success",
+  "demo_results": {
+    "timesteps": 80,
+    "final_RC": 0.999999999988744,
+    "final_energy": 0.0051915040789576,
+    "mean_coherence": 0.9915702589232037,
+    "upsilon_fires": 1,
+    "ethics_violations": 0,
+    "drift_stability": 0.0419811870227644,
+    "entropy_evolution": {
+      "initial": 3.1012533434916723,
+      "final": 3.4657359027996497,
+      "mean": 3.456526694991349
+    },
+    "consciousness_score": -0.9998518607116147,
+    "metrics_summary": {
+      "D": 0.006603897280089144,
+      "H": 3.456526694991349,
+      "C": -0.9998518607116147,
+      "RC": 0.9915702589232037,
+      "E": 0.006122546019839347,
+      "ZI": 0.28639582660287954,
+      "ce2": 3.11861233419319,
+      "ethic": 0.0,
+      "Y": 0.0125
+    }
+  },
+  "validation": {
+    "rc_improvement": true,
+    "ethics_clean": true,
+    "stability_check": true,
+    "upsilon_active": true
+  },
+  "artifacts_generated": [
+    "metadata.json",
+    "results.json",
+    "logs.txt",
+    "rcce_run_metrics.csv"
+  ]
+}

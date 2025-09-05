@@ -1,0 +1,11 @@
+2025-09-05 19:10:57,053 - INFO - Starting demo: task=basic, seed=42, git_sha=f0dac4c
+2025-09-05 19:10:57,053 - INFO - Generated metadata: experiments/2025-09-05_basic_42_fixed/metadata.json
+2025-09-05 19:10:57,053 - INFO - Starting basic demo with seed 42
+2025-09-05 19:10:57,053 - INFO - Running RCCE demo...
+2025-09-05 19:10:57,112 - INFO - Demo generated 80 timesteps of metrics
+2025-09-05 19:10:57,113 - INFO - Final RC: 1.0000
+2025-09-05 19:10:57,113 - INFO - Upsilon fires: 1
+2025-09-05 19:10:57,113 - INFO - Ethics violations: 0
+2025-09-05 19:10:57,113 - INFO - Generated results: experiments/2025-09-05_basic_42_fixed/results.json
+2025-09-05 19:10:57,113 - INFO - Demo completed successfully
+2025-09-05 19:10:57,113 - INFO - Artifacts generated in: experiments/2025-09-05_basic_42_fixed

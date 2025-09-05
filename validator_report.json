@@ -1,0 +1,88 @@
+{
+  "experiment_directory": "experiments/2025-09-05_basic_42",
+  "validation_timestamp": "2025-09-05T19:11:19.598504",
+  "overall_valid": true,
+  "artifacts": {
+    "metadata": {
+      "valid": true,
+      "errors": [],
+      "file": "experiments/2025-09-05_basic_42/metadata.json",
+      "schema": "/home/runner/work/koriel-asi-project/koriel-asi-project/tools/metadata_schema.json",
+      "metadata": {
+        "experiment_id": "basic_42_20250905_191112",
+        "task": "basic",
+        "seed": 42,
+        "git_sha": "f0dac4c",
+        "timestamp": "2025-09-05T19:11:12.651470",
+        "output_directory": "experiments/2025-09-05_basic_42",
+        "python_version": "3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]",
+        "environment": {
+          "working_directory": "/home/runner/work/koriel-asi-project/koriel-asi-project",
+          "user": "runner",
+          "system": "posix"
+        },
+        "parameters": {
+          "demo_type": "rcce_basic",
+          "timesteps": 80,
+          "attention_dim": 32,
+          "value_dim": 16,
+          "topic_bins": 4
+        },
+        "schema_version": "1.0"
+      }
+    },
+    "results": {
+      "valid": true,
+      "errors": [],
+      "file": "experiments/2025-09-05_basic_42/results.json",
+      "results": {
+        "status": "success",
+        "demo_results": {
+          "timesteps": 80,
+          "final_RC": 0.999999999988744,
+          "final_energy": 0.0051915040789576,
+          "mean_coherence": 0.9915702589232037,
+          "upsilon_fires": 1,
+          "ethics_violations": 0,
+          "drift_stability": 0.0419811870227644,
+          "entropy_evolution": {
+            "initial": 3.1012533434916723,
+            "final": 3.4657359027996497,
+            "mean": 3.456526694991349
+          },
+          "consciousness_score": -0.9998518607116147,
+          "metrics_summary": {
+            "D": 0.006603897280089144,
+            "H": 3.456526694991349,
+            "C": -0.9998518607116147,
+            "RC": 0.9915702589232037,
+            "E": 0.006122546019839347,
+            "ZI": 0.28639582660287954,
+            "ce2": 3.11861233419319,
+            "ethic": 0.0,
+            "Y": 0.0125
+          }
+        },
+        "validation": {
+          "rc_improvement": true,
+          "ethics_clean": true,
+          "stability_check": true,
+          "upsilon_active": true
+        },
+        "artifacts_generated": [
+          "metadata.json",
+          "results.json",
+          "logs.txt",
+          "rcce_run_metrics.csv"
+        ]
+      }
+    },
+    "logs": {
+      "valid": true,
+      "errors": [],
+      "file": "experiments/2025-09-05_basic_42/logs.txt",
+      "line_count": 11,
+      "total_lines": 12
+    }
+  }
+}
