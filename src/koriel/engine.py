@@ -55,7 +55,7 @@ class RecursiveOrchestrationEngine:
             'steps': steps,
             'initial_state': initial_state,
             'final_state': final_state,
-            'energy_change': final_state['total_energy'] - initial_state['total_energy'],
+            'energy_change': final_state['field_energy'] - initial_state['field_energy'],
             'complexity_change': final_state['field_complexity'] - initial_state['field_complexity']
         }
         
