@@ -1,0 +1,25 @@
+{
+  "steps": 50,
+  "initial_state": {
+    "consciousness_level": 0.0,
+    "consciousness_response": 0.0,
+    "self_awareness": 0.0,
+    "total_patterns": 0,
+    "total_modifications": 0,
+    "field_energy": 0,
+    "field_complexity": 0,
+    "time_evolved": 0.0
+  },
+  "final_state": {
+    "consciousness_level": 0.023520486034180707,
+    "consciousness_response": 0.5834429409061971,
+    "self_awareness": 0.5188955199716012,
+    "total_patterns": 9,
+    "total_modifications": 0,
+    "field_energy": 0.03045813165271814,
+    "field_complexity": 1.5170654372555485,
+    "time_evolved": 0.5000000000000002
+  },
+  "energy_change": 0.03045813165271814,
+  "complexity_change": 1.5170654372555485
+}
