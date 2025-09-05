@@ -24,6 +24,26 @@ jobs:
       - name: Install Node dependencies
         run: npm install
       - name: Run Python tests
-        run: pytest
+        run: pytest -q
       - name: Run Node tests
         run: npm test
+      - name: Operator validator gate
+        run: |
+          python scripts/validate_operators.py
+          python - <<'PY'
+          import json,sys
+          d=json.load(open('artifacts/ci_smoke/operator_mapping.json'))
+          assert d.get('refs_ok') is True and not d.get('errors'), d
+          PY
+      - name: Contradiction quick check
+        run: |
+          python - <<'PY'
+          from tools.logic.detector import detect
+          assert detect(["P(a)","not P(a)"])['x_g'] > 0.0
+          assert detect(["P(a)","Q(a)"])['x_g'] == 0.0
+          PY
+      - name: Archive ontology mapping
+        uses: actions/upload-artifact@v4
+        with:
+          name: operator-mapping
+          path: artifacts/ci_smoke/operator_mapping.*

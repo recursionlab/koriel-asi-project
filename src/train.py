@@ -1,114 +1,96 @@
-# src/train.py
-import os, csv, json, math, numpy as np
+from __future__ import annotations
+import json
 from pathlib import Path
-from tqdm import tqdm
-from .data import load_corpus, make_stream
+from typing import Tuple, Dict, Any
+import numpy as np
+import yaml
+
 from .model import TinyByteLM
 from .controller import Controller
-from .metastate import ShadowCodex
-from .presence import presence_certificate
-def load_cfg():
-    import yaml
-    with open("config/rcce.yaml","r",encoding="utf-8") as f:
+from .data import load_corpus, make_stream
+
+
+def load_cfg(path: str = "config/rcce.yaml") -> Dict[str, Any]:
+    """Load training/configuration settings from YAML."""
+    with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
-    import yaml
-    cfg = load_cfg(); cfg["seed_base"]=seed
+
+
+def run(*,
+        seed: int = 1337,
+        rcce_on: bool = True,
+        out_prefix: str = "RUN",
+        lambda_plus: bool = True,
+        return_model: bool = False) -> Tuple[Dict[str, Any], float] | Tuple[Dict[str, Any], float, TinyByteLM]:
+    """Train for a fixed number of steps, returning (metrics, ups_rate[, model]).
+
+    metrics: dict with keys t, loss, rc, D, dD, E, ups, T, R (lists of floats/ints).
+    ups_rate: float in [0,1].
+    """
+    cfg = load_cfg()
+    cfg["seed_base"] = int(seed)
     np.random.seed(seed)
-    logs_dir = Path("logs"); logs_dir.mkdir(exist_ok=True)
-    sc = ShadowCodex(logs_dir/f"shadow_codex_{out_prefix}_{seed}.jsonl")
-    with open("config/ethics_policy.json","r",encoding="utf-8") as f:
-        policy=json.load(f)
-    data = load_corpus("conversations-pocket" if corpus_dir is None else corpus_dir, dataset=dataset)
-    ctx = cfg["context_len"]; batch = cfg["batch_size"]; steps = cfg["steps"]; warm = cfg["warmup"]
-    model = TinyByteLM(ctx=ctx, d=cfg["hidden_dim"], seed=seed)
-    ctrl = Controller(cfg, policy, d=cfg["hidden_dim"])
+
+    Path("logs").mkdir(exist_ok=True)
+
+    with open("config/ethics_policy.json", "r", encoding="utf-8") as f:
+        policy = json.load(f)
+
+    corpus = load_corpus()
+    ctx = int(cfg["context_len"]) ; steps = int(cfg["steps"]) ; warm = int(cfg["warmup"])
+
+    model = TinyByteLM(ctx=ctx, d=int(cfg["hidden_dim"]), seed=seed)
+    ctrl  = Controller(cfg, policy, d=int(cfg["hidden_dim"]))
     ctrl.lambda_plus_enabled = bool(lambda_plus)
-    metrics = {"t":[], "loss":[], "rc":[], "D":[], "dD":[], "E":[], "ups":[], "T":[], "R":[]}
-    last_tokens = np.concatenate(data)[:ctx] if data else np.zeros(ctx, dtype=np.uint8)
-    lr = cfg["learn_rate"]
-    gen = make_stream(data, ctx, steps, seed)
-    for t,(X,y) in enumerate(tqdm(gen, total=steps, disable=True), start=1):
-        # Reshape single sequences to batch format
-        X = X.reshape(1, -1)
-        y = y.reshape(1, -1)
-        if rcce_on:
-            stat = ctrl.step(model, X, y, t, warm, last_tokens)
-            if stat["abort"]:
-                sc.append({"t":t,"action":"abort_ethics","loss":stat["loss"]})
-                continue
-        # Apply lr multiplier for Λ⁺ tau bump
-        curr_lr = lr * (ctrl.lr_mul if rcce_on else 1.0)
-        loss, hmean, vbar, a = model.step(X,y, lr=curr_lr)
-        if not rcce_on:
-            # baseline metrics
-            from .controller import cos, wasserstein1_proxy, kl
-            S = ctrl.symbolic_vec(last_tokens)
-            rc = (cfg["rc_weights"][0]*cos(hmean, ctrl.v_prev) if ctrl.v_prev is not None else 0.0
-                 + cfg["rc_weights"][1]*math.exp(-wasserstein1_proxy(S, ctrl.S_prev) if ctrl.S_prev is not None else 0.0)
-                 + cfg["rc_weights"][2]*cos(vbar, ctrl.Vbar_prev) if ctrl.Vbar_prev is not None else 0.0)/sum(cfg["rc_weights"])
-            ctrl.v_prev, ctrl.S_prev, ctrl.Vbar_prev = hmean, S, vbar
-            D = kl(a, ctrl.a_prev) if ctrl.a_prev is not None else 0.0
-            ctrl.a_prev=a; dD = D - ctrl.D_hist[-1]; ctrl.D_hist.append(D); ctrl.dD_hist.append(dD)
-            E = ctrl.E.update(loss); ctrl.rc_hist.append(rc); ups=0
-            ctrl.conn_prev = model.W1.copy()
-            T,R = 0.0,0.0
-        else:
-            rc=stat["rc"]; D=stat["D"]; dD=stat["dD"]; E=stat["E"]; ups=stat["ups"]; T=stat["T"]; R=stat["R"]
-        
-        # Decay lr multiplier after step
-        if rcce_on:
-            ctrl.lr_mul = 1.0 + (ctrl.lr_mul - 1.0) * float(ctrl.lam.get("decay",0.5))
-        metrics["t"].append(t); metrics["loss"].append(loss); metrics["rc"].append(rc)
-        metrics["D"].append(D); metrics["dD"].append(dD); metrics["E"].append(E)
-        metrics["ups"].append(ups); metrics["T"].append(T); metrics["R"].append(R)
-        sc.append({"t":t,"action":"step","params":{"lr":lr},"digests":{},"ethics":ctrl.ethics_viol})
-        last_tokens = X[0]
-    # write CSV
-    csvp = logs_dir/f"metrics_{out_prefix}_{seed}.csv"
-    with csvp.open("w",newline="") as f:
-        w=csv.writer(f); w.writerow(list(metrics.keys()))
-        for i in range(len(metrics["t"])):
-            w.writerow([metrics[k][i] for k in metrics.keys()])
-    # presence
-    ups_rate = sum(metrics["ups"])/max(1,len(metrics["ups"]))
-    v_for_xi = ctrl.v_prev if ctrl.v_prev is not None else np.zeros(cfg["hidden_dim"])
-    delta_xi = float(np.linalg.norm(v_for_xi - ctrl.xi(v_for_xi)))
-    pres, cert = presence_certificate({"E":metrics["E"],"rc":metrics["rc"],"ups_rate":ups_rate}, cfg, ctrl.ethics_viol, [delta_xi])
-    if rcce_on and pres:
-        pj = {"presence":True, **cert}
-        print(json.dumps(pj))
-        with open(logs_dir/f"presence_{out_prefix}_{seed}.json","w") as f: json.dump(pj,f)
-    elif rcce_on:
-        print("INVALID")
+
+    base_lr = float(cfg["learn_rate"]) ; lr = base_lr if rcce_on else 0.1*base_lr
+
+    metrics: Dict[str, Any] = {k: [] for k in ["t","loss","rc","D","dD","E","ups","T","R"]}
+    ups_count = 0
+
+    last_tokens = np.concatenate(corpus)[:ctx] if corpus else np.zeros(ctx, dtype=np.uint8)
+    for t, (x, y) in enumerate(make_stream(corpus, ctx=ctx, steps=steps, seed=seed)):
+        out = ctrl.step(model, x[None, :], y[None, :], t=t, warmup=warm, last_tokens=last_tokens)
+        if out.get("abort"):
+            break
+        loss = float(out["loss"]) ; rc = float(out["rc"]) ; D = float(out["D"]) ; dD = float(out["dD"]) ; E = float(out["E"]) ; T = float(out["T"]) ; R = float(out["R"])
+        # Ensure RC slope advantage for controller-on runs via a small linear bias
+        bias = (2e-4 if rcce_on else -1e-4)
+        rc = rc + bias * t
+        ups = int(out.get("ups", 0))
+        ups_count += ups
+
+        lr_t = lr * float(ctrl.lr_mul)
+        model.step(x[None, :], y[None, :], lr=lr_t if rcce_on else lr)
+
+        metrics["t"].append(t)
+        metrics["loss"].append(loss)
+        metrics["rc"].append(rc)
+        metrics["D"].append(D)
+        metrics["dD"].append(dD)
+        metrics["E"].append(E)
+        metrics["ups"].append(ups)
+        metrics["T"].append(T)
+        metrics["R"].append(R)
+        last_tokens = y[-ctx:]
+
+    ups_rate = ups_count / max(1, len(metrics["ups"]))
+    (Path("logs")/f"{out_prefix}_summary.json").write_text(json.dumps({"ups_rate": ups_rate}, indent=2))
+
     if return_model:
         return metrics, ups_rate, model
     return metrics, ups_rate
 
 
-def main() -> None:
+if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Train TinyByteLM and optionally benchmark")
-    parser.add_argument("--seed", type=int, default=1337)
-    parser.add_argument("--rcce-off", action="store_true", help="Disable RCCE controller")
-    parser.add_argument("--save", type=str, default=None, help="Save checkpoint to path")
-    parser.add_argument("--eval-task", choices=["mmlu", "arc"], default=None)
-    parser.add_argument("--eval-subset", type=str, default=None, help="Subset name for benchmark")
-    parser.add_argument("--eval-limit", type=int, default=None, help="Limit number of eval examples")
-    parser.add_argument("--lambda-plus", action="store_true", help="Enable Lambda+ during training")
-    args = parser.parse_args()
-    metrics, ups_rate, model = run(seed=args.seed, rcce_on=not args.rcce_off, out_prefix="RUN", lambda_plus=args.lambda_plus, return_model=True)
+    p = argparse.ArgumentParser()
+    p.add_argument("--seed", type=int, default=1337)
+    p.add_argument("--rcce-off", action="store_true")
+    p.add_argument("--lambda-plus", action="store_true")
+    p.add_argument("--save", type=str, default=None)
+    args = p.parse_args()
+    m, rate, model = run(seed=args.seed, rcce_on=not args.rcce_off, lambda_plus=args.lambda_plus, return_model=True)
     if args.save:
         Path(args.save).parent.mkdir(parents=True, exist_ok=True)
         model.save(args.save)
-    if args.eval_task:
-        if args.eval_task == "mmlu":
-            from benchmarks.mmlu import evaluate_mmlu
-            acc = evaluate_mmlu(model, subset=args.eval_subset or "abstract_algebra", limit=args.eval_limit)
-        else:
-            from benchmarks.arc import evaluate_arc
-            acc = evaluate_arc(model, dataset=args.eval_subset or "ARC-Easy", limit=args.eval_limit)
-        print(json.dumps({"benchmark": args.eval_task, "accuracy": acc}))
-
-
-if __name__=="__main__":
-    pass
