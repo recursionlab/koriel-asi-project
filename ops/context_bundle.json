@@ -1,0 +1,6 @@
+{
+  "context_file": "docs/CONTEXT.md",
+  "system_prompt": "prompts/system.md",
+  "agents_config": "prompts/agents.jsonl",
+  "version": "v0.1"
+}
