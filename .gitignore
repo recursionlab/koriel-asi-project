@@ -112,5 +112,8 @@ __pycache__/
 data/processed/*
 */.ipynb_checkpoints/*
 
+# Packaging artifacts
+*.egg-info/
+
 # Auto-mesh artifacts
 ops/ingest/
