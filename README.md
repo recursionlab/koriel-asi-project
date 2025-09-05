@@ -39,4 +39,3 @@ Set-ExecutionPolicy -Scope Process Bypass
 ./scripts/setup.ps1
 ./scripts/run_tests.ps1
 ```
-

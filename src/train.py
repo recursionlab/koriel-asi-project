@@ -11,8 +11,6 @@ def load_cfg():
     import yaml
     with open("config/rcce.yaml","r",encoding="utf-8") as f:
         return yaml.safe_load(f)
-def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True,
-        corpus_dir: str | None = None, dataset: str | None = None):
     import yaml
     cfg = load_cfg(); cfg["seed_base"]=seed
     np.random.seed(seed)
@@ -82,11 +80,34 @@ def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True,
         with open(logs_dir/f"presence_{out_prefix}_{seed}.json","w") as f: json.dump(pj,f)
     elif rcce_on:
         print("INVALID")
+    if return_model:
+        return metrics, ups_rate, model
     return metrics, ups_rate
-if __name__=="__main__":
+
+
+def main() -> None:
     import argparse
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--corpus-dir", help="Directory of .txt shards to use as corpus")
-    ap.add_argument("--dataset", help="HuggingFace dataset name to stream")
-    args = ap.parse_args()
-    run(corpus_dir=args.corpus_dir, dataset=args.dataset)
+    parser = argparse.ArgumentParser(description="Train TinyByteLM and optionally benchmark")
+    parser.add_argument("--seed", type=int, default=1337)
+    parser.add_argument("--rcce-off", action="store_true", help="Disable RCCE controller")
+    parser.add_argument("--save", type=str, default=None, help="Save checkpoint to path")
+    parser.add_argument("--eval-task", choices=["mmlu", "arc"], default=None)
+    parser.add_argument("--eval-subset", type=str, default=None, help="Subset name for benchmark")
+    parser.add_argument("--eval-limit", type=int, default=None, help="Limit number of eval examples")
+    parser.add_argument("--lambda-plus", action="store_true", help="Enable Lambda+ during training")
+    args = parser.parse_args()
+    metrics, ups_rate, model = run(seed=args.seed, rcce_on=not args.rcce_off, out_prefix="RUN", lambda_plus=args.lambda_plus, return_model=True)
+    if args.save:
+        Path(args.save).parent.mkdir(parents=True, exist_ok=True)
+        model.save(args.save)
+    if args.eval_task:
+        if args.eval_task == "mmlu":
+            from benchmarks.mmlu import evaluate_mmlu
+            acc = evaluate_mmlu(model, subset=args.eval_subset or "abstract_algebra", limit=args.eval_limit)
+        else:
+            from benchmarks.arc import evaluate_arc
+            acc = evaluate_arc(model, dataset=args.eval_subset or "ARC-Easy", limit=args.eval_limit)
+        print(json.dumps({"benchmark": args.eval_task, "accuracy": acc}))
+
+
+if __name__=="__main__":

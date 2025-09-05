@@ -78,3 +78,22 @@ class TinyByteLM:
         self.W1 -= lr * dW1; self.b1 -= lr * db1
         self.E  -= lr * dE
         return float(loss), hmean, vbar, a
+    def save(self, path: str) -> None:
+        """Save model parameters to ``path`` using ``numpy.savez``."""
+        np.savez(path, E=self.E, W1=self.W1, b1=self.b1, W2=self.W2, b2=self.b2,
+                 mask=self.mask, ctx=self.ctx, d=self.d)
+
+    @classmethod
+    def load(cls, path: str) -> "TinyByteLM":
+        """Load model parameters from ``path``."""
+        data = np.load(path, allow_pickle=False)
+        ctx = int(data["ctx"]) if "ctx" in data else 64
+        d = int(data["d"]) if "d" in data else 32
+        model = cls(ctx=ctx, d=d)
+        model.E = data["E"]
+        model.W1 = data["W1"]
+        model.b1 = data["b1"]
+        model.W2 = data["W2"]
+        model.b2 = data["b2"]
+        model.mask = data.get("mask", np.zeros(256, dtype=np.float64))
+        return model
