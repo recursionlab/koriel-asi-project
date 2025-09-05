@@ -1,0 +1,533 @@
+https://chatgpt.com/s/dr_68bb671bb420819189f45fa4f387a24e
+
+Koriel ASI Project – Deep Dive Report
+Executive Summary
+CI Gaps and Improvements: The project’s continuous integration is minimal and currently flawed – it doesn’t install test or lint dependencies, and includes unused Node.js steps. We recommend streamlining the CI to install Python dev tools (pytest, Hypothesis, lint/type-checkers) and enable caching for faster runs
+GitHub
+github.blog
+.
+Reproducibility & Determinism: The code emphasizes deterministic behavior (e.g. seeding RNG) but lacks explicit checks. We propose adding a state hash and tests to ensure identical outputs given the same seed
+GitHub
+. This will guard against regressions in the “deterministic training” invariant and help detect unintended randomness.
+Invariants & Property-Based Testing: Key theoretical invariants (non-negative energy, monotonic “uncoherence” reduction, etc.) are documented
+GitHub
+but not systematically tested. Using property-based tests (Hypothesis) to generate scenarios can validate that each KorielOperator or runtime step respects these invariants. This approach has proven effective at uncovering edge-case bugs in complex systems
+tedinski.com
+.
+Dependency Updates: Core libraries have evolved. SymPy 1.14 (Apr 2025) introduced improvements in parsing and potential deprecations
+pypi.org
+, while NumPy 2.0 (mid-2024) is the first breaking release in years
+reddit.com
+. The project currently allows NumPy ≥1.26 (thus including 2.x)
+GitHub
+; we should verify compatibility or pin to 1.x until ready. Similarly, ensure compatibility with Pytest 8.x changes (the test suite should use asserts instead of sys.exit for better integration) and update dev requirements accordingly.
+Quality and Documentation: Adopting modern linters (e.g. Ruff for PEP8 enforcement) and type checking (mypy) will catch issues early. Ruff’s fast Rust-based linter has gained widespread adoption by 2025
+analyticsindiamag.com
+. We also suggest minor docs tweaks – e.g. instruct developers to install dev dependencies or use pip install .[dev] so that running pytest and pre-commit just works. This will align the setup with the Contributing guide expectations
+GitHub
+.
+Repository State Snapshot
+Project Scope & Structure: A research-oriented Python project exploring a “quantum reality field theory” approach to AI (Koriel ASI). Code is organized under src/ (e.g. src/qrft/ for core logic) with experimental scripts and notebooks in separate folders
+GitHub
+. Key components include a KorielOperator class defining an uncoherence metric U(s)
+GitHub
+ and a QRFTRuntime for simulating field evolution with invariants tracking
+GitHub
+.
+Invariants and Reproducibility: Design documents outline important invariants: deterministic outcomes given a seed, non-negative energy metrics, monotonic reduction of “uncoherence” per step, etc
+GitHub
+. The code partially implements these (e.g. seeding NumPy RNG
+GitHub
+, calculating energy E and uncoherence metrics in each step
+GitHub
+) but automated enforcement (tests or assertions) is limited.
+Test Suite: There is a mix of PyTest-style tests under tests/ and standalone test scripts. For example, tests/test_ab.py runs a training summary and checks that output metrics are numeric
+GitHub
+, and tests/test_certificates.py validates the presence certificate logic against expected outcomes
+GitHub
+. These tests rely on pytest (invoked via python -m pytest in scripts
+GitHub
+) but pytest isn’t listed in requirements, causing potential CI failures.
+Continuous Integration: A basic GitHub Actions workflow exists
+GitHub
+. It checks out the code, installs requirements.txt (only numpy, tqdm, pyyaml)
+GitHub
+, then attempts to run pytest
+GitHub
+ and even npm test
+GitHub
+. The NodeJS steps appear to be boilerplate – no package.json is present, so those steps do nothing except add needless overhead. The CI also doesn’t cache dependencies or run linters, and likely fails due to missing dev dependencies (pytest, etc.).
+Dependencies: The project’s runtime dependencies are minimal and unpinned (NumPy, PyYAML, tqdm)
+GitHub
+. A requirements-min.txt suggests targeting very recent versions (NumPy ≥1.26, Pandas ≥2.2, etc.)
+GitHub
+, and even a specific torch build for Windows
+GitHub
+. This forward-looking pinning implies the code expects modern library features, but also means it may pull in NumPy 2.x which introduced breaking changes. SymPy is used optionally (for the math engine) but not listed in requirements – if SymPy is absent, the code logs a warning and continues with limited math capability
+GitHub
+GitHub
+.
+Key Findings and Updates
+Out-of-date CI and Dev Setup: The CI pipeline is not running optimally. It doesn’t install test frameworks, so the pytest step likely errors out. Indeed, pytest isn’t included in requirements.txt (which is auto-generated from [project.dependencies] in pyproject
+GitHub
+). Developers are instructed to run tests, implying they must manually install pytest
+GitHub
+. This is an oversight in automation. Recommendation: include test and lint dependencies in a dev requirements file or optional dependency group, and update CI to install them. Additionally, remove or disable the Node.js steps since the project has no Node code – those steps currently just slow down CI or cause confusion. Removing them will simplify the workflow
+GitHub
+.
+Lack of Dependency Caching: The current workflow re-installs packages on every run. GitHub Actions now supports dependency caching for Python projects via a one-line option in actions/setup-python
+github.blog
+github.blog
+. By enabling cache: 'pip', we can significantly speed up CI, especially as the project grows. This is a low-risk, high-gain improvement to make the continuous integration more efficient.
+Potential NumPy 2.x Issues: The project allows NumPy 2.x (since it specifies numpy with no upper bound
+GitHub
+). NumPy 2.0 (released June 2024) was the first major-breaking release since 2006
+reddit.com
+, removing some deprecated APIs and altering behavior. For instance, the old np.matrix class is removed, and some linear algebra routines have changes. The code in qrft_core.py uses np.gradient, np.linalg.norm, etc., which remain in NumPy 2.x, so it may be fine. However, we should test with NumPy 2.x to confirm nothing breaks (e.g. data type changes, performance). If issues arise, pinning numpy<2.0 in requirements or adapting the code would be necessary.
+SymPy and CAS Module: SymPy 1.14 was released in April 2025
+pypi.org
+, with improvements in parsing and possibly new deprecations (SymPy’s changelog notes some parser changes and slower transformations by default
+docs.sympy.org
+docs.sympy.org
+). The qrft_math_engine.py uses sympy.parsing.parse_expr with a custom transformations tuple
+GitHub
+. No breaking changes in SymPy 1.14 affecting parse_expr have been reported, but performance might differ. Since SymPy is optional, the impact is low – but if advanced math is crucial, consider adding SymPy to the dev or optional requirements to ensure those code paths get exercised in tests.
+Property-Based Testing Opportunity: The system’s complex invariants and stochastic elements are prime candidates for property-based testing. Tools like Hypothesis can generate a wide range of inputs to verify properties. For example, we could generate random initial states for QRFTRuntime and assert that after each .step(), certain invariants hold (e.g. no “energy” metric goes negative, or a chosen uncoherence proxy does not increase). As an analogy, prior work using Hypothesis on imperative code found many bugs that unit tests missed
+tedinski.com
+tedinski.com
+. This project would benefit similarly: e.g., a Hypothesis test could vary the number of steps and assert that the KorielOperator.uncoherence_reduction is non-negative for each step (monotonic U(s) decrease) or that running the same step twice yields the same result (idempotence under identical state).
+Ruff Linting and Type Checking: The code follows PEP8 and includes type hints in many places. However, without automated linting or type-checking in CI, issues can slip through. The contributor guide mentions running py_compile and adhering to PEP8
+GitHub
+GitHub
+, but doesn’t specify a linter. Ruff – a fast Python linter – has become popular and could be easily added. Its speed and comprehensiveness (combining checks equivalent to flake8, isort, etc.) have made it “the fastest-growing Python linter” by 2025
+analyticsindiamag.com
+. We recommend adding Ruff to the dev toolchain and CI; similarly, running mypy can catch type annotation mismatches. Given the project’s algorithmic nature, maintaining type consistency will prevent subtle bugs. Both tools can be run in just a few seconds in CI.
+Reproducibility and Golden Tests: One stated invariant is “given the same seed and corpus the training pipeline produces identical metrics and logs”
+GitHub
+. Right now, this is taken on faith. We should encode it as a test: run a short training twice with the same seed and verify outputs match exactly. This would guard against accidental introduction of nondeterministic behavior (e.g. if someone uses an un-seeded random generator or a non-deterministic algorithm). Implementing a lightweight state hash or fingerprint for the model state or key metrics after a run can facilitate such comparisons. For instance, computing a hash of the final model weights or the metrics log and asserting hashes are equal between two runs. We propose adding a state_hash() method to the core runtime or model class for this purpose, making it easy to include in tests. This aligns with the auditability invariant as well (ensuring runs are comparable via logged artifacts
+GitHub
+).
+Patch Set
+Below are targeted patches addressing the findings. Each patch is self-contained, focusing on one aspect of improvement. You can apply these changes individually. (All citations refer to context from the repository or external references supporting the change.)
+1. Fix and Enhance CI Workflow
+This patch updates the GitHub Actions workflow to remove irrelevant Node.js steps, install development dependencies, and add caching and quality checks. It ensures pytest is installed and runs, and introduces linting/type-checking in CI.
+*** Begin Patch
+*** Update File: .github/workflows/ci.yml
+@@
+ jobs:
+   test:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
+-      - name: Set up Python
+-        uses: actions/setup-python@v4
+-        with:
+-          python-version: '3.x'
+-      - name: Set up Node
+-        uses: actions/setup-node@v3
+-        with:
+-          node-version: '20'
+-      - name: Install Python dependencies
+-        run: |
+-          python -m pip install --upgrade pip
+-          pip install -r requirements.txt
+-      - name: Install Node dependencies
+-        run: npm install
+-      - name: Run Python tests
+-        run: pytest
+-      - name: Run Node tests
+-        run: npm test
++      - uses: actions/checkout@v4
++      - name: Set up Python
++        uses: actions/setup-python@v4
++        with:
++          python-version: '3.11'  # Use a specific version to avoid surprises
++          cache: 'pip'            # Enable pip cache for faster installs:contentReference[oaicite:46]{index=46}
++      - name: Upgrade pip and install deps
++        run: |
++          python -m pip install --upgrade pip
++          pip install -r requirements.txt
++      - name: Install Dev Dependencies
++        run: python -m pip install pytest hypothesis mypy ruff
++      - name: Lint and Type-Check
++        run: |
++          ruff .  && echo "Ruff: lint clean"
++          mypy .  && echo "Mypy: type check passed"
++      - name: Run Test Suite
++        run: pytest -q
+*** End Patch
+Rationale: The Node setup and tests are removed because the project has no NodeJS component (no package.json or frontend code) – these steps were part of a template and are unnecessary
+GitHub
+. We add cache: 'pip' to reuse installed packages between runs, an officially supported method to speed up Python workflows
+github.blog
+github.blog
+. Next, we explicitly install pytest (and Hypothesis, mypy, ruff) to ensure the test suite and new quality checks can run. The lint/type-check step will enforce PEP8 and type safety; using Ruff is in line with modern Python practices and its performance means negligible CI time impact
+analyticsindiamag.com
+. We pin Python to 3.11 (which is stable) to avoid any sudden incompatibility if “3.x” floats to a new version (Python 3.13+); this can be adjusted as needed but explicit version gives deterministic CI. With this patch, CI will catch issues like syntax errors, style issues, or type errors early, and the test run will actually execute in the proper environment. These changes align with the repository’s stated goals (e.g. “run linting on every commit” from the README’s next steps
+GitHub
+).
+2. Add Deterministic Seed Test (Property-Based)
+This patch introduces a new test to verify the deterministic behavior of the training pipeline. It uses Hypothesis to vary seeds and ensures that running the training function twice with the same seed produces identical results (metrics and outcomes), satisfying the reproducibility invariant
+GitHub
+.
+*** Begin Patch
+*** Add File: tests/test_determinism.py
++import importlib
++import json
++from pathlib import Path
++from hypothesis import given, settings, strategies as st
++
++@settings(max_examples=5)  # limit examples for speed
++@given(st.integers(min_value=1, max_value=10000))
++def test_deterministic_training(seed):
++    """Property-based test: given a seed, training results should be deterministic."""
++    # Import train module fresh to reset any global state
++    train = importlib.import_module('src.train')
++    # Monkey-patch configuration to reduce runtime for test
++    cfg = train.load_cfg()
++    cfg["steps"] = 10        # only 10 steps for quick test
++    cfg["warmup"] = 2        # short warmup
++    train.load_cfg = lambda: cfg
++    # Run training twice with the same seed
++    metrics1, ups1 = train.run(seed=seed, rcce_on=True)
++    metrics2, ups2 = train.run(seed=seed, rcce_on=True)
++    # Serialize metrics for stable comparison (they may contain numpy types)
++    m1_json = json.dumps(metrics1, sort_keys=True, default=str)
++    m2_json = json.dumps(metrics2, sort_keys=True, default=str)
++    assert m1_json == m2_json, f"Metrics differ for seed {seed}: run1 vs run2"
++    assert ups1 == ups2, "UPS rates differ between runs"
+*** End Patch
+Rationale: This test uses the hypothesis library to pick random seeds and verifies that the training pipeline yields identical outcomes for a given seed. It directly targets invariant (1): “Deterministic training – given the same seed and corpus, the pipeline produces identical metrics and logs.”
+GitHub
+. We patch train.load_cfg() to keep the run short (10 steps) for test speed. The test then runs train.run() twice and compares the outputs. We convert the metrics dict to JSON for a deep comparison – if any numerical values diverge, the assertion will catch it. By running this for a few random seeds, we get confidence that determinism isn’t an accident of one particular seed. This property-based approach can catch subtle sources of nondeterminism (e.g. if a random number generator or timestamp slipped in). It complements traditional unit tests by covering many scenarios with minimal code
+tedinski.com
+tedinski.com
+. In practice, if this test fails, it signals a regression in reproducibility (which could be considered high priority to fix, given the project’s goals).
+3. Implement State Hash for Reproducibility Audits
+This patch adds a method to the QRFTRuntime class to compute a hash of its state. This can be used in tests or debugging to quickly compare states across runs, ensuring no hidden differences when seeds are the same.
+*** Begin Patch
+*** Update File: src/qrft/qrft_core.py
+@@ class QRFTRuntime:
+     def apply_entropy_governor(self, depth: int, beam_width: int, tool_rate: float) -> Tuple[int, int, float]:
+         """REF entropy governor: tune parameters to keep entropy in band"""
+         current_entropy = self._estimate_entropy()
+@@ def apply_entropy_governor(self, depth: int, beam_width: int, tool_rate: float) -> Tuple[int, int, float]:
+         return depth, beam_width, tool_rate
++
++    def state_hash(self) -> Optional[str]:
++        """Produce a short hash of the current state for reproducibility checks."""
++        if self.state is None:
++            return None
++        import hashlib
++        h = hashlib.sha256()
++        # Include state arrays and key scalars in the hash
++        h.update(self.state.S.tobytes())
++        h.update(self.state.Lambda.tobytes())
++        h.update(str(self.state.t).encode())
++        h.update(str(self.state.gamma).encode())
++        # Return first 16 hex digits for brevity
++        return h.hexdigest()[:16]
+*** End Patch
+Rationale: We introduce QRFTRuntime.state_hash() to create a fingerprint of the simulation state. It uses a SHA-256 hash of the core numeric arrays (S and Lambda) and a couple of scalar attributes (t time and gamma config) of the state. By truncating to 16 hex digits, we get a short ID that’s still very unlikely to collide for differing states. This method is useful for golden trace testing and debugging. For example, after a sequence of steps with a given seed, one can record the state_hash() and later ensure that refactoring or dependency upgrades haven’t changed the outcome (a change in hash would indicate a difference in state). This directly supports the auditability invariant – “every run writes metrics and logs for later inspection”
+GitHub
+ – by providing a concise way to compare end states or intermediate states in logs. It can be leveraged in tests (instead of or in addition to full JSON dumps) to assert state equality. The implementation is straightforward and low-overhead (the state arrays are typically not huge in this context, and hashing them is feasible). Importantly, this does not change any logic; it’s an additive, side-effect-free method, so it won’t affect existing functionality or performance except when explicitly called.
+4. Add Invariant-Driven Property Test (Energy & Uncoherence)
+Here we add another property-based test focusing on domain-specific invariants: that energy remains non-negative and the uncoherence metric doesn’t increase after an operator step. This exemplifies using Hypothesis to validate system properties.
+*** Begin Patch
+*** Add File: tests/test_invariants_prop.py
++import numpy as np
++from hypothesis import given, strategies as st
++from src.qrft.qrft_core import QRFTRuntime, QRFTConfig
++from src.qrft.qrft_core import QRFTState  # dataclass for state
++
++@given(
++    st.lists(st.floats(min_value=0, max_value=1), min_size=5, max_size=5),
++    st.lists(st.floats(min_value=0, max_value=1), min_size=5, max_size=5)
++)
++def test_energy_non_negative_and_uncoherence(monkeypatch, S_vals, L_vals):
++    """Property: energy is non-negative and U(s) does not increase after a step."""
++    # Prepare initial state arrays and config
++    S_arr = np.array(S_vals)
++    L_arr = np.array(L_vals)
++    rt = QRFTRuntime(QRFTConfig())
++    rt.initialize_state(S_arr, L_arr, t=0.0)
++    # Compute invariants and a proxy for U(s) before step
++    inv_before = rt._compute_invariants(rt.state)
++    U_before = inv_before.get('I_cross', 0)  # using one invariant as proxy for uncoherence
++    # Execute one evolution step
++    result = rt.step(dt=0.1)
++    inv_after = result['invariants']
++    # Invariant check 1: Energy (E) should be >= 0 if present in invariants
++    if 'E' in result:
++        assert result['E'] >= 0, "Energy went negative"
++    # Invariant check 2: Uncoherence (proxy U) should not increase
++    U_after = inv_after.get('I_cross', 0)
++    assert U_after <= U_before + 1e-6, "Uncoherence metric increased after step"
+*** End Patch
+Rationale: This test uses small random arrays for the initial S and Lambda fields of the QRFT state, then runs one simulation step. We check two things:
+Non-negative energy: If the step result includes an energy metric ('E' or similar – in context, perhaps E stands for some energy metric updated in the controller), it should never be negative. This aligns with invariant (2): “Non-negative energy – controller energy metrics are always ≥ 0”
+GitHub
+. The test asserts that condition.
+Monotonic uncoherence reduction: We use one of the invariants (I_cross in this case, which is part of the invariant dictionary
+GitHub
+) as a stand-in for “uncoherence.” The exact uncoherence U(s) isn’t directly exposed, but the spec suggests total uncoherence should not increase. Here we assert that after a step, our chosen proxy (I_cross, or we could use I_B or combination) has not increased. Invariant (3) says each KorielOperator.step must reduce or maintain U(s)
+GitHub
+. This test encodes that expectation (with a small epsilon for floating-point tolerance).
+Using Hypothesis (@given with lists of floats) covers a variety of initial states automatically. If any random initial state were to violate these properties, the test will find it, indicating a bug either in the logic or in our understanding of the invariants. For instance, if some combination led to negative energy, that would be flagged for investigation. This kind of test is powerful because it checks the implementation against the intended math theory continuously, not just for one hard-coded scenario
+tedinski.com
+. (Note: In practice, the definition of U(s) might be a combination of those invariants. If the code provided a direct “uncoherence” value, we’d use that. Here we picked I_cross just as an example proxy – this should be adjusted to whichever metric the team considers the “total uncoherence.” The concept, however, stands: the test ensures the system isn’t trending the wrong way on the chosen metric.)
+5. Update Documentation for Dev Setup
+Finally, we propose a documentation tweak to help new contributors install necessary tools. The Quickstart guide should mention dev dependencies or installing pytest. Here’s an example update to the Quickstart docs:
+*** Begin Patch
+*** Update File: docs/quickstart.md
+@@ ## 1. Install dependencies
+ ```bash
+ python3 -m venv .venv
+ source .venv/bin/activate    # `Scripts\\activate` on Windows
+-pip install -r requirements.txt
++pip install -r requirements.txt
++# (Optional) install development tools for testing and linting
++pip install pytest hypothesis mypy ruff
+@@ ## 4. Run tests
+python -m pytest
+-For Windows users, equivalent PowerShell scripts are in the scripts/ directory:
+-setup.ps1 and run_tests.ps1.
++For Windows users, equivalent PowerShell scripts are in the scripts/ directory (e.g. setup.ps1 and run_tests.ps1 for environment setup and running tests).
+
+```diff
+*** End Patch
+Rationale: This documentation change ensures that anyone following the Quickstart will have pytest (and other recommended dev tools) available. It addresses the gap where the guide told users to run pytest but never told them to install it
+GitHub
+. By explicitly adding a line to install dev dependencies, we prevent confusion and test failures for new users setting up the project. In the long term, we might introduce a [project.optional-dependencies] section in pyproject.toml (e.g. a “dev” extras group) so that pip install -e '.[dev]' installs these automatically. For now, a one-liner in the docs is a simple fix. This change also aligns with the Contributing guide’s mention of pre-commit (which the user would install similarly)
+GitHub
+ – it’s clear about installing needed tools. Keeping documentation up-to-date with the actual setup steps is key to lowering the onboarding barrier.
+Action Plan
+Now (Immediate) – Focus on CI stabilization and testing improvements:
+Fix CI by applying the workflow patch: remove unused steps, install dev requirements, add caching. This should make the existing tests pass consistently (currently, the CI likely fails to even run tests). Aim for a green CI on all current tests
+GitHub
+. Integrate linting gradually; fix any easy lint errors or use Ruff’s autofix to clean up trivial issues.
+Add critical tests for reproducibility and invariants. Merge the new property-based tests (deterministic seed test and an invariants test). These will initially act as canaries – if they fail, they reveal problems to address. Given their importance, it’s acceptable to mark them with @pytest.mark.xfail(strict=True) initially if there’s a known failing case, but the goal should be to have them passing and guarding regressions.
+Review dependency versions: Test the suite with the latest NumPy (1.26.x or 2.x) and PyYAML 6.x. If something breaks (e.g. a deprecation warning or a failing invariant), either implement a fix or pin the version to a known-good range to buy time
+blog.scientific-python.org
+. For example, if NumPy 2.0 causes issues in linear algebra, pin numpy<2.0 until compatibility is resolved. This ensures the main branch stays stable.
+Next (Short-Term) – Enhance robustness and documentation:
+Fuzz and Chaos Testing: Extend property-based tests to cover more of the system (e.g. varying lengths of training, injecting random interruptions). Introduce fuzz testing for text parsing or any NLP components if present – for example, feed random formulas to the SymPy parser to ensure the QRFTMathEngine handles them or fails gracefully without crashing. Tools like Hypothesis’s strategies or even coverage-guided fuzzers (e.g. Atheris for Python
+github.com
+) could be integrated for parts of the code that parse or evaluate dynamic input. Monitor these tests for any discovered issues (e.g. crashes, exceptions) and harden the code accordingly (perhaps add graceful error handling or input validation as needed).
+Static analysis & type checking: Now that mypy is in CI, work through any type errors it reports. Add type annotations where missing (especially in complex modules like koriel_operator.py). A consistent type system will prevent many logical errors. Similarly, address Ruff warnings: configure its rules in a pyproject.toml [tool.ruff] section if needed to tailor style preferences, and fix all lint violations (naming, unused imports, etc.) to keep the codebase clean
+GitHub
+. This initial cleanup might be a one-time effort, after which the automated checks will keep things in line.
+Improve documentation: Expand the Quickstart with an example of using the Koriel API (e.g. how to instantiate a KorielOperator and perform a step). Since the README outlines a plan for a “quickstart guide and module documentation”
+GitHub
+, fulfilling that will help new contributors and users. Also document the meaning of key invariants and metrics (perhaps in docs/ or docstrings) so that tests and usage are clearer. For example, explain what rc stands for, what “uncoherence” means quantitatively, etc., so that anyone writing tests (or reading test failures) can interpret them correctly.
+Later (Long-Term) – Future-proofing and advanced testing:
+Continuous fuzzing & property testing integration: Consider adding a nightly or pipeline job that runs expensive checks: e.g., a longer Hypothesis test with more iterations, or stress tests that run the simulation for many steps to look for cumulative drift. This can be integrated with a service or simply as a cron job on GitHub Actions. The goal is to catch complex, rare failures. As the codebase grows (especially if more AI components are added), invest in differential testing – for example, if there’s an alternative implementation or an earlier “phase” (like rcce-phase2 code), we could run both on the same input and assert the outcomes are equivalent, to ensure new versions don’t regress on old capabilities.
+Monitoring performance regressions: Add simple performance benchmarks (could be as part of tests or separate). For instance, measure how long 100 steps of QRFTRuntime take, or the throughput of the math_engine on a set of expressions. Track these over time (perhaps using GitHub Actions artifacts or a small badge) so that any drastic slowdowns from library upgrades (NumPy, SymPy, etc.) are noticed. Given the heavy numerical nature, catching performance issues is important. Tools like ASV (Air Speed Velocity) could be set up to automate this.
+Security and safety audits: Although not immediately pressing for an internal research repo, eventually consider using static analyzers or dependency vulnerability scanners (GitHub’s Dependabot alerts, etc.). PyYAML has historically had RCE issues when used unsafely
+blog.talosintelligence.com
+; we should continue using yaml.safe_load (as currently done
+GitHub
+) and stay updated on any new CVEs. Similarly, if the project ever exposes a CLI or server, incorporate fuzz testing for inputs (the Chaos Toolkit or Gremlin could be used for simulating failure scenarios in an AI system context
+github.com
+).
+Each of these future tasks will ensure the Koriel ASI project remains robust, reproducible, and ready for collaboration as it scales in complexity.
+Risks and Rollback
+Applying these patches and improvements carries minimal risk to functionality since most changes are in testing and CI or additive in nature. Nonetheless, a few considerations:
+CI changes: Removing Node steps and adding caching is low-risk, but there’s a chance the caching might mask issues if not handled properly (for example, if requirements change and the cache isn’t updated). To mitigate, we used the official setup-python cache mechanism
+github.blog
+, which automatically keys the cache to the hash of requirements.txt. If something goes wrong (e.g. pip cache corruption), one can simply clear caches via GitHub Actions settings or temporarily disable the cache line. Rolling back the CI changes is as simple as reverting the workflow file to the previous version – no impact on product code.
+Introducing new tests: There is a possibility that the property-based tests fail initially (indicating bugs or unmet invariants in the code). This isn’t a risk per se, but it might cause CI to go red until the underlying issue is fixed or the test adjusted. We should be prepared to either mark such tests as expected failures or devote effort to fixing the revealed problems. It’s important not to simply delete the test if it fails; instead, use it as a guide to improve the code. In the worst case, if a test is flaky or too strict, we can skip or loosen it and revisit the logic – but the preferred path is to refine the code to make the test pass reliably.
+State hash method: Adding QRFTRuntime.state_hash() should not affect any existing functionality, since it’s a new method. There’s a extremely low risk that computing the hash might be expensive for very large state arrays, but given typical sizes (and that it’s only called in tests or debugging), this is not a concern. If performance ever became an issue, one could stub out or optimize the hashing (e.g., only hash a sample of the array or use a faster algorithm). Rolling it back would simply mean removing the method; again, no side effects as long as it’s not used in core loops.
+Dependency/version adjustments: If we decide to pin NumPy <2.0 due to compatibility, there’s a slight risk of missing out on improvements or fixes in NumPy 2.x. This is a trade-off until the code can be certified on 2.x. We should monitor NumPy release notes for any security or critical fixes in 2.x that don’t backport to 1.26, and aim to lift the pin after ensuring compatibility. Similarly, introducing new dev dependencies like Hypothesis, Ruff, etc., could pose a maintenance overhead (keeping up with their updates), but these are community-standard tools with wide adoption, so the benefits outweigh the upkeep. If needed, any of those can be rolled back by removing their usage from CI and tests (though that would only be in extreme cases where, say, a tool misbehaves – unlikely given maturity).
+In summary, the proposed changes mostly improve engineering rigor and should not disrupt the intended behavior of the Koriel ASI system. We’ve put safeties in place (such as tolerances in tests, and isolating changes to non-production code) to ensure that we can confidently move forward. The project will gain in reliability, and any short-term hiccups (like a failing new test) will be indicators of areas to strengthen, aligning the implementation closer to its theoretical design.
+Citations
+GitHub
+ci.yml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/.github/workflows/ci.yml#L20-L28
+
+GitHub Actions: setup-python now supports dependency caching - GitHub Changelog
+
+https://github.blog/changelog/2021-11-23-github-actions-setup-python-now-supports-dependency-caching/
+GitHub
+invariants.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/spec/invariants.md#L6-L14
+
+Designing imperative code with properties in mind
+
+https://www.tedinski.com/2018/05/01/designing-imperative-code-with-properties-in-mind.html
+
+sympy - PyPI
+
+https://pypi.org/project/sympy/
+
+NumPy 2.0.0 is the first major release since 2006. - Python - Reddit
+
+https://www.reddit.com/r/Python/comments/1dhtifv/numpy_200_is_the_first_major_release_since_2006/
+GitHub
+requirements-min.txt
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/requirements-min.txt#L1-L6
+
+Ruff Emerges as the Fastest-Growing Python Linter Ever
+
+https://analyticsindiamag.com/ai-features/ruff-emerges-as-the-fastest-growing-python-linter-ever/
+GitHub
+CONTRIBUTING.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/CONTRIBUTING.md#L30-L38
+GitHub
+README.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/README.md#L18-L26
+GitHub
+koriel_operator.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/koriel_operator.py#L85-L94
+GitHub
+qrft_core.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/src/qrft/qrft_core.py#L251-L259
+GitHub
+train.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/src/train.py#L29-L37
+GitHub
+test_ab.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/tests/test_ab.py#L10-L18
+GitHub
+test_certificates.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/tests/test_certificates.py#L8-L16
+GitHub
+run_tests.sh
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/scripts/run_tests.sh#L4-L7
+GitHub
+ci.yml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/.github/workflows/ci.yml#L8-L16
+GitHub
+ci.yml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/.github/workflows/ci.yml#L20-L27
+GitHub
+ci.yml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/.github/workflows/ci.yml#L26-L28
+GitHub
+ci.yml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/.github/workflows/ci.yml#L26-L30
+GitHub
+pyproject.toml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/pyproject.toml#L8-L14
+GitHub
+requirements-min.txt
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/requirements-min.txt#L4-L7
+GitHub
+qrft_math_engine.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/src/qrft/qrft_math_engine.py#L16-L24
+GitHub
+qrft_math_engine.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/src/qrft/qrft_math_engine.py#L90-L98
+GitHub
+quickstart.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/docs/quickstart.md#L34-L41
+GitHub
+ci.yml
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/.github/workflows/ci.yml#L16-L24
+
+GitHub Actions: setup-python now supports dependency caching - GitHub Changelog
+
+https://github.blog/changelog/2021-11-23-github-actions-setup-python-now-supports-dependency-caching/
+
+GitHub Actions: setup-python now supports dependency caching - GitHub Changelog
+
+https://github.blog/changelog/2021-11-23-github-actions-setup-python-now-supports-dependency-caching/
+List of active deprecations - SymPy 1.14.0 documentation
+
+https://docs.sympy.org/latest/explanation/active-deprecations.html
+List of active deprecations - SymPy 1.14.0 documentation
+
+https://docs.sympy.org/latest/explanation/active-deprecations.html
+
+Designing imperative code with properties in mind
+
+https://www.tedinski.com/2018/05/01/designing-imperative-code-with-properties-in-mind.html
+GitHub
+CONTRIBUTING.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/CONTRIBUTING.md#L5-L13
+GitHub
+invariants.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/spec/invariants.md#L12-L17
+GitHub
+README.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/README.md#L36-L43
+GitHub
+invariants.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/spec/invariants.md#L6-L10
+GitHub
+invariants.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/spec/invariants.md#L8-L10
+GitHub
+invariants.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/spec/invariants.md#L10-L14
+GitHub
+CONTRIBUTING.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/CONTRIBUTING.md#L10-L18
+
+NumPy 2.0: an evolutionary milestone - Scientific Python Blog
+
+https://blog.scientific-python.org/numpy/numpy2/
+
+google/atheris - GitHub
+
+https://github.com/google/atheris
+GitHub
+CONTRIBUTING.md
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/CONTRIBUTING.md#L5-L8
+
+Vulnerability Spotlight: YAML Parsing Remote Code Execution ...
+
+https://blog.talosintelligence.com/vulnerability-spotlight-yaml-remote/
+GitHub
+train.py
+
+https://github.com/recursionlab/koriel-asi-project/blob/080b3894e695271e86a96248d6252bb822c0d29c/src/train.py#L16-L24
+
+Chaos Engineering Toolkit & Orchestration for Developers - GitHub
+
+https://github.com/chaostoolkit/chaostoolkit
+All Sources
+
+github
+
+github
+
+tedinski
+
+pypi
+
+reddit
+
+analyticsindiamag
+docs.sympy
+
+blog.sci...ic-python
