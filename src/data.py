@@ -45,7 +45,7 @@ def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = Non
     if not lines:
         root = os.environ.get("KORIEL_CORPUS_DIR", root)
         p = Path(root)
-        if p.exists() and p.is_dir():
+        if p.is_dir():
             for fp in sorted(p.rglob("*.txt")):
                 try:
                     lines.append(fp.read_bytes())
