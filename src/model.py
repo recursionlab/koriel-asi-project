@@ -69,10 +69,8 @@ class TinyByteLM:
         db1 = dh.sum(axis=0)  # [d]
         
         dE = np.zeros_like(self.E)
-        for b in range(B):
-            idxs = self._x_cache[b]
-            g = dh[b]/max(1, len(idxs))  # [d]
-            dE[idxs] += g
+        seq_len = max(1, self._x_cache.shape[1])
+        np.add.at(dE, self._x_cache, dh[:, None, :] / seq_len)
             
         self.W2 -= lr * dW2; self.b2 -= lr * db2
         self.W1 -= lr * dW1; self.b1 -= lr * db1
