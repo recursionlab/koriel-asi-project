@@ -20,7 +20,7 @@ def run(seed=1337, rcce_on=True, out_prefix="ON", lambda_plus=True,
     sc = ShadowCodex(logs_dir/f"shadow_codex_{out_prefix}_{seed}.jsonl")
     with open("config/ethics_policy.json","r",encoding="utf-8") as f:
         policy=json.load(f)
-    data = load_corpus(corpus_dir or "conversations-pocket", dataset=dataset)
+    data = load_corpus("conversations-pocket" if corpus_dir is None else corpus_dir, dataset=dataset)
     ctx = cfg["context_len"]; batch = cfg["batch_size"]; steps = cfg["steps"]; warm = cfg["warmup"]
     model = TinyByteLM(ctx=ctx, d=cfg["hidden_dim"], seed=seed)
     ctrl = Controller(cfg, policy, d=cfg["hidden_dim"])
