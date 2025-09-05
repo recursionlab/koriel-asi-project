@@ -1,6 +1,9 @@
-# tests/test_dec.py
-import sys, numpy as np
-from src.dec import d_0_to_1, d_1_to_2, d2_norm, torsion_curvature
+"""Integration tests for the differential forms helpers."""
+
+import sys
+import numpy as np
+from src.dec import d2_norm, torsion_curvature
+
 def test_dec_identities():
     f0 = np.linspace(0,1,33)
     if not (d2_norm(f0) < 1e-8):
