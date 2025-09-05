@@ -5,4 +5,3 @@ matplotlib>=3.8
 rich>=13.7
 torch==2.3.1+cpu ; sys_platform == 'win32'
 --extra-index-url https://download.pytorch.org/whl/cpu
-datasets
