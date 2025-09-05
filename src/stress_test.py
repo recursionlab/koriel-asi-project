@@ -3,9 +3,9 @@ import numpy as np
 import time
 import json
 from pathlib import Path
-from data import load_corpus, make_stream, bigram_features
-from model import TinyByteLM
-from dec import d2_norm, torsion_norm, curvature_comm_norm
+from .data import load_corpus, make_stream, bigram_features
+from .model import TinyByteLM
+from .dec import d2_norm, torsion_norm, curvature_comm_norm
 
 class AdaptiveStressTester:
     def __init__(self, base_config):
