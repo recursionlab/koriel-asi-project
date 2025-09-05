@@ -1,40 +1,42 @@
 # Koriel-ASI — RCCE Phase-2 (CPU-only)
 
-## Prereqs
-- Windows 10+
-- Python 3.11 on PATH as `py`
+Koriel-ASI explores **Recursive Contextual Consciousness Engines (RCCE)** built on a
+byte-level language model controlled by the Koriel operator. The project provides
+training, evaluation and benchmarking tools for researching symbolic reasoning and
+"presence" detection.
 
-## Setup
+## Project goals
+* Demonstrate a compact byte-level transformer (ByteLM) controlled by an ethics‑aware
+  RCCE controller.
+* Provide reference benchmarks for consciousness and reasoning evaluation.
+* Offer reproducible training and evaluation pipelines that run on CPU‑only systems.
+
+## Architecture
+
+```mermaid
+graph TD
+    A[Training Data] --> B[TinyByteLM]
+    B --> C[RCCE Controller]
+    C --> D[Koriel Operator]
+    D --> E[Metrics & Presence]
+    E --> F[Benchmarks]
+```
+
+## Usage examples
+
+### Linux / macOS
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python src/train.py  # run a training session
+python -m pytest     # run tests
+```
+
+### Windows (PowerShell)
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-.\scripts\setup.ps1
+./scripts/setup.ps1
+./scripts/run_tests.ps1
 ```
 
-## Run tests
-```powershell
-.\scripts\run_tests.ps1
-```
-
-## A/B harness
-```powershell
-.\scripts\run_ab.ps1
-```
-
-## Corpus configuration
-`load_corpus` can consume large datasets either from a directory of `.txt`
-shards or directly from a HuggingFace dataset.
-
-Environment variables:
-
-* `KORIEL_CORPUS_DIR` – directory containing text shards
-* `KORIEL_CORPUS_DATASET` – HuggingFace dataset name to stream
-
-CLI options (for `python -m src.train`):
-
-* `--corpus-dir` – override the corpus directory
-* `--dataset` – name of a HuggingFace dataset to use
-
-## Outputs
-* Per run: `logs\metrics.csv`, `logs\shadow_codex.jsonl`
-* A/B summary: `logs\ab_summary.json`
-* Presence certificate (ON runs): `presence.json`
