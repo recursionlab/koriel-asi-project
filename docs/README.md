@@ -44,6 +44,11 @@ Welcome to the Koriel ASI Project documentation. This directory contains compreh
 2. Explore [operators.md](operators.md) for implementation details
 3. Check [research-papers.md](research-papers.md) for bibliography
 
+### Manifesto & Synthesis
+- **[Whitepaper]**(whitepaper/koriel-asi-synthesis.md) — consolidated Koriel ASI synthesis (new)
+- **Contracts**: `docs/contracts/` contains adjunction, sheaf-descent verifier, and SRT proof-carrying update docs.
+- **DSL & Monitoring**: `docs/dsl/` and `docs/monitoring/` contain the HOAS planner core and transitional-topology alarms respectively.
+
 ## Project Status
 
 **Current Phase**: Node B refactor complete
