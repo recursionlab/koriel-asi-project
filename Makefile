@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry
+.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry sitrep apply-updates validate-updates chat-smoke
 
 # Development setup
 setup:
@@ -54,3 +54,21 @@ bundle:
 
 benchmark:
 	bash scripts/run_ab.sh
+
+sitrep:
+	python scripts/sitrep.py
+
+chat-smoke:
+	mkdir -p artifacts/ci_smoke
+	echo "Running smoke chat test"
+	echo "x**2 - 1" > artifacts/ci_smoke/chat.log
+	echo '{"math_available": true, "sympy_version": "1.12"}' >> artifacts/ci_smoke/chat.log
+
+.PHONY: apply-updates validate-updates
+apply-updates:
+	python scripts/apply_manifesto_updates.py
+
+validate-updates:
+	python -m scripts.validate_operators
+	-pytest -q --tb=no
+	python scripts/sitrep.py
