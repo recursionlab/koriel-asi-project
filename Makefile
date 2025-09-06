@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops tidy-root tidy-assert
+.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops tidy-root tidy-assert lint fmt pre-commit
 
 bundle:
 	python scripts/bundle.py
@@ -47,3 +47,13 @@ tidy-root:
 # Assert root cleanliness (non-zero if messy)
 tidy-assert:
 	python3 scripts/inventory_root.py --assert-clean
+
+lint:
+	pre-commit run flake8 --all-files || true
+
+fmt:
+	pre-commit run black --all-files || true
+	pre-commit run isort --all-files || true
+
+pre-commit:
+	pre-commit run --all-files || true
