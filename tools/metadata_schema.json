@@ -13,7 +13,9 @@
     "python_version",
     "environment",
     "parameters",
-    "schema_version"
+    "schema_version",
+    "state_hash",
+    "env_fingerprint"
   ],
   "properties": {
     "experiment_id": {
@@ -101,6 +103,26 @@
       "type": "string",
       "description": "Version of this metadata schema",
       "pattern": "^\\d+\\.\\d+$"
+    },
+    "state_hash": {
+      "type": "string",
+      "description": "SHA256 hash of experiment state for determinism validation",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "env_fingerprint": {
+      "type": "object",
+      "description": "Environment fingerprint for reproducibility",
+      "required": ["python_version", "platform", "numpy_version"],
+      "properties": {
+        "python_version": {"type": "string"},
+        "platform": {"type": "string"}, 
+        "numpy_version": {"type": "string"},
+        "pythonhashseed": {"type": "string"},
+        "omp_num_threads": {"type": "string"},
+        "openblas_num_threads": {"type": "string"},
+        "mkl_num_threads": {"type": "string"},
+        "numexpr_num_threads": {"type": "string"}
+      }
     }
   },
   "additionalProperties": false

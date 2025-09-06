@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry
+.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry doctor fix
 
 # Development setup
 setup:
@@ -18,6 +18,22 @@ lint:
 
 format:
 	ruff format src/ tests/
+
+# Developer speed targets
+doctor:
+	@echo "🔍 Environment Check"
+	@python --version
+	@echo "NumPy: $$(python -c 'import numpy; print(numpy.__version__)')"
+	@echo "Environment variables:"
+	@echo "  PYTHONHASHSEED: $${PYTHONHASHSEED:-not_set}"
+	@echo "  OMP_NUM_THREADS: $${OMP_NUM_THREADS:-not_set}"
+	@python -c "from src.determinism import assert_deterministic_environment; assert_deterministic_environment(); print('✓ Deterministic environment OK')" || echo "✗ Deterministic environment not configured"
+	@python metrics_server.py --test || echo "✗ Metrics validation failed"
+
+fix:
+	ruff format src/ tests/
+	ruff check src/ tests/ --fix
+	@echo "✓ Code formatting and linting fixes applied"
 
 # Testing
 test:

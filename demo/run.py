@@ -108,6 +108,13 @@ def run_basic_demo(seed: int, output_dir: Path):
 
 def generate_metadata(task: str, seed: int, output_dir: Path, git_sha: str):
     """Generate metadata.json artifact"""
+    # Import determinism utilities
+    sys.path.append(str(Path(__file__).parent.parent / "src"))
+    from determinism import get_env_fingerprint, compute_state_hash
+    
+    # Generate environment fingerprint
+    env_fingerprint = get_env_fingerprint()
+    
     metadata = {
         "experiment_id": f"{task}_{seed}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
         "task": task,
@@ -128,8 +135,13 @@ def generate_metadata(task: str, seed: int, output_dir: Path, git_sha: str):
             "value_dim": 16,
             "topic_bins": 4
         },
-        "schema_version": "1.0"
+        "schema_version": "2.0",
+        "env_fingerprint": env_fingerprint
     }
+    
+    # Compute state hash of the metadata (excluding state_hash itself)
+    state_hash = compute_state_hash(metadata)
+    metadata["state_hash"] = state_hash
     
     metadata_file = output_dir / "metadata.json"
     with open(metadata_file, 'w') as f:

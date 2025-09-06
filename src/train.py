@@ -8,6 +8,7 @@ import yaml
 from .model import TinyByteLM
 from .controller import Controller
 from .data import load_corpus, make_stream
+from .determinism import validate_rng_policy, create_seeded_rng, compute_state_hash
 
 
 def load_cfg(path: str = "config/rcce.yaml") -> Dict[str, Any]:
@@ -29,7 +30,13 @@ def run(*,
     """
     cfg = load_cfg()
     cfg["seed_base"] = int(seed)
-    np.random.seed(seed)
+    
+    # Validate RNG policy compliance
+    validate_rng_policy()
+    
+    # Use policy-compliant RNG
+    rng = create_seeded_rng(seed)
+    np.random.seed(seed)  # Keep for backward compatibility
 
     Path("logs").mkdir(exist_ok=True)
 
@@ -75,7 +82,17 @@ def run(*,
         last_tokens = y[-ctx:]
 
     ups_rate = ups_count / max(1, len(metrics["ups"]))
-    (Path("logs")/f"{out_prefix}_summary.json").write_text(json.dumps({"ups_rate": ups_rate}, indent=2))
+    
+    # Add state hash for determinism tracking
+    state_data = {
+        "seed": seed,
+        "final_metrics": {k: v[-1] if v else 0 for k, v in metrics.items()},
+        "ups_rate": ups_rate,
+        "rcce_on": rcce_on
+    }
+    metrics["state_hash"] = compute_state_hash(state_data)
+    
+    (Path("logs")/f"{out_prefix}_summary.json").write_text(json.dumps({"ups_rate": ups_rate, "state_hash": metrics["state_hash"]}, indent=2))
 
     if return_model:
         return metrics, ups_rate, model

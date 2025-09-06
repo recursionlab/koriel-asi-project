@@ -21,6 +21,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
+    - name: Set deterministic environment
+      run: |
+        echo "PYTHONHASHSEED=0" >> $GITHUB_ENV
+        echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
+        echo "OPENBLAS_NUM_THREADS=1" >> $GITHUB_ENV
+        echo "MKL_NUM_THREADS=1" >> $GITHUB_ENV
+        echo "NUMEXPR_NUM_THREADS=1" >> $GITHUB_ENV
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -35,6 +43,15 @@ jobs:
     - name: Run fast tests
       run: |
         pytest tests/ -v --tb=short -x -m "not slow" --maxfail=5
+    
+    - name: Validate determinism compliance
+      run: |
+        python -c "from src.determinism import assert_deterministic_environment; assert_deterministic_environment()"
+        python -c "from src.determinism import validate_rng_policy; validate_rng_policy()"
+    
+    - name: Validate metrics endpoint
+      run: |
+        python metrics_server.py --test
     
     - name: Test CLI functionality
       run: |
@@ -53,6 +70,14 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "3.12"
+    
+    - name: Set deterministic environment
+      run: |
+        echo "PYTHONHASHSEED=0" >> $GITHUB_ENV
+        echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
+        echo "OPENBLAS_NUM_THREADS=1" >> $GITHUB_ENV
+        echo "MKL_NUM_THREADS=1" >> $GITHUB_ENV
+        echo "NUMEXPR_NUM_THREADS=1" >> $GITHUB_ENV
     
     - name: Install dependencies
       run: |
