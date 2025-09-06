@@ -1,11 +1,11 @@
 {
-  "items_tested": 50,
+  "items_tested": 10,
   "has_sympy": true,
   "has_numpy": true,
   "benchmarks": {
-    "simple_compute": 8.344650268554688e-05,
-    "sympy_expand": 0.027160167694091797,
-    "numpy_ops": 0.009308815002441406
+    "simple_compute": 1.3589859008789062e-05,
+    "sympy_expand": 0.026814699172973633,
+    "numpy_ops": 0.008881568908691406
   },
-  "throughput_items_per_s": 50000.0
+  "throughput_items_per_s": 10000.0
 }

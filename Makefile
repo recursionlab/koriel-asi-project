@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry
+.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry doctor seed-grid-smoke operator-gate perf-canary apply-updates automation-smoke
 
 # Development setup
 setup:
