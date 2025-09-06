@@ -13,7 +13,7 @@ import json
 import os
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, UTC
 from pathlib import Path
 
 
@@ -102,7 +102,7 @@ def main() -> int:
     if not isinstance(pr_data, list):
         pr_data = []
 
-    ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ")
+    ts = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%SZ")
     lines = []
     lines.append(f"# Git/PR Sitrep\n")
     lines.append(f"Generated: {ts} (UTC)\n")
