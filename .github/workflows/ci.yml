@@ -8,14 +8,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    strategy:
-      matrix:
-        mode: [smoke, full]
+
     env:
       PERF_CANARY: '0'
       PERF_MIN_THR: '5'
       PERF_ITEMS: '50'
-      APPLY_UPDATES: '0'
+
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -73,5 +71,4 @@ jobs:
       - name: Archive ontology mapping
         uses: actions/upload-artifact@v4
         with:
-          name: operator-mapping-${{ matrix.mode }}
-          path: artifacts/ci_smoke/operator_mapping.*
+

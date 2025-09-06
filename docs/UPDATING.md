@@ -14,5 +14,3 @@ Place pending materials under `manifesto/updates/` with one of:
 Commands:
 ```bash
 make apply-updates         # apply + quick checks
-make validate-updates      # operators + tests + sitrep
-```

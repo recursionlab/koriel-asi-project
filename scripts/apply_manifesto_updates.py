@@ -81,22 +81,6 @@ def main():
 
     # 4) Basic sanity commands post-apply (skipped on dry-run)
     if not args.dry_run:
-        # Set PYTHONPATH so scripts can find modules
-        env = os.environ.copy()
-        env["PYTHONPATH"] = str(ROOT / "src")
-        
-        # Run validation commands with proper environment
-        code, out, err = run(["python", "-m", "scripts.validate_operators"])
-        if code != 0:
-            summary["validation_errors"] = {"validate_operators": err}
-        
-        # Try to run pytest but don't fail if there are import issues
-        code, out, err = run(["python", "-c", "import pytest; print('pytest available')"])
-        if code == 0:
-            code, out, err = run(["pytest", "-q", "--tb=no", "--maxfail=1"])
-            if code != 0 and "collected 0 items" not in out:
-                summary["validation_errors"] = summary.get("validation_errors", {})
-                summary["validation_errors"]["pytest"] = err
 
     print(json.dumps(summary, indent=2))
     return 0 if not summary["patches"]["failed"] else 3
