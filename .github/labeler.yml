@@ -1,0 +1,14 @@
+tools:
+  - "tools/**"
+
+logic:
+  - "tools/logic/**"
+  - "tools/sheaf/**"
+
+ontology:
+  - "docs/ontology/**"
+  - "policy/**"
+
+theorems:
+  - "tools/theorems/**"
+  - "tests/test_*"
