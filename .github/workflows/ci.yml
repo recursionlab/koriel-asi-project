@@ -15,7 +15,7 @@ jobs:
       PERF_CANARY: '0'
       PERF_MIN_THR: '5'
       PERF_ITEMS: '50'
-      APPLY_UPDATES: '0'   # set to '1' to auto-apply manifesto/updates in smoke job
+      APPLY_UPDATES: '0'
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -33,7 +33,7 @@ jobs:
           pip install pytest
       - name: Install Node dependencies
         run: npm install
-      - name: Smoke: chat + assertions
+      - name: Smoke chat and assertions
         if: matrix.mode == 'smoke'
         run: |
           make chat-smoke
@@ -41,7 +41,7 @@ jobs:
           grep -q 'x\*\*2 - 1' artifacts/ci_smoke/chat.log
           grep -q '"math_available":' artifacts/ci_smoke/chat.log
           grep -q '"sympy_version":' artifacts/ci_smoke/chat.log
-      - name: Apply manifesto updates (optional)
+      - name: Apply manifesto updates optional
         if: matrix.mode == 'smoke' && env.APPLY_UPDATES == '1'
         run: |
           python scripts/apply_manifesto_updates.py
