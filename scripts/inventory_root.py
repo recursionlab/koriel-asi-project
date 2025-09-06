@@ -18,6 +18,7 @@ ALLOWED_DIRS = {
     "prompts", "benchmarks", "demo", "spec", "conversations-pocket",
     "artifacts", "checkpoints", "logs", "rcce-minimal", "rcce-phase2",
     "node_modules",
+    "validations",
 }
 
 ALLOWED_FILES = {
