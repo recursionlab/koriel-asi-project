@@ -70,8 +70,7 @@ class TinyByteLM:
         
         dE = np.zeros_like(self.E)
         seq_len = max(1, self._x_cache.shape[1])
-        g = dh / seq_len  # [B, d]
-        np.add.at(dE, self._x_cache, g[:, None, :])
+
             
         self.W2 -= lr * dW2; self.b2 -= lr * db2
         self.W1 -= lr * dW1; self.b1 -= lr * db1
