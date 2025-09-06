@@ -17,6 +17,7 @@ ALLOWED_DIRS = {
     "experiments", "research", "tools", "ops", "config",
     "prompts", "benchmarks", "demo", "spec", "conversations-pocket",
     "artifacts", "checkpoints", "logs", "rcce-minimal", "rcce-phase2",
+    "node_modules",
 }
 
 ALLOWED_FILES = {
@@ -24,6 +25,9 @@ ALLOWED_FILES = {
     "requirements.txt", "requirements-min.txt", "package.json", ".gitignore",
     ".pre-commit-config.yaml", "QRFT_README.md",
 }
+
+EPHEMERAL_DIRS = {"__pycache__", ".pytest_cache"}
+SENSITIVE_MODULES = {"consciousness_interface.py", "koriel_operator.py"}
 
 
 def git_mv(src: Path, dst: Path) -> bool:
@@ -38,6 +42,9 @@ def git_mv(src: Path, dst: Path) -> bool:
 def suggest_destination(p: Path) -> Optional[Path]:
     name = p.name
     lower = name.lower()
+    # Skip sensitive modules and quantum_* for manual refactor later
+    if name in SENSITIVE_MODULES or lower.startswith("quantum_"):
+        return None
     # Windows batch files
     if name.endswith('.bat'):
         return ROOT / "scripts" / "windows" / name
@@ -77,7 +84,7 @@ def main() -> int:
         if e.name.startswith('.') and e.name not in {'.github', '.vscode', '.claude'}:
             continue
         if e.is_dir():
-            if e.name in ALLOWED_DIRS:
+            if e.name in ALLOWED_DIRS or e.name in EPHEMERAL_DIRS:
                 continue
             # Unrecognized dir: suggest moving under docs/ or experiments/ depending on name
             target_base = ROOT / ("experiments" if any(k in e.name.lower() for k in ("data", "results", "exp")) else "docs")
