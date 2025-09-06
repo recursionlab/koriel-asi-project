@@ -10,13 +10,14 @@ Safety:
 - Skips default branch (main) and protected prefix patterns.
 - Skips branches that correspond to OPEN or DRAFT PRs.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import subprocess
 import sys
-from typing import Iterable, Set
+from typing import Set
 
 
 def run(cmd: list[str]) -> subprocess.CompletedProcess:
@@ -44,21 +45,50 @@ def get_remote_branches() -> Set[str]:
             continue
         # lines like: origin/feature/x
         if line.startswith("origin/"):
-            names.add(line[len("origin/"):])
+            names.add(line[len("origin/") :])
     return names
 
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--execute", action="store_true", help="Actually delete branches on origin")
-    ap.add_argument("--protect-prefix", action="append", default=["main", "release/", "ops/sync-"], help="Protected branch prefixes (won't delete)")
+    ap.add_argument(
+        "--execute", action="store_true", help="Actually delete branches on origin"
+    )
+    ap.add_argument(
+        "--protect-prefix",
+        action="append",
+        default=["main", "release/", "ops/sync-"],
+        help="Protected branch prefixes (won't delete)",
+    )
     args = ap.parse_args(argv)
 
     remote_branches = get_remote_branches()
 
     # Collect merged PR head branches
-    merged = gh_json(["pr", "list", "--state", "merged", "--limit", "200", "--json", "number,headRefName,baseRefName,updatedAt"])
-    open_prs = gh_json(["pr", "list", "--state", "open", "--limit", "200", "--json", "number,headRefName"])
+    merged = gh_json(
+        [
+            "pr",
+            "list",
+            "--state",
+            "merged",
+            "--limit",
+            "200",
+            "--json",
+            "number,headRefName,baseRefName,updatedAt",
+        ]
+    )
+    open_prs = gh_json(
+        [
+            "pr",
+            "list",
+            "--state",
+            "open",
+            "--limit",
+            "200",
+            "--json",
+            "number,headRefName",
+        ]
+    )
 
     open_heads = {pr.get("headRefName") for pr in open_prs if isinstance(pr, dict)}
     merged_heads = {pr.get("headRefName") for pr in merged if isinstance(pr, dict)}

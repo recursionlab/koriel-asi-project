@@ -1,4 +1,6 @@
-import json, pathlib
+import json
+import pathlib
+
 pathlib.Path("ops").mkdir(exist_ok=True)
 b = {
     "context_file": "docs/CONTEXT.md",

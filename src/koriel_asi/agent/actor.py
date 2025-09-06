@@ -1,12 +1,17 @@
 from __future__ import annotations
-from typing import Dict, Any, List, Protocol
+
+from typing import Any, Dict, List, Protocol
+
 from .types import Plan
+
 
 class Tool(Protocol):
     def run(self, **kwargs: Any) -> Dict[str, Any]: ...
 
+
 class Actor:
     """Executes plan steps via provided tools dict."""
+
     def __init__(self, tools: Dict[str, Tool]) -> None:
         self.tools = tools
 

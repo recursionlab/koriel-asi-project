@@ -3,11 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Iterable
 
 
 def run(cmd: list[str]) -> subprocess.CompletedProcess:
@@ -35,9 +33,22 @@ def ensure_dir(p: Path) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
 
 
-def report_for_pr(pr_num: int, update_clean: bool, base: str = "origin/main") -> list[str]:
+def report_for_pr(
+    pr_num: int, update_clean: bool, base: str = "origin/main"
+) -> list[str]:
     lines: list[str] = []
-    meta = gh_json(["pr", "view", str(pr_num), "--json", "headRefName,title,state,mergeStateStatus"]) or {}
+    meta = (
+        gh_json(
+            [
+                "pr",
+                "view",
+                str(pr_num),
+                "--json",
+                "headRefName,title,state,mergeStateStatus",
+            ]
+        )
+        or {}
+    )
     head = (meta or {}).get("headRefName") or ""
     title = (meta or {}).get("title") or ""
     state = (meta or {}).get("state") or ""
@@ -71,7 +82,9 @@ def report_for_pr(pr_num: int, update_clean: bool, base: str = "origin/main") ->
             lines.append("- Conflicts:")
             lines += [f"  - {name}" for name in sorted(set(u))]
         else:
-            lines.append("- Merge failed; conflicts likely, but no U files listed (manual rebase may be required).")
+            lines.append(
+                "- Merge failed; conflicts likely, but no U files listed (manual rebase may be required)."
+            )
         run(["git", "merge", "--abort"])  # cleanup
         run(["git", "checkout", "-q", "-"])
         run(["git", "branch", "-D", temp])
@@ -95,15 +108,37 @@ def report_for_pr(pr_num: int, update_clean: bool, base: str = "origin/main") ->
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("prs", nargs="*", type=int, help="PR numbers to evaluate")
-    ap.add_argument("--update-clean", action="store_true", help="Push a merge of main into PR branches that merge cleanly")
+    ap.add_argument(
+        "--update-clean",
+        action="store_true",
+        help="Push a merge of main into PR branches that merge cleanly",
+    )
     ap.add_argument("--output", default="artifacts/ci_smoke/merge_conflicts.md")
     args = ap.parse_args(argv)
 
     # If none provided, default to open DIRTY PRs
     prs: list[int] = args.prs
     if not prs:
-        data = gh_json(["pr", "list", "--state", "open", "--limit", "200", "--json", "number,mergeStateStatus"]) or []
-        prs = [d.get("number") for d in data if isinstance(d, dict) and d.get("mergeStateStatus") == "DIRTY"]
+        data = (
+            gh_json(
+                [
+                    "pr",
+                    "list",
+                    "--state",
+                    "open",
+                    "--limit",
+                    "200",
+                    "--json",
+                    "number,mergeStateStatus",
+                ]
+            )
+            or []
+        )
+        prs = [
+            d.get("number")
+            for d in data
+            if isinstance(d, dict) and d.get("mergeStateStatus") == "DIRTY"
+        ]
 
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)

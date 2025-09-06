@@ -1,9 +1,15 @@
 from __future__ import annotations
-import subprocess, tempfile, textwrap, os
-from typing import Dict, Any
+
+import os
+import subprocess
+import tempfile
+import textwrap
+from typing import Any, Dict
+
 
 class PythonExec:
     """Offline Python executor."""
+
     def __init__(self, timeout_sec: int = 2) -> None:
         self.timeout_sec = timeout_sec
 
@@ -26,5 +32,7 @@ class PythonExec:
                 "returncode": proc.returncode,
             }
         finally:
-            try: os.remove(path)
-            except OSError: pass
+            try:
+                os.remove(path)
+            except OSError:
+                pass

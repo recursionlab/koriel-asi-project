@@ -4,8 +4,6 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
-from dataclasses import dataclass
-from typing import List
 
 
 def run(cmd: list[str]) -> subprocess.CompletedProcess:
@@ -41,22 +39,37 @@ def label_and_comment(pr: dict, trigger_sitrep: bool = False) -> None:
         # perm-probe detection: head starts with probe/ or title contains perm-probe
         if head.startswith("probe/") or "perm-probe" in title.lower():
             gh_ok(["pr", "edit", str(num), "--add-label", "perm-probe"])
-            gh_ok(["pr", "edit", str(num), "--add-label", "automerge"])  # merge on green
+            gh_ok(
+                ["pr", "edit", str(num), "--add-label", "automerge"]
+            )  # merge on green
     # Post guidance comment
-    gh_ok([
-        "pr",
-        "comment",
-        str(num),
-        "--body",
-        "Commands: /sitrep, /label <name>, /automerge, /adopt",
-    ])
+    gh_ok(
+        [
+            "pr",
+            "comment",
+            str(num),
+            "--body",
+            "Commands: /sitrep, /label <name>, /automerge, /adopt",
+        ]
+    )
     # Optionally trigger sitrep
     if trigger_sitrep:
         gh_ok(["pr", "comment", str(num), "--body", "/sitrep"])  # kicks workflow
 
 
 def main(argv: list[str]) -> int:
-    prs = gh_json(["pr", "list", "--state", "open", "--limit", "50", "--json", "number,headRefName,state,mergeStateStatus,title,author"])
+    prs = gh_json(
+        [
+            "pr",
+            "list",
+            "--state",
+            "open",
+            "--limit",
+            "50",
+            "--json",
+            "number,headRefName,state,mergeStateStatus,title,author",
+        ]
+    )
     if not isinstance(prs, list):
         print("No PR data or gh not authenticated")
         return 1

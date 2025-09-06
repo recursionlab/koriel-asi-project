@@ -1,8 +1,11 @@
 from __future__ import annotations
-from typing import Dict, Any, Iterable
+
+from typing import Any, Dict, Iterable
+
 
 class WebReader:
     """Stub. Disabled unless allowlist + fetcher added."""
+
     def __init__(self, allowlist: Iterable[str]) -> None:
         self.allowlist = set(allowlist)
 

@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 """Minimal demo to exercise koriel package imports and a short run."""
-from koriel import (
-    QuantumConsciousnessField,
-    run_consciousness_experiment,  # available but not invoked in this quick demo
-    ConsciousnessInterface,  # heavy init; not invoked here
-    KorielOperator,
-    GoalManifold,
-    KorielState,
-)
+
+from koriel import QuantumConsciousnessField
 
 
 def main() -> None:

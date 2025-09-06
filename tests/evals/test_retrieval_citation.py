@@ -1,8 +1,10 @@
-from pathlib import Path
 import sys
+from pathlib import Path
+
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 from koriel_asi.tools.retrieval import Retrieval  # noqa: E402
+
 
 def test_retrieval_returns_snippet_and_citation(tmp_path):
     doc = tmp_path / "demo.md"

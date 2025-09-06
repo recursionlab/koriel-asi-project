@@ -2,29 +2,54 @@
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import subprocess
 from pathlib import Path
 from typing import Optional
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 ALLOWED_DIRS = {
-    ".git", ".github", ".vscode", ".claude",
-    "src", "tests", "docs", "scripts", "examples",
-    "experiments", "research", "tools", "ops", "config",
-    "prompts", "benchmarks", "demo", "spec", "conversations-pocket",
-    "artifacts", "checkpoints", "logs", "rcce-minimal", "rcce-phase2",
+    ".git",
+    ".github",
+    ".vscode",
+    ".claude",
+    "src",
+    "tests",
+    "docs",
+    "scripts",
+    "examples",
+    "experiments",
+    "research",
+    "tools",
+    "ops",
+    "config",
+    "prompts",
+    "benchmarks",
+    "demo",
+    "spec",
+    "conversations-pocket",
+    "artifacts",
+    "checkpoints",
+    "logs",
+    "rcce-minimal",
+    "rcce-phase2",
     "node_modules",
     "validations",
 }
 
 ALLOWED_FILES = {
-    "README.md", "LICENSE", "Makefile", "pyproject.toml", "setup.py",
-    "requirements.txt", "requirements-min.txt", "package.json", ".gitignore",
-    ".pre-commit-config.yaml", "QRFT_README.md",
+    "README.md",
+    "LICENSE",
+    "Makefile",
+    "pyproject.toml",
+    "setup.py",
+    "requirements.txt",
+    "requirements-min.txt",
+    "package.json",
+    ".gitignore",
+    ".pre-commit-config.yaml",
+    "QRFT_README.md",
 }
 
 EPHEMERAL_DIRS = {"__pycache__", ".pytest_cache"}
@@ -33,7 +58,9 @@ SENSITIVE_MODULES = {"consciousness_interface.py", "koriel_operator.py"}
 
 def git_mv(src: Path, dst: Path) -> bool:
     dst.parent.mkdir(parents=True, exist_ok=True)
-    res = subprocess.run(["git", "mv", str(src), str(dst)], capture_output=True, text=True)
+    res = subprocess.run(
+        ["git", "mv", str(src), str(dst)], capture_output=True, text=True
+    )
     if res.returncode != 0:
         print(f"git mv failed for {src} -> {dst}: {res.stderr.strip()}")
         return False
@@ -47,18 +74,18 @@ def suggest_destination(p: Path) -> Optional[Path]:
     if name in SENSITIVE_MODULES or lower.startswith("quantum_"):
         return None
     # Windows batch files
-    if name.endswith('.bat'):
+    if name.endswith(".bat"):
         return ROOT / "scripts" / "windows" / name
     # JSON reports
-    if lower.endswith('.json'):
+    if lower.endswith(".json"):
         if any(k in lower for k in ("report", "validation", "tinylm", "validator")):
             return ROOT / "artifacts" / name
         return ROOT / "experiments" / "results" / name
     # Markdown docs
-    if lower.endswith('.md'):
+    if lower.endswith(".md"):
         return ROOT / "docs" / name
     # Python tests or stress/validation scripts
-    if lower.endswith('.py'):
+    if lower.endswith(".py"):
         if re.search(r"(^test_|_test(s)?\.py$|tests?\b|stress|validation)", lower):
             return ROOT / "tests" / name
         if lower.startswith("run_") or lower.endswith("_demo.py") or "demo" in lower:
@@ -69,27 +96,37 @@ def suggest_destination(p: Path) -> Optional[Path]:
         # default for .py scripts
         return ROOT / "scripts" / name
     # Fallback for misc text
-    if lower.endswith(('.txt', '.csv')):
+    if lower.endswith((".txt", ".csv")):
         return ROOT / "docs" / name
     return None
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Inventory root and propose tidy moves")
-    ap.add_argument("--apply", action="store_true", help="Apply proposed moves using git mv")
-    ap.add_argument("--assert-clean", action="store_true", help="Exit non-zero if any proposals exist (for CI)")
+    ap.add_argument(
+        "--apply", action="store_true", help="Apply proposed moves using git mv"
+    )
+    ap.add_argument(
+        "--assert-clean",
+        action="store_true",
+        help="Exit non-zero if any proposals exist (for CI)",
+    )
     args = ap.parse_args()
 
     root_entries = sorted([e for e in ROOT.iterdir()])
     proposals: list[tuple[Path, Path]] = []
     for e in root_entries:
-        if e.name.startswith('.') and e.name not in {'.github', '.vscode', '.claude'}:
+        if e.name.startswith(".") and e.name not in {".github", ".vscode", ".claude"}:
             continue
         if e.is_dir():
             if e.name in ALLOWED_DIRS or e.name in EPHEMERAL_DIRS:
                 continue
             # Unrecognized dir: suggest moving under docs/ or experiments/ depending on name
-            target_base = ROOT / ("experiments" if any(k in e.name.lower() for k in ("data", "results", "exp")) else "docs")
+            target_base = ROOT / (
+                "experiments"
+                if any(k in e.name.lower() for k in ("data", "results", "exp"))
+                else "docs"
+            )
             proposals.append((e, target_base / e.name))
             continue
         if e.name in ALLOWED_FILES:

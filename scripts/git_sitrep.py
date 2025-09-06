@@ -7,13 +7,13 @@ Writes artifacts/ci_smoke/git_sitrep.md with:
 - Remote branches
 - PRs (open + merged) with state, head->base, draft, merge state
 """
+
 from __future__ import annotations
 
 import json
-import os
 import subprocess
 import sys
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -75,7 +75,9 @@ def main() -> int:
 
     # Local branches with upstream and ahead/behind
     local_branches = []
-    for line in git("for-each-ref", "--format=%(refname:short)\t%(upstream:short)", "refs/heads").splitlines():
+    for line in git(
+        "for-each-ref", "--format=%(refname:short)\t%(upstream:short)", "refs/heads"
+    ).splitlines():
         if not line.strip():
             continue
         name, *rest = line.split("\t")
@@ -84,7 +86,9 @@ def main() -> int:
         local_branches.append({"name": name, "upstream": upstream, "ahead_behind": ab})
 
     # Remote branches
-    remote_branches = [rb.strip() for rb in git("branch", "-r").splitlines() if rb.strip()]
+    remote_branches = [
+        rb.strip() for rb in git("branch", "-r").splitlines() if rb.strip()
+    ]
 
     # PRs via gh (open + closed)
     pr_fields = [
@@ -98,20 +102,33 @@ def main() -> int:
         "updatedAt",
         "url",
     ]
-    pr_data = gh_json(["pr", "list", "--state", "all", "--limit", "200", "--json", ",".join(pr_fields)])
+    pr_data = gh_json(
+        [
+            "pr",
+            "list",
+            "--state",
+            "all",
+            "--limit",
+            "200",
+            "--json",
+            ",".join(pr_fields),
+        ]
+    )
     if not isinstance(pr_data, list):
         pr_data = []
 
     ts = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%SZ")
     lines = []
-    lines.append(f"# Git/PR Sitrep\n")
+    lines.append("# Git/PR Sitrep\n")
     lines.append(f"Generated: {ts} (UTC)\n")
     lines.append(f"Repo: {cwd.name}\n")
     lines.append(f"Remote: {remote_url}\n")
     lines.append(f"Current branch: {current_branch} ({head})\n")
 
     lines.append("\n## Local branches\n")
-    for b in sorted(local_branches, key=lambda x: (x["name"] != current_branch, x["name"])):
+    for b in sorted(
+        local_branches, key=lambda x: (x["name"] != current_branch, x["name"])
+    ):
         ab = b["ahead_behind"]
         ab_str = ""
         if ab is not None:
@@ -131,7 +148,11 @@ def main() -> int:
     else:
         # Sort: open first, then by updated desc
         def pr_sort_key(pr: dict) -> tuple:
-            state_rank = 0 if pr.get("state") == "OPEN" else (1 if pr.get("state") == "MERGED" else 2)
+            state_rank = (
+                0
+                if pr.get("state") == "OPEN"
+                else (1 if pr.get("state") == "MERGED" else 2)
+            )
             return (state_rank, pr.get("updatedAt", ""))
 
         for pr in sorted(pr_data, key=pr_sort_key):
@@ -143,7 +164,9 @@ def main() -> int:
             merge_state = pr.get("mergeStateStatus")
             title = pr.get("title")
             url = pr.get("url")
-            lines.append(f"- #{number} [{state}{' DRAFT' if draft else ''}] {head_ref} -> {base_ref} :: {merge_state} :: {title} :: {url}")
+            lines.append(
+                f"- #{number} [{state}{' DRAFT' if draft else ''}] {head_ref} -> {base_ref} :: {merge_state} :: {title} :: {url}"
+            )
 
     out_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Wrote {out_file}")

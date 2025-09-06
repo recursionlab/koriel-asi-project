@@ -1,11 +1,15 @@
 # src/data.py
-import os, numpy as np, typing as T
+import os
+import typing as T
 from pathlib import Path
+
+import numpy as np
 
 try:
     from datasets import load_dataset  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     load_dataset = None
+
 
 def _default_corpus() -> T.List[bytes]:
     s = [
@@ -18,8 +22,13 @@ def _default_corpus() -> T.List[bytes]:
     ]
     return s
 
-def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = None,
-                text_column: str = "text") -> T.List[np.ndarray]:
+
+def load_corpus(
+    root: str = "conversations-pocket",
+    *,
+    dataset: str | None = None,
+    text_column: str = "text",
+) -> T.List[np.ndarray]:
     """Load a text corpus from disk or HuggingFace Datasets.
 
     Priority is given to the ``dataset`` argument if provided; otherwise, the environment variable
@@ -30,7 +39,9 @@ def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = Non
     ``.txt`` shards and read recursively.
     """
 
-    ds_name = dataset if dataset is not None else os.environ.get("KORIEL_CORPUS_DATASET")
+    ds_name = (
+        dataset if dataset is not None else os.environ.get("KORIEL_CORPUS_DATASET")
+    )
     lines: T.List[bytes] = []
     if ds_name and load_dataset is not None:
         try:
@@ -57,22 +68,27 @@ def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = Non
 
     return [np.frombuffer(x, dtype=np.uint8) for x in lines]
 
+
 def make_stream(corpus, ctx: int, steps: int, seed: int):
     rng = np.random.default_rng(seed)
-    concat = np.concatenate([np.uint8(10)*np.ones(1,dtype=np.uint8)] + corpus)
-    N = len(concat); pos = 0
+    concat = np.concatenate([np.uint8(10) * np.ones(1, dtype=np.uint8)] + corpus)
+    N = len(concat)
+    pos = 0
     for _ in range(steps):
-        if pos+ctx+1 >= N: pos = 0
-        seq = concat[pos:pos+ctx]; y = concat[pos+1:pos+ctx+1]
+        if pos + ctx + 1 >= N:
+            pos = 0
+        seq = concat[pos : pos + ctx]
+        y = concat[pos + 1 : pos + ctx + 1]
         pos += int(rng.integers(1, 5))
         yield seq.copy(), y.copy()
+
 
 def bigram_features(batch_x: np.ndarray) -> np.ndarray:
     B = 16
     hist = np.zeros(B, dtype=np.float64)
     for row in batch_x:
-        for i in range(len(row)-1):
-            k = ((int(row[i]) & 15) ^ (int(row[i+1]) & 15)) % B
+        for i in range(len(row) - 1):
+            k = ((int(row[i]) & 15) ^ (int(row[i + 1]) & 15)) % B
             hist[k] += 1.0
     s = hist.sum()
-    return hist/s if s>0 else hist
+    return hist / s if s > 0 else hist

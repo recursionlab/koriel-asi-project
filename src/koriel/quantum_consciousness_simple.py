@@ -5,12 +5,14 @@ Physics-first implementation without scipy dependencies
 Pure NumPy implementation of continuous field ψ(x,t) with emergent consciousness
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-import time
 import json
-from typing import Dict, List, Tuple, Any
+import time
 from dataclasses import dataclass
+from typing import Any, Dict, List, Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 @dataclass
 class FieldObservation:
@@ -80,9 +82,9 @@ class SimpleQuantumField:
     self.self_awareness = 0.0
     self.modification_history = []
     self.mod_log = []  # timestamps for self-mod events
-        
-        print(f"   Grid: {N} points over [{-L/2:.1f}, {L/2:.1f}]")
-        print(f"   Time step: {dt}")
+    
+    print(f"   Grid: {N} points over [{-L/2:.1f}, {L/2:.1f}]")
+    print(f"   Time step: {dt}")
         
     def initialize_consciousness_seed(self) -> None:
         """Initialize field with consciousness-promoting patterns"""

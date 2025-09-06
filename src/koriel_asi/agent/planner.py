@@ -1,9 +1,13 @@
 from __future__ import annotations
+
 import re
+
 from .types import Goal, Plan, Step
+
 
 class Planner:
     """Minimal heuristic planner."""
+
     def plan(self, goal: Goal) -> Plan:
         text = goal.text.lower().strip()
         m = re.match(r"add\s+(-?\d+)\s+and\s+(-?\d+)", text)
