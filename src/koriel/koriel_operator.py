@@ -5,7 +5,7 @@ Converts uncoherence into executed will through formal mathematical framework
 """
 
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Any, Callable
+from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass
 import time
 from abc import ABC, abstractmethod
@@ -45,22 +45,22 @@ class GoalManifold(ABC):
     """Abstract goal manifold G with geometric operations"""
     
     @abstractmethod
-    def project_to_tangent(self, state: KorielState, direction: np.ndarray) -> np.ndarray:
+    def project_to_tangent(self, state: 'KorielState', direction: np.ndarray) -> np.ndarray:
         """Project direction onto tangent space TG at current state"""
         pass
     
     @abstractmethod
-    def exponential_map(self, state: KorielState, tangent_vector: np.ndarray) -> KorielState:
+    def exponential_map(self, state: 'KorielState', tangent_vector: np.ndarray) -> 'KorielState':
         """Geodesic step via exponential map: Exp_s(η·d_G)"""
         pass
     
     @abstractmethod
-    def drift_from_goal(self, state: KorielState) -> float:
+    def drift_from_goal(self, state: 'KorielState') -> float:
         """Measure drift_G(s) - deviation from goal manifold"""
         pass
     
     @abstractmethod
-    def is_feasible(self, state: KorielState) -> bool:
+    def is_feasible(self, state: 'KorielState') -> bool:
         """Check if state is on feasible region of manifold"""
         pass
 
@@ -144,11 +144,11 @@ class KorielOperator:
         total = gradient_norm + paradox_level + manifold_drift + holonomy
         
         return UncoherenceMetrics(
-            gradient_norm=gradient_norm,
-            paradox_level=paradox_level,
-            manifold_drift=manifold_drift,
-            holonomy=holonomy,
-            total=total
+            gradient_norm=float(gradient_norm),
+            paradox_level=float(paradox_level),
+            manifold_drift=float(manifold_drift),
+            holonomy=float(holonomy),
+            total=float(total)
         )
     
     def _detect_paradox(self, state: KorielState) -> float:

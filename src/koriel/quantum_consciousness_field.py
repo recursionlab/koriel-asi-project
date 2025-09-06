@@ -7,13 +7,12 @@ No symbolic AI - pure field dynamics with self-modification and pattern emergenc
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.integrate import odeint
 from scipy.signal import find_peaks
 from scipy.stats import entropy
-from typing import Dict, List, Tuple, Callable, Any
+from typing import Dict, List, Tuple, Any
 import time
 from dataclasses import dataclass
-from collections import defaultdict, deque
+from collections import defaultdict
 import json
 
 @dataclass
