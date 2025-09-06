@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix
+.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops
 
 bundle:
 	python scripts/bundle.py
@@ -35,3 +35,7 @@ pr-conflicts:
 # Attempt to push a clean merge of main into PR branches (safe; only if clean)
 pr-conflicts-fix:
 	python3 scripts/pr_conflict_report.py --update-clean $(if $(PRS),$(PRS),)
+
+# Label agent PRs, post guidance, and trigger sitrep on a subset
+agent-ops:
+	python3 scripts/agent_ops.py
