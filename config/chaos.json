@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "perturbation_rate": 0.1,
+  "noise_amplitude": 0.05,
+  "drop_rate": 0.02
+}
