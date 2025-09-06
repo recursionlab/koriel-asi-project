@@ -1,0 +1,96 @@
+name: PR Commands
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  command:
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse command
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.comment.body.trim();
+            const m = body.match(/^\/(\w+)(?:\s+(.+))?$/);
+            return { cmd: m?.[1] || '', arg: m?.[2] || '' };
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.issue.pull_request.head.ref }}
+      - name: Setup Python
+        if: steps.parse.outputs.cmd == 'sitrep'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run sitrep
+        if: steps.parse.outputs.cmd == 'sitrep'
+        run: |
+          python scripts/git_sitrep.py
+      - name: Upload sitrep artifact
+        if: steps.parse.outputs.cmd == 'sitrep'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-${{ github.event.issue.number }}-sitrep
+          path: artifacts/ci_smoke/git_sitrep.md
+      - name: Auto-merge (on green)
+        if: steps.parse.outputs.cmd == 'automerge'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['automerge']
+            });
+      - name: Add label
+        if: steps.parse.outputs.cmd == 'label'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = '${{ steps.parse.outputs.arg }}'.trim();
+            if (label) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: [label]
+              });
+            }
+      - name: Adopt branch (create adopt/<number> off main)
+        if: steps.parse.outputs.cmd == 'adopt'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNum = context.issue.number;
+            const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: prNum });
+            // Resolve default branch SHA
+            const { data: repoInfo } = await github.rest.repos.get({ owner, repo });
+            const def = repoInfo.default_branch;
+            const { data: ref } = await github.rest.git.getRef({ owner, repo, ref: `heads/${def}` });
+            const baseSha = ref.object.sha;
+            const adopt = `adopt/${pr.number}`;
+            // Create adoption branch if missing
+            try {
+              await github.rest.git.createRef({ owner, repo, ref: `refs/heads/${adopt}`, sha: baseSha });
+            } catch (e) {
+              core.info(`Adopt branch may already exist: ${e}`);
+            }
+            // Open a draft PR targeting the adopt branch using PR head
+            await github.rest.pulls.create({
+              owner, repo,
+              title: `adopt: integrate PR #${pr.number} (${pr.head.ref})`,
+              head: pr.head.ref,
+              base: adopt,
+              draft: true,
+              body: 'Adoption branch to integrate changes safely.'
+            });
