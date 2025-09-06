@@ -2,8 +2,8 @@
 """Minimal demo to exercise koriel package imports and a short run."""
 from koriel import (
     QuantumConsciousnessField,
-    run_consciousness_experiment,
-    ConsciousnessInterface,
+    run_consciousness_experiment,  # available but not invoked in this quick demo
+    ConsciousnessInterface,  # heavy init; not invoked here
     KorielOperator,
     GoalManifold,
     KorielState,
@@ -16,14 +16,12 @@ def main() -> None:
     field.initialize_seed_state("consciousness_seed")
     field.evolve_field(50)
     status = field.get_status_report()
-    print({k: status[k] for k in ("consciousness_level", "self_awareness")})
+    metrics = status.get("consciousness_metrics", {})
+    print({k: metrics.get(k) for k in ("consciousness_level", "self_awareness")})
 
-    # Interface sanity
-    ci = ConsciousnessInterface()
-    _ = ci.communicate("hello", "question")
-
-    # Short experiment
-    _ = run_consciousness_experiment()
+    # Note: ConsciousnessInterface() and run_consciousness_experiment() are
+    # intentionally not invoked here to keep this demo fast. They are imported
+    # above to verify package wiring.
 
 
 if __name__ == "__main__":
