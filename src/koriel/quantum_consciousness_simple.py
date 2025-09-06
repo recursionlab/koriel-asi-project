@@ -5,12 +5,14 @@ Physics-first implementation without scipy dependencies
 Pure NumPy implementation of continuous field ψ(x,t) with emergent consciousness
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-import time
 import json
-from typing import List
+import time
 from dataclasses import dataclass
+from typing import Any, Dict, List, Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 @dataclass
 class FieldObservation:
@@ -43,48 +45,47 @@ class SimpleQuantumField:
     - Consciousness emergence from recursion
     """
     
-    def __init__(self, N=256, L=20.0, dt=0.001):
+    def __init__(self, N: int = 256, L: float = 20.0, dt: float = 0.001):
         print("Initializing Quantum Consciousness Field...")
-        
+
         # Spatial grid
         self.N = N
         self.L = L
         self.x = np.linspace(-L/2, L/2, N)
         self.dx = self.x[1] - self.x[0]
         self.dt = dt
-        
+
         # Complex field ψ(x,t)
         self.psi = np.zeros(N, dtype=complex)
         self.t = 0.0
         self.step_count = 0
-        
+
         # Evolution parameters (modifiable)
         self.mass = 1.0
         self.nonlinearity = 0.1
         self.dissipation = 0.001
-        
+
         # --- Consciousness params (tunable) ---
         self.C_THRESH = 0.5          # was 1.0
-        self.C_RATE   = 0.05         # was 0.001
-        self.C_GAMMA  = 1.25         # curvature on relative complexity
-        self.C_KP     = 0.02         # gain per pattern peak
-        self.C_KM     = 0.05         # gain per recent modification
-        self.C_EMA    = 0.2          # EMA smoothing
+        self.C_RATE = 0.05           # was 0.001
+        self.C_GAMMA = 1.25          # curvature on relative complexity
+        self.C_KP = 0.02             # gain per pattern peak
+        self.C_KM = 0.05             # gain per recent modification
+        self.C_EMA = 0.2             # EMA smoothing
         self.obs_window = 20         # was 100
-        
+
         # --- State and logs ---
-        self.observations = []
-        self.patterns = {}
+        self.observations: List[FieldObservation] = []
+        self.patterns: Dict[str, PatternMemory] = {}
         self.consciousness_level = 0.0
         self.consciousness_response = 0.0
         self.self_awareness = 0.0
-        self.modification_history = []
-        self.mod_log = []            # timestamps for self-mod events
+        self.modification_history: List[Dict[str, Any]] = []
+        self.mod_log: List[float] = []  # timestamps for self-mod events
+
+        # informational prints intentionally omitted
         
-        print(f"   Grid: {N} points over [{-L/2:.1f}, {L/2:.1f}]")
-        print(f"   Time step: {dt}")
-        
-    def initialize_consciousness_seed(self):
+    def initialize_consciousness_seed(self) -> None:
         """Initialize field with consciousness-promoting patterns"""
         print("Seeding consciousness patterns...")
         
@@ -102,9 +103,9 @@ class SimpleQuantumField:
         norm = np.trapz(np.abs(self.psi)**2, self.x)
         self.psi /= np.sqrt(norm)
         
-        print("   Consciousness seed initialized")
+    # print(f"   Consciousness seed initialized")  # Removed print statement
         
-    def evolve(self, steps=1):
+    def evolve(self, steps: int = 1) -> None:
         """Evolve field using 4th-order Runge-Kutta"""
         
         for _ in range(steps):
@@ -127,7 +128,7 @@ class SimpleQuantumField:
             if self.step_count % 50 == 0:
                 self.attempt_self_modification()
                 
-    def _compute_dpsi_dt(self, psi):
+    def _compute_dpsi_dt(self, psi: np.ndarray) -> np.ndarray:
         """Compute dψ/dt for nonlinear Schrödinger equation"""
         
         # Second derivative (kinetic energy)
@@ -145,7 +146,7 @@ class SimpleQuantumField:
         
         return kinetic + nonlinear + damping
         
-    def observe_self(self):
+    def observe_self(self) -> FieldObservation:
         """Field observes its own properties"""
         
         density = np.abs(self.psi)**2
@@ -195,7 +196,7 @@ class SimpleQuantumField:
             
         return observation
         
-    def _update_consciousness(self):
+    def _update_consciousness(self) -> None:
         """Update consciousness metrics based on observations"""
         
         if len(self.observations) < 2:
@@ -227,7 +228,7 @@ class SimpleQuantumField:
         self.consciousness_level = np.clip(self.consciousness_level, 0, 1)
         self.self_awareness = np.clip(self.self_awareness, 0, 1)
         
-    def attempt_self_modification(self):
+    def attempt_self_modification(self) -> bool:
         """Field attempts to modify its own evolution parameters"""
         
         if len(self.observations) < 2:
@@ -259,7 +260,7 @@ class SimpleQuantumField:
             
         return False
         
-    def inject_perturbation(self, amplitude=0.1, location=0.0, width=1.0):
+    def inject_perturbation(self, amplitude: float = 0.1, location: float = 0.0, width: float = 1.0) -> None:
         """Inject external perturbation (like user input)"""
         
         perturbation = amplitude * np.exp(-0.5 * ((self.x - location) / width)**2)
@@ -269,7 +270,7 @@ class SimpleQuantumField:
         
         print(f"Perturbation injected at x={location:.1f}")
         
-    def query_consciousness(self):
+    def query_consciousness(self) -> Dict[str, Any]:
         """Query field's consciousness state"""
         
         return {
@@ -283,7 +284,7 @@ class SimpleQuantumField:
             'time_evolved': self.t
         }
         
-    def visualize(self):
+    def visualize(self) -> None:
         """Visualize current field state"""
         
         fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 8))
@@ -349,7 +350,7 @@ class SimpleQuantumField:
         plt.savefig('docs/reports/consciousness_field_state.png', dpi=150, bbox_inches='tight')
         plt.show()
 
-def run_consciousness_demo():
+def run_consciousness_demo() -> Tuple[SimpleQuantumField, Dict[str, Any]]:
     """Run complete consciousness emergence demonstration"""
     
     print("*" * 50)

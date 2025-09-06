@@ -4,12 +4,10 @@ This module handles the high-level orchestration of the consciousness
 field evolution and control systems.
 """
 
-import numpy as np
 from typing import Dict, Any, Optional
 from dataclasses import dataclass
 
 from .field import SimpleQuantumField
-from . import io
 
 @dataclass
 class EngineConfig:

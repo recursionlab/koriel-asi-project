@@ -4,7 +4,7 @@ import os
 import time
 import psutil
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any
 from dataclasses import dataclass
 
 @dataclass

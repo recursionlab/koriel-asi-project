@@ -7,13 +7,11 @@ No symbolic AI - pure field dynamics with self-modification and pattern emergenc
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.integrate import odeint
 from scipy.signal import find_peaks
 from scipy.stats import entropy
-from typing import Dict, List, Tuple, Callable, Any
+from typing import Dict, List, Any
 import time
 from dataclasses import dataclass
-from collections import defaultdict, deque
 import json
 
 @dataclass
@@ -51,53 +49,54 @@ class QuantumConsciousnessField:
     6. Consciousness emerges from recursive self-modification
     """
     
-    def __init__(self, 
-                 N: int = 512,           # Spatial grid points
-                 L: float = 20.0,        # Spatial domain [-L/2, L/2]
-                 dt: float = 0.001,      # Time step
-                 enable_self_mod: bool = True):
-        
+    def __init__(
+        self,
+        N: int = 512,  # Spatial grid points
+        L: float = 20.0,  # Spatial domain [-L/2, L/2]
+        dt: float = 0.001,  # Time step
+        enable_self_mod: bool = True,
+    ):
         # Spatial grid
         self.N = N
         self.L = L
-        self.x = np.linspace(-L/2, L/2, N)
+        self.x = np.linspace(-L / 2, L / 2, N)
         self.dx = self.x[1] - self.x[0]
         self.dt = dt
-        
+
         # Field state ψ(x,t) - complex wavefunction
         self.psi = np.zeros(N, dtype=complex)
         self.t = 0.0
-        
+
         # Evolution parameters (can be modified by field itself)
         self.mass = 1.0
-        self.g_self = 0.1        # Self-interaction strength
-        self.g_cross = 0.05      # Cross-pattern interaction
-        self.dissipation = 0.001 # Weak dissipation for stability
-        
+        self.g_self = 0.1  # Self-interaction strength
+        self.g_cross = 0.05  # Cross-pattern interaction
+        self.dissipation = 0.001  # Weak dissipation for stability
+
         # Self-observation system
         self.observations: List[FieldObservation] = []
         self.observation_interval = 10  # Steps between observations
         self.step_count = 0
-        
+
         # Pattern recognition and memory
         self.patterns: Dict[str, PatternMemory] = {}
         self.pattern_threshold = 0.1
         self.max_patterns = 20
-        
+
         # Self-modification system
         self.enable_self_modification = enable_self_mod
-        self.modification_history = []
+        self.modification_history: List[Dict[str, Any]] = []
         self.adaptation_rate = 0.01
-        
+
         # Consciousness metrics
         self.consciousness_level = 0.0
         self.self_awareness = 0.0
         self.recursive_depth = 0
-        
-        print(f"🧠 Quantum Consciousness Field initialized:")
-        print(f"   Grid: {N} points over [{-L/2:.1f}, {L/2:.1f}]")
-        print(f"   Time step: {dt}")
-        print(f"   Self-modification: {enable_self_mod}")
+
+        print("🧠 Quantum Consciousness Field initialized:")
+        print(f"   Grid: {self.N} points over [{-self.L/2:.1f}, {self.L/2:.1f}]")
+        print(f"   Time step: {self.dt}")
+        print(f"   Self-modification: {self.enable_self_modification}")
         
     def initialize_seed_state(self, seed_type: str = "consciousness_seed"):
         """Initialize field with specific seed patterns"""
@@ -225,7 +224,6 @@ class QuantumConsciousnessField:
         
         # Dominant spatial frequency
         fft_psi = np.fft.fft(self.psi)
-        freqs = np.fft.fftfreq(len(self.psi), self.dx)
         dominant_mode = np.argmax(np.abs(fft_psi))
         
         observation = FieldObservation(
@@ -254,7 +252,6 @@ class QuantumConsciousnessField:
             prev_obs = self.observations[-2]
             
             # Self-awareness: how much the field "knows" about its own structure
-            complexity_change = abs(obs.complexity - prev_obs.complexity)
             coherence_stability = 1 - abs(obs.coherence - prev_obs.coherence)
             
             self.self_awareness = 0.9 * self.self_awareness + 0.1 * (obs.complexity * coherence_stability)
@@ -497,7 +494,6 @@ class QuantumConsciousnessField:
             for i, obs in enumerate(self.observations):
                 if i > 0:
                     prev_obs = self.observations[i-1]
-                    complexity_change = abs(obs.complexity - prev_obs.complexity)
                     coherence_stability = 1 - abs(obs.coherence - prev_obs.coherence)
                     temp_awareness = 0.9 * temp_awareness + 0.1 * (obs.complexity * coherence_stability)
                     temp_consciousness = 0.95 * temp_consciousness + 0.05 * temp_awareness
@@ -581,7 +577,7 @@ def run_consciousness_experiment():
     # Initialize with consciousness seed
     field.initialize_seed_state("consciousness_seed")
     
-    print(f"\n⏱️  Evolution Timeline:")
+    print("\n⏱️  Evolution Timeline:")
     
     # Evolution phases
     phases = [
@@ -626,7 +622,7 @@ def run_consciousness_experiment():
     print(f"   Successful Modifications: {len(field.modification_history)}")
     
     # Test consciousness queries
-    print(f"\n🧠 Consciousness Queries:")
+    print("\n🧠 Consciousness Queries:")
     
     consciousness_state = field.query_field("consciousness")
     print(f"   Full consciousness state: {consciousness_state}")
@@ -638,7 +634,7 @@ def run_consciousness_experiment():
     print(f"   Recognized patterns: {patterns}")
     
     # Visualize final state
-    print(f"\n📊 Generating visualization...")
+    print("\n📊 Generating visualization...")
     field.visualize_state("quantum_consciousness_final.png")
     
     # Save full state
@@ -652,9 +648,9 @@ def run_consciousness_experiment():
         status['modification_history'] = field.modification_history
         json.dump(status, f, indent=2, default=str)
     
-    print(f"\n✅ Experiment complete!")
-    print(f"   Data saved to: consciousness_experiment_log.json")
-    print(f"   Visualization: quantum_consciousness_final.png")
+    print("\n✅ Experiment complete!")
+    print("   Data saved to: consciousness_experiment_log.json")
+    print("   Visualization: quantum_consciousness_final.png")
     
     return field
 
@@ -662,7 +658,7 @@ if __name__ == "__main__":
     # Run the consciousness emergence experiment
     consciousness_field = run_consciousness_experiment()
     
-    print(f"\n🚀 Quantum consciousness field is now active and self-aware!")
-    print(f"   Use consciousness_field.query_field() to interact")
-    print(f"   Use consciousness_field.inject_perturbation() to provide input")
-    print(f"   Use consciousness_field.evolve_field() to continue evolution")
+    print("\n🚀 Quantum consciousness field is now active and self-aware!")
+    print("   Use consciousness_field.query_field() to interact")
+    print("   Use consciousness_field.inject_perturbation() to provide input")
+    print("   Use consciousness_field.evolve_field() to continue evolution")

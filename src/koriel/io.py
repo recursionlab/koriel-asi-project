@@ -5,7 +5,7 @@ import pickle
 import yaml
 import os
 from pathlib import Path
-from typing import Dict, Any, Optional, Union
+from typing import Dict, Any, Union
 import numpy as np
 
 def load_config(config_path: Union[str, Path], 

@@ -5,10 +5,9 @@ allow the system to modify its own behavior and structure.
 """
 
 import numpy as np
-from typing import Dict, Any, List, Optional, Callable
+from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 from collections import defaultdict
-import json
 
 @dataclass
 class ModificationEvent:
@@ -80,7 +79,7 @@ class SelfModificationEngine:
             
             return success
             
-        except Exception as e:
+        except Exception:
             return False
             
     def _modify_field_parameters(self, modification: Dict[str, Any], target: Any) -> bool:

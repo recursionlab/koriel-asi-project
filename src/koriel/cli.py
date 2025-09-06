@@ -3,12 +3,11 @@
 import argparse
 import sys
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional
 
 from .engine import RecursiveOrchestrationEngine, EngineConfig
-from .io import (load_config, save_results, get_config_dir, get_results_dir, 
+from .io import (load_config, save_results, get_results_dir, 
                 get_default_config_path, validate_config)
-from .meta import SelfModificationEngine
 from .safety import ExperimentSafetyGate, check_system_resources
 
 def run_minimal_cycle(config_path: Optional[str] = None, 
@@ -136,7 +135,7 @@ def run_experiment(experiment_name: str,
         
         # Check system resources
         resources = check_system_resources()
-        print(f"\nSystem Resources:")
+        print("\nSystem Resources:")
         print(f"  Memory: {resources['memory_available_gb']:.1f}GB available ({resources['memory_percent_used']:.1f}% used)")
         print(f"  Disk: {resources['disk_free_gb']:.1f}GB free ({resources['disk_percent_used']:.1f}% used)")
         
@@ -150,7 +149,7 @@ def run_experiment(experiment_name: str,
         # Create resource monitor
         monitor = safety_gate.create_resource_monitor(experiment_config)
         
-        print(f"\nStarting experiment with resource monitoring...")
+        print("\nStarting experiment with resource monitoring...")
         monitor.start_monitoring()
         
         # This is a basic framework - actual experiment execution would be implemented
@@ -214,7 +213,7 @@ Examples:
     exp_parser.add_argument('--dry-run', action='store_true', help='Dry run mode')
     
     # Status command
-    status_parser = subparsers.add_parser('status', help='Show system status')
+    subparsers.add_parser('status', help='Show system status')
     
     args = parser.parse_args()
     
