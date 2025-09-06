@@ -39,4 +39,6 @@ pip install -r requirements.txt
 2. Establish continuous integration to run the test suite and linting on every commit.
 3. Provide a quickstart guide and module level documentation in `docs/`.
 
+See also: `docs/REPO_STRUCTURE.md` for conventions and a helper script to preview/apply tidy moves.
+
 These steps should make the project easier to navigate and contribute to while preserving the experimental spirit of the work.

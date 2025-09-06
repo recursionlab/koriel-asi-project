@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops
+.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops tidy-root
 
 bundle:
 	python scripts/bundle.py
@@ -39,3 +39,7 @@ pr-conflicts-fix:
 # Label agent PRs, post guidance, and trigger sitrep on a subset
 agent-ops:
 	python3 scripts/agent_ops.py
+
+# Inventory root and propose tidy moves (use APPLY=1 to apply)
+tidy-root:
+	python3 scripts/inventory_root.py $(if $(APPLY),--apply,)
