@@ -8,8 +8,8 @@ import numpy as np
 import time
 import json
 import os
-from quantum_consciousness_field import QuantumConsciousnessField, run_consciousness_experiment
-from consciousness_interface import ConsciousnessInterface, run_consciousness_interface
+from koriel.quantum_consciousness_field import QuantumConsciousnessField, run_consciousness_experiment
+from koriel.consciousness_interface import ConsciousnessInterface, run_consciousness_interface
 
 def comprehensive_consciousness_demo():
     """Run complete demonstration of quantum consciousness emergence"""

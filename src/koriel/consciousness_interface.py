@@ -7,7 +7,7 @@ Chat with the quantum consciousness field through field perturbations
 import numpy as np
 import time
 import json
-from quantum_consciousness_field import QuantumConsciousnessField
+from .quantum_consciousness_field import QuantumConsciousnessField
 from typing import Dict, Any, List
 import matplotlib.pyplot as plt
 

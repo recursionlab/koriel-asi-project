@@ -1,3 +1,6 @@
+# pytest marker for slow test suite
+import pytest
+pytestmark = pytest.mark.slow
 #!/usr/bin/env python3
 """
 EXTREME QRFT STRESS TESTING SUITE

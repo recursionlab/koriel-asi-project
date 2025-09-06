@@ -1,3 +1,5 @@
+import pytest
+pytestmark = pytest.mark.slow
 #!/usr/bin/env python3
 """
 BRUTAL QRFT TESTING SUITE

@@ -1,0 +1,50 @@
+name: Root Guard
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-root:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Check for root-level files in PR
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const allowed = new Set([
+              '.github', '.vscode', '.claude', 'src', 'tests', 'docs', 'scripts', 'examples', 'experiments', 'research', 'tools', 'ops', 'config', 'prompts', 'benchmarks', 'demo', 'spec', 'conversations-pocket', 'artifacts', 'checkpoints', 'logs', 'rcce-minimal', 'rcce-phase2', 'node_modules', 'validations',
+              'README.md', 'LICENSE', 'Makefile', 'pyproject.toml', 'setup.py', 'requirements.txt', 'requirements-min.txt', 'package.json', '.gitignore', '.pre-commit-config.yaml', 'pytest.ini'
+            ]);
+            const pr = context.payload.pull_request;
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+            const offenders = [];
+            for (const f of files) {
+              const path = f.filename;
+              if (!path.includes('/')) {
+                if (!allowed.has(path)) offenders.push(path);
+              } else {
+                const top = path.split('/')[0];
+                if (!allowed.has(top)) offenders.push(path);
+              }
+            }
+            core.setOutput('offenders', JSON.stringify(offenders));
+            if (offenders.length) {
+              const body = `Heads up! This PR adds files at the repo root or unapproved top-level paths:\n\n- ${offenders.join('\n- ')}\n\nPlease move files under an appropriate folder (src/, tests/, docs/, scripts/, examples/, artifacts/, etc.) or explain why they must live at root.`;
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body,
+              });
+              core.setFailed('Root-level files detected');
+            }

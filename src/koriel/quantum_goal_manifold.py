@@ -6,7 +6,7 @@ Concrete implementation of GoalManifold for quantum field consciousness system
 
 import numpy as np
 from typing import Dict, List, Tuple, Optional, Any
-from koriel_operator import GoalManifold, KorielState
+from .koriel_operator import GoalManifold, KorielState
 from quantum_consciousness_simple import SimpleQuantumField
 
 class QuantumFieldState(KorielState):

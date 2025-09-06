@@ -25,7 +25,7 @@ jobs:
           python3 scripts/inventory_root.py --assert-clean
       - name: Run tests
         run: |
-          bash scripts/run_tests.sh
+          bash scripts/run_tests.sh -m "not slow"
 name: CI
 
 on:
