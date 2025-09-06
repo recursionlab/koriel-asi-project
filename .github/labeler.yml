@@ -1,0 +1,11 @@
+ops:
+  - changed-files:
+      - any-glob-to-any-file: ['scripts/**', '.github/**', 'Makefile']
+
+python:
+  - changed-files:
+      - any-glob-to-any-file: ['src/**', 'tests/**', '*.py']
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**', '**/*.md']

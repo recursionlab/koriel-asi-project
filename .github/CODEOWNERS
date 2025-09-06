@@ -1,0 +1,6 @@
+# Default owners
+* @recursionlab
+
+# Ops and workflows
+.github/** @recursionlab
+scripts/** @recursionlab
