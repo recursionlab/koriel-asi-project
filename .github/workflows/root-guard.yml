@@ -39,12 +39,18 @@ jobs:
             }
             core.setOutput('offenders', JSON.stringify(offenders));
             if (offenders.length) {
-              const body = `Heads up! This PR adds files at the repo root or unapproved top-level paths:\n\n- ${offenders.join('\n- ')}\n\nPlease move files under an appropriate folder (src/, tests/, docs/, scripts/, examples/, artifacts/, etc.) or explain why they must live at root.`;
+              const body = `Heads up! This PR adds files at the repo root or unapproved top-level paths:\n\n- ${offenders.join('\n- ')}\n\nPlease move files under an appropriate folder (src/, tests/, docs/, scripts/, examples/, artifacts/, etc.) or explain why they must live at root. Closing this PR to keep the tree tidy—feel free to reopen after addressing.`;
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: pr.number,
                 body,
+              });
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                state: 'closed',
               });
               core.setFailed('Root-level files detected');
             }
