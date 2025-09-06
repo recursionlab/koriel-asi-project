@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry
+.PHONY: bundle setup test benchmark lint clean install dev-install run-dry experiment-dry apply-updates validate-updates
 
 # Development setup
 setup:
@@ -54,3 +54,11 @@ bundle:
 
 benchmark:
 	bash scripts/run_ab.sh
+
+.PHONY: apply-updates validate-updates
+apply-updates:
+	python scripts/apply_manifesto_updates.py
+
+validate-updates:
+	python -m scripts.validate_operators
+	pytest -q

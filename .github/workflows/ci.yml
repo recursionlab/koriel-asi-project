@@ -7,6 +7,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PERF_CANARY: '0'
+      PERF_MIN_THR: '5'
+      PERF_ITEMS: '50'
+      APPLY_UPDATES: '0'   # set to '1' to auto-apply manifesto/updates in smoke job
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -47,3 +53,9 @@ jobs:
         with:
           name: operator-mapping
           path: artifacts/ci_smoke/operator_mapping.*
+      - name: Apply manifesto updates (optional)
+        if: env.APPLY_UPDATES == '1'
+        run: |
+          python scripts/apply_manifesto_updates.py
+          python -m scripts.validate_operators
+          pytest -q --maxfail=1 --disable-warnings
