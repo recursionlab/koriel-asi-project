@@ -1,0 +1,32 @@
+name: Nightly Sitrep
+
+on:
+  schedule:
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sitrep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate sitrep
+        run: |
+          python scripts/git_sitrep.py
+        shell: bash
+      - name: Upload sitrep artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: git-sitrep
+          path: artifacts/ci_smoke/git_sitrep.md
+      - name: Job summary
+        run: |
+          echo "## Sitrep generated" >> $GITHUB_STEP_SUMMARY
+          echo "Artifact: git-sitrep" >> $GITHUB_STEP_SUMMARY
