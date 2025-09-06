@@ -76,6 +76,7 @@ def suggest_destination(p: Path) -> Optional[Path]:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Inventory root and propose tidy moves")
     ap.add_argument("--apply", action="store_true", help="Apply proposed moves using git mv")
+    ap.add_argument("--assert-clean", action="store_true", help="Exit non-zero if any proposals exist (for CI)")
     args = ap.parse_args()
 
     root_entries = sorted([e for e in ROOT.iterdir()])
@@ -105,6 +106,9 @@ def main() -> int:
         print(f"  - {src.relative_to(ROOT)} -> {dst.relative_to(ROOT)}")
 
     if not args.apply:
+        if args.assert_clean:
+            # CI mode: fail if not clean
+            return 2
         print("\nRun with --apply to perform these moves (uses git mv). Review first.")
         return 0
 

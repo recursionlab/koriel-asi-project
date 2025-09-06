@@ -2,31 +2,75 @@ name: CI
 
 on:
   push:
+    branches: [ "**" ]
   pull_request:
+    branches: [ "**" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install -r requirements.txt || true
+          pip install pytest
+      - name: Enforce tidy root
+        run: |
+          python3 scripts/inventory_root.py --assert-clean
+      - name: Run tests
+        run: |
+          bash scripts/run_tests.sh
+name: CI
+
+on:
+  push:
+    branches: [ main, ops/**, ci/**, feat/**, fix/** ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
+
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Root tidy guard
+        run: |
+          python3 scripts/inventory_root.py --assert-clean || (echo "Root not tidy. Run make tidy-root." && exit 1)
+
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -e .
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
+
       - name: Install Node dependencies
-        run: npm install
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
       - name: Run Python tests
-        run: pytest -q
+        run: bash scripts/run_tests.sh -q
+
       - name: Run Node tests
         run: npm test
+
       - name: Operator validator gate
         run: |
           python scripts/validate_operators.py
@@ -35,6 +79,7 @@ jobs:
           d=json.load(open('artifacts/ci_smoke/operator_mapping.json'))
           assert d.get('refs_ok') is True and not d.get('errors'), d
           PY
+
       - name: Contradiction quick check
         run: |
           python - <<'PY'
@@ -42,6 +87,7 @@ jobs:
           assert detect(["P(a)","not P(a)"])['x_g'] > 0.0
           assert detect(["P(a)","Q(a)"])['x_g'] == 0.0
           PY
+
       - name: Archive ontology mapping
         uses: actions/upload-artifact@v4
         with:

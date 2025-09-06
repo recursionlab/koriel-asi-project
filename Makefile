@@ -1,4 +1,4 @@
-.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops tidy-root
+.PHONY: bundle setup test benchmark sitrep git-sitrep prune-merged prune-merged-exec pr-conflicts pr-conflicts-fix agent-ops tidy-root tidy-assert
 
 bundle:
 	python scripts/bundle.py
@@ -43,3 +43,7 @@ agent-ops:
 # Inventory root and propose tidy moves (use APPLY=1 to apply)
 tidy-root:
 	python3 scripts/inventory_root.py $(if $(APPLY),--apply,)
+
+# Assert root cleanliness (non-zero if messy)
+tidy-assert:
+	python3 scripts/inventory_root.py --assert-clean
