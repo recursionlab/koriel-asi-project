@@ -9,14 +9,12 @@ import json
 import logging
 import os
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 
 # Add parent directory to path to import existing demo functionality
 sys.path.append(str(Path(__file__).parent.parent))
 
-import numpy as np
 import pandas as pd
 from scripts.run_rcce_demo import run_demo as run_rcce_demo
 
@@ -187,13 +185,13 @@ def main():
         import subprocess
         git_sha = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], 
                                         cwd=Path(__file__).parent.parent).decode().strip()
-    except:
+    except Exception:
         git_sha = "unknown"
     
     logger.info(f"Starting demo: task={args.task}, seed={args.seed}, git_sha={git_sha}")
     
     # Generate metadata
-    metadata = generate_metadata(args.task, args.seed, output_dir, git_sha)
+    generate_metadata(args.task, args.seed, output_dir, git_sha)
     
     # Run demo based on task
     if args.task == "basic":

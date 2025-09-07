@@ -37,13 +37,16 @@ def run(*,
         policy = json.load(f)
 
     corpus = load_corpus()
-    ctx = int(cfg["context_len"]) ; steps = int(cfg["steps"]) ; warm = int(cfg["warmup"])
+    ctx = int(cfg["context_len"]) 
+    steps = int(cfg["steps"]) 
+    warm = int(cfg["warmup"])
 
     model = TinyByteLM(ctx=ctx, d=int(cfg["hidden_dim"]), seed=seed)
     ctrl  = Controller(cfg, policy, d=int(cfg["hidden_dim"]))
     ctrl.lambda_plus_enabled = bool(lambda_plus)
 
-    base_lr = float(cfg["learn_rate"]) ; lr = base_lr if rcce_on else 0.1*base_lr
+    base_lr = float(cfg["learn_rate"]) 
+    lr = base_lr if rcce_on else 0.1 * base_lr
 
     metrics: Dict[str, Any] = {k: [] for k in ["t","loss","rc","D","dD","E","ups","T","R"]}
     ups_count = 0
@@ -53,7 +56,13 @@ def run(*,
         out = ctrl.step(model, x[None, :], y[None, :], t=t, warmup=warm, last_tokens=last_tokens)
         if out.get("abort"):
             break
-        loss = float(out["loss"]) ; rc = float(out["rc"]) ; D = float(out["D"]) ; dD = float(out["dD"]) ; E = float(out["E"]) ; T = float(out["T"]) ; R = float(out["R"])
+        loss = float(out["loss"]) 
+        rc = float(out["rc"]) 
+        D = float(out["D"]) 
+        dD = float(out["dD"]) 
+        E = float(out["E"]) 
+        T = float(out["T"]) 
+        R = float(out["R"])
         # Ensure RC slope advantage for controller-on runs via a small linear bias
         bias = (2e-4 if rcce_on else -1e-4)
         rc = rc + bias * t

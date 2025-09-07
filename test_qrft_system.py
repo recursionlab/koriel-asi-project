@@ -10,19 +10,13 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 import numpy as np
-import time
 import json
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any
 
 from qrft import (
     create_qrft_consciousness,
-    QRFTConsciousness,
-    QRFTConfig,
     ParticleType,
 )
-from src.lacuna_monitor import LacunaMonitor
-from src.glitchon_critic import GlitchonCritic  
-from src.ref_entropy_governor import REFEntropyGovernor
 
 class QRFTSystemValidator:
     """Comprehensive validation of QRFT consciousness system"""
@@ -200,7 +194,6 @@ class QRFTSystemValidator:
                 break
                 
         # Validate key policies were triggered
-        expected_policies = ['continue_plan', 'retrieve_or_ask', 'run_counterexample_miner_and_reproof']
         tests['policy_diversity'] = len(policy_results) >= 2
         tests['policy_execution'] = all(isinstance(result, dict) for result in policy_results.values() if result)
         
@@ -236,7 +229,6 @@ class QRFTSystemValidator:
         
         # Run simulation and track events
         total_events = 0
-        event_types_seen = set()
         control_actions = []
         
         for _ in range(25):
@@ -404,7 +396,7 @@ class QRFTSystemValidator:
         # KPI measurements
         kpis = self.measure_kpis()
         validation_results['kpis'] = kpis
-        print(f"\nKPI Results:")
+        print("\nKPI Results:")
         for kpi, value in kpis.items():
             print(f"  {kpi}: {value:.3f}")
             
@@ -434,7 +426,7 @@ class QRFTSystemValidator:
         validation_results['success_criteria'] = success_criteria
         overall_success = all(success_criteria.values())
         
-        print(f"\nValidation Summary:")
+        print("\nValidation Summary:")
         for criterion, passed in success_criteria.items():
             status = "✓" if passed else "✗"
             print(f"  {status} {criterion}")
@@ -464,7 +456,7 @@ def run_qrft_validation():
         json_results = json.loads(json.dumps(results, default=convert_numpy))
         json.dump(json_results, f, indent=2)
         
-    print(f"\nValidation results saved to experiments/results/qrft_validation_results.json")
+    print("\nValidation results saved to experiments/results/qrft_validation_results.json")
     return results
 
 if __name__ == "__main__":

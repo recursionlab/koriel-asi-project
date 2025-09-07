@@ -11,10 +11,11 @@ from pathlib import Path
 from typing import Dict, List, Any
 
 try:
-    import jsonschema
-    from jsonschema import validate, ValidationError
+    # import lazily if available; we only use it inside validate_metadata
+    import jsonschema  # noqa: F401
+    from jsonschema import validate, ValidationError  # type: ignore
     JSONSCHEMA_AVAILABLE = True
-except ImportError:
+except Exception:
     JSONSCHEMA_AVAILABLE = False
     print("Warning: jsonschema not available, using basic validation")
 
@@ -270,7 +271,7 @@ def main():
         print(json.dumps(results, indent=2))
     
     # Print summary
-    print(f"\nValidation Summary:")
+    print("\nValidation Summary:")
     print(f"Overall Valid: {results['overall_valid']}")
     for artifact_name, artifact_result in results["artifacts"].items():
         status = "✓" if artifact_result["valid"] else "✗"

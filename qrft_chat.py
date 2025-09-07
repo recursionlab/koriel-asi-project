@@ -8,10 +8,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-import json
 import time
-from typing import Dict, Any
-from qrft import create_integrated_agent, IntegratedQRFTAgent
+from qrft import create_integrated_agent
 
 class QRFTChatInterface:
     """Command-line interface for QRFT agent"""
@@ -123,7 +121,7 @@ The agent uses:
         print(f"Contradictions: {state_summary['state']['contradictions_count']}")
         print(f"Last action: {state_summary['state']['last_action']}")
         
-        print(f"\nQRFT Signals:")
+        print("\nQRFT Signals:")
         print(f"  X_G (contradiction): {state_summary['signals']['X_G']:.3f}")
         print(f"  X_F (gaps): {state_summary['signals']['X_F']:.3f}")
         print(f"  X_T (view mismatch): {state_summary['signals']['X_T']:.3f}")
@@ -132,7 +130,7 @@ The agent uses:
         """Show current QRFT control signals"""
         signals = self.agent.signals
         
-        print(f"\n=== QRFT CONTROL SIGNALS ===")
+        print("\n=== QRFT CONTROL SIGNALS ===")
         print(f"X_G (Contradiction): {signals.X_G:.3f}")
         print(f"X_F (Gap/Novelty): {signals.X_F:.3f}")
         print(f"X_T (View Mismatch): {signals.X_T:.3f}")
@@ -209,13 +207,13 @@ The agent uses:
             
         for i, (fact1, fact2) in enumerate(contradictions[:5], 1):
             print(f"\n{i}. {fact1}")
-            print(f"   contradicts")
+            print("   contradicts")
             print(f"   {fact2}")
             print(f"   Sources: {fact1.source} vs {fact2.source}")
             
     def show_debug_info(self, duration: float):
         """Show debug information after each query"""
-        print(f"\n--- DEBUG INFO ---")
+        print("\n--- DEBUG INFO ---")
         print(f"Processing time: {duration:.3f}s")
         
         signals = self.agent.signals
@@ -310,7 +308,7 @@ def run_test_scenarios():
         
     # Summary
     avg_time = sum(r['duration'] for r in results) / len(results)
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"  Processed {len(results)} queries")
     print(f"  Average response time: {avg_time:.3f}s")
     print(f"  Total facts learned: {len(agent.state.facts)}")

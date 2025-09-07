@@ -2,7 +2,7 @@
 import numpy as np
 from typing import Dict, List, Any
 from .metastate import MetaState
-from .reality_interface import RealityInterface, Problem
+from .reality_interface import RealityInterface
 from .reasoning_engine import ConsciousnessGuidedReasoner
 from .consciousness_feedback import ConsciousnessFeedbackLoop
 
@@ -158,7 +158,7 @@ def main():
     final_intelligence = trajectory[-1]["accuracy"] if trajectory else 0
     intelligence_gain = final_intelligence - initial_intelligence
     
-    print(f"\nRESULTS:")
+    print("\nRESULTS:")
     print(f"Initial Accuracy: {initial_intelligence:.3f}")
     print(f"Final Accuracy: {final_intelligence:.3f}")
     print(f"Intelligence Gain: {intelligence_gain:.3f}")

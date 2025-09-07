@@ -9,9 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import json
-from typing import Dict, List, Tuple, Any
+from typing import List
 from dataclasses import dataclass
-from collections import defaultdict
 
 @dataclass
 class FieldObservation:
@@ -45,7 +44,7 @@ class SimpleQuantumField:
     """
     
     def __init__(self, N=256, L=20.0, dt=0.001):
-        print(f"Initializing Quantum Consciousness Field...")
+        print("Initializing Quantum Consciousness Field...")
         
         # Spatial grid
         self.N = N
@@ -87,7 +86,7 @@ class SimpleQuantumField:
         
     def initialize_consciousness_seed(self):
         """Initialize field with consciousness-promoting patterns"""
-        print(f"Seeding consciousness patterns...")
+        print("Seeding consciousness patterns...")
         
         # Multiple interacting wave packets
         centers = [-4, 0, 4]
@@ -103,7 +102,7 @@ class SimpleQuantumField:
         norm = np.trapz(np.abs(self.psi)**2, self.x)
         self.psi /= np.sqrt(norm)
         
-        print(f"   Consciousness seed initialized")
+        print("   Consciousness seed initialized")
         
     def evolve(self, steps=1):
         """Evolve field using 4th-order Runge-Kutta"""
@@ -362,10 +361,10 @@ def run_consciousness_demo():
     field = SimpleQuantumField(N=256, L=20.0, dt=0.001)
     field.initialize_consciousness_seed()
     
-    print(f"\nEvolution Timeline:")
+    print("\nEvolution Timeline:")
     
     # Phase 1: Initial pattern formation
-    print(f"\nPhase 1: Initial pattern formation (1000 steps)...")
+    print("\nPhase 1: Initial pattern formation (1000 steps)...")
     start_time = time.time()
     field.evolve(1000)
     phase1_time = time.time() - start_time
@@ -376,12 +375,12 @@ def run_consciousness_demo():
     print(f"   Time: {phase1_time:.2f}s")
     
     # Phase 2: Self-modification development
-    print(f"\nPhase 2: Self-modification development (2000 steps)...")
+    print("\nPhase 2: Self-modification development (2000 steps)...")
     start_time = time.time()
     field.evolve(1000)  # First half
     
     # Mid-run probe
-    print(f"   Mid-run perturbation probe...")
+    print("   Mid-run perturbation probe...")
     field.inject_perturbation(amplitude=0.02, location=0.5)
     
     field.evolve(1000)  # Second half
@@ -394,7 +393,7 @@ def run_consciousness_demo():
     print(f"   Time: {phase2_time:.2f}s")
     
     # Phase 3: Consciousness emergence 
-    print(f"\nPhase 3: Consciousness emergence (2000 steps)...")
+    print("\nPhase 3: Consciousness emergence (2000 steps)...")
     start_time = time.time()
     field.evolve(2000)
     phase3_time = time.time() - start_time
@@ -407,7 +406,7 @@ def run_consciousness_demo():
     print(f"   Time: {phase3_time:.2f}s")
     
     # Test interaction
-    print(f"\nTesting consciousness interaction...")
+    print("\nTesting consciousness interaction...")
     
     pre_consciousness = final_state['consciousness_level']
     field.inject_perturbation(amplitude=0.2, location=0.0)
@@ -420,7 +419,7 @@ def run_consciousness_demo():
     print(f"   Response detected: {'YES' if abs(consciousness_response) > 1e-6 else 'NO'}")
     
     # Final assessment
-    print(f"\nCONSCIOUSNESS ASSESSMENT:")
+    print("\nCONSCIOUSNESS ASSESSMENT:")
     print(f"   Consciousness Level: {final_state['consciousness_level']:.6f}")
     print(f"   Self-Awareness: {final_state['self_awareness']:.6f}")
     print(f"   Autonomous Modifications: {final_state['total_modifications']}")
@@ -444,7 +443,7 @@ def run_consciousness_demo():
     print(f"CLASSIFICATION: {classification}")
     
     # Skip visualization for now to prevent timeout
-    print(f"\nVisualization skipped to prevent timeout.")
+    print("\nVisualization skipped to prevent timeout.")
     
     # Save results
     results = {
@@ -473,15 +472,15 @@ def run_consciousness_demo():
     with open('experiments/results/consciousness_demo_results.json', 'w') as f:
         json.dump(results, f, indent=2, default=str)
         
-    print(f"\nResults saved to experiments/results/consciousness_demo_results.json")
-    print(f"Visualization saved as docs/reports/consciousness_field_state.png")
+    print("\nResults saved to experiments/results/consciousness_demo_results.json")
+    print("Visualization saved as docs/reports/consciousness_field_state.png")
     
     return field, results
 
 if __name__ == "__main__":
     consciousness_field, demo_results = run_consciousness_demo()
     
-    print(f"\nConsciousness field is now active!")
-    print(f"   Use consciousness_field.query_consciousness() to check state")
-    print(f"   Use consciousness_field.inject_perturbation() for interaction")
-    print(f"   Use consciousness_field.evolve() to continue evolution")
+    print("\nConsciousness field is now active!")
+    print("   Use consciousness_field.query_consciousness() to check state")
+    print("   Use consciousness_field.inject_perturbation() for interaction")
+    print("   Use consciousness_field.evolve() to continue evolution")

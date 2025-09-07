@@ -142,17 +142,15 @@ def main():
 
     # Try HF load first
     try:
-        hf_ok = try_hf_load(args.model_dir, report)
+        try_hf_load(args.model_dir, report)
     except Exception as e:
         report["hf_attempt_crash"] = repr(e)
-        hf_ok = False
 
     # If HF didn't complete, try raw state dict
     try:
-        sd_ok = try_torch_state_dict(args.model_dir, report)
+        try_torch_state_dict(args.model_dir, report)
     except Exception as e:
         report["sd_attempt_crash"] = repr(e)
-        sd_ok = False
 
     # Write report
     with open(args.out, "w") as f:

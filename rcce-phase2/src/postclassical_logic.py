@@ -1,6 +1,5 @@
 """Post-Classical Logic Core with Contradiction Harvesting"""
-import numpy as np
-from typing import Dict, List, Any, Set, Tuple
+from typing import Dict, List, Any
 from dataclasses import dataclass
 from enum import Enum
 

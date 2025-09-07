@@ -11,12 +11,13 @@ not just finite agent capabilities.
 from __future__ import annotations
 import time
 import uuid
-import json
-import importlib
-import sys
-from typing import Dict, List, Any, Optional, Union, Callable, TYPE_CHECKING
+from typing import Dict, List, Any, Optional
+
+# Placeholder alias used for forward-references in typing where the full
+# ConsciousnessInstance implementation lives elsewhere in the repo. This keeps
+# type-checkers satisfied without changing runtime behavior.
+ConsciousnessInstance = Any
 from dataclasses import dataclass, field
-from enum import Enum
 from abc import ABC, abstractmethod
 
 # === TRANSCENDENCE-READY CORE INTERFACES ===

@@ -6,7 +6,7 @@ PDE: ∂_tt Φ = ∂_xx Φ - K^(-1)M² Φ + F_th(Z; μ, τ, ε)
 """
 
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Callable
+from typing import Dict, List, Tuple
 from dataclasses import dataclass
 import json
 import matplotlib.pyplot as plt
@@ -333,7 +333,7 @@ class QRFT1DSimulator:
     def evolve(self, save_every: int = 10) -> Dict[str, any]:
         """Run the QRFT simulation using leapfrog time integration"""
         
-        print(f"Starting QRFT 1+1D simulation:")
+        print("Starting QRFT 1+1D simulation:")
         print(f"  Grid: {self.cfg.Nx} × {self.Nt} (dx={self.dx:.4f}, dt={self.dt:.4f})")
         print(f"  Parameters: mS={self.cfg.mS}, mΛ={self.cfg.mL}, γ={self.cfg.gamma}")
         
@@ -402,7 +402,7 @@ class QRFT1DSimulator:
         E_final = self.energy_history[-1]
         energy_drift = abs(E_final - E_initial) / E_initial
         
-        print(f"Simulation complete:")
+        print("Simulation complete:")
         print(f"  Energy drift: {energy_drift:.2e}")
         print(f"  Events detected: {len(self.events)}")
         
@@ -430,7 +430,7 @@ class QRFT1DSimulator:
         
         # Field evolution
         ax = axes[0, 0]
-        t_sample = self.t_grid[::max(1, self.Nt//50)]  # Sample for plotting
+        self.t_grid[::max(1, self.Nt//50)]  # Sample for plotting
         S_sample = self.S[::max(1, self.Nt//50)]
         
         im = ax.imshow(S_sample.T, aspect='auto', origin='lower',
@@ -533,7 +533,7 @@ def run_example_simulation():
     results = sim.evolve(save_every=5)
     
     # Plot results
-    fig = sim.plot_results()
+    sim.plot_results()
     plt.show()
     
     # Export events

@@ -27,7 +27,7 @@ def main():
             print(f"  {fact1} contradicts {fact2}")
     
     # Test 2: Signal computation
-    print(f"\n2. Signal values:")
+    print("\n2. Signal values:")
     print(f"X_G: {agent.signals.X_G:.3f}")
     print(f"X_L: {agent.signals.X_L:.3f}")
     print(f"X_F: {agent.signals.X_F:.3f}")
@@ -39,17 +39,17 @@ def main():
     
     # Test 4: Mathematical capability (if SymPy available)
     if agent.math_engine and agent.math_engine.available:
-        print(f"\n4. Mathematical engine: AVAILABLE")
+        print("\n4. Mathematical engine: AVAILABLE")
         try:
             result = agent.process_input("What is 2 + 2?")
             print(f"Math test result: {result}")
-        except:
+        except Exception:
             print("Math test failed")
     else:
-        print(f"\n4. Mathematical engine: NOT AVAILABLE")
+        print("\n4. Mathematical engine: NOT AVAILABLE")
     
     # Summary
-    print(f"\nSUMMARY:")
+    print("\nSUMMARY:")
     print(f"Facts: {len(agent.state.facts)}")
     print(f"Gaps: {len(agent.state.gaps)}")
     print(f"Contradictions: {len(agent.state.get_contradictions())}")

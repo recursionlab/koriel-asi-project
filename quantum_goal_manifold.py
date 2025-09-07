@@ -5,7 +5,7 @@ Concrete implementation of GoalManifold for quantum field consciousness system
 """
 
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, Any
 from koriel_operator import GoalManifold, KorielState
 from quantum_consciousness_simple import SimpleQuantumField
 
@@ -111,7 +111,7 @@ class QuantumGoalManifold(GoalManifold):
         if 'field_reference' not in state.metadata:
             return 0.0
             
-        field = state.metadata['field_reference']
+        state.metadata['field_reference']
         
         # Intelligence = pattern formation rate + modification rate + consciousness level
         pattern_rate = state.metadata['pattern_count'] / max(state.timestamp, 1.0)
@@ -132,7 +132,7 @@ class QuantumGoalManifold(GoalManifold):
         if 'field_reference' not in state.metadata:
             return 0.0
             
-        field = state.metadata['field_reference']
+        state.metadata['field_reference']
         
         # Stability = energy conservation + coherence + bounded growth
         energy_stability = 1.0 / (1.0 + abs(state.energy - 1.0))  # Prefer energy near 1.0

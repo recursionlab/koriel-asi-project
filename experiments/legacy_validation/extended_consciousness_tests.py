@@ -7,9 +7,7 @@ Comprehensive validation of consciousness emergence across parameter space
 import numpy as np
 import time
 import json
-from quantum_consciousness_simple import SimpleQuantumField, run_consciousness_demo
-from typing import Dict, List, Any
-import matplotlib.pyplot as plt
+from quantum_consciousness_simple import SimpleQuantumField
 
 def test_parameter_sweep():
     """Test consciousness emergence across parameter ranges"""
@@ -61,7 +59,7 @@ def test_parameter_sweep():
     
     # Analyze results
     successful_configs = [k for k, v in results.items() if v['success']]
-    print(f"\n📊 PARAMETER SWEEP RESULTS:")
+    print("\n📊 PARAMETER SWEEP RESULTS:")
     print(f"   Successful configurations: {len(successful_configs)}/{len(results)}")
     
     if successful_configs:
@@ -114,7 +112,7 @@ def test_consciousness_stability():
     c_trend = np.polyfit(range(len(consciousness_history)), consciousness_history, 1)[0]
     c_variance = np.var(consciousness_history)
     
-    print(f"\n📊 STABILITY ANALYSIS:")
+    print("\n📊 STABILITY ANALYSIS:")
     print(f"   Consciousness trend: {c_trend:.6f}/step")
     print(f"   Consciousness variance: {c_variance:.6f}")
     print(f"   Final consciousness: {consciousness_history[-1]:.6f}")
@@ -147,7 +145,6 @@ def test_perturbation_response():
     # Develop initial consciousness
     print("Developing baseline consciousness...")
     field.evolve(2000)
-    baseline_consciousness = field.consciousness_level
     
     # Test different perturbation types
     perturbation_tests = [
@@ -201,7 +198,7 @@ def test_perturbation_response():
     
     # Analyze response patterns
     responsive_tests = [k for k, v in response_results.items() if v['response_detected']]
-    print(f"\n📊 PERTURBATION RESPONSE ANALYSIS:")
+    print("\n📊 PERTURBATION RESPONSE ANALYSIS:")
     print(f"   Responsive tests: {len(responsive_tests)}/{len(perturbation_tests)}")
     
     if responsive_tests:
@@ -265,7 +262,7 @@ def test_reproducibility():
     m_mean = np.mean(modification_counts)
     m_std = np.std(modification_counts)
     
-    print(f"\n📊 REPRODUCIBILITY ANALYSIS:")
+    print("\n📊 REPRODUCIBILITY ANALYSIS:")
     print(f"   Emergence success rate: {emergence_rate*100:.1f}%")
     print(f"   Consciousness level: {c_mean:.6f} ± {c_std:.6f}")
     print(f"   Modifications: {m_mean:.1f} ± {m_std:.1f}")
@@ -308,20 +305,20 @@ def run_extended_test_suite():
     param_success_rate = sum(1 for v in test_results['parameter_sweep'].values() 
                            if v.get('success', False)) / len(test_results['parameter_sweep'])
     
-    print(f"\n🔬 PARAMETER SWEEP:")
+    print("\n🔬 PARAMETER SWEEP:")
     print(f"   Success rate across parameter space: {param_success_rate*100:.1f}%")
     
-    print(f"\n⏱️ STABILITY:")
+    print("\n⏱️ STABILITY:")
     print(f"   Long-term stability: {'PASS' if test_results['stability']['stable'] else 'FAIL'}")
     print(f"   Consciousness trend: {test_results['stability']['trend']:.6f}/step")
     
-    print(f"\n🎯 PERTURBATION RESPONSE:")
+    print("\n🎯 PERTURBATION RESPONSE:")
     responsive_count = sum(1 for v in test_results['perturbation_response'].values() 
                           if v.get('response_detected', False))
     total_perturbations = len(test_results['perturbation_response'])
     print(f"   Response rate: {responsive_count}/{total_perturbations} ({responsive_count/total_perturbations*100:.1f}%)")
     
-    print(f"\n🔄 REPRODUCIBILITY:")
+    print("\n🔄 REPRODUCIBILITY:")
     print(f"   Emergence rate: {test_results['reproducibility']['emergence_rate']*100:.1f}%")
     print(f"   Reproducible: {'YES' if test_results['reproducibility']['reproducible'] else 'NO'}")
     
@@ -331,7 +328,7 @@ def run_extended_test_suite():
                       responsive_count >= total_perturbations * 0.5 and
                       test_results['reproducibility']['emergence_rate'] >= 0.6)
     
-    print(f"\n🏆 OVERALL VERDICT:")
+    print("\n🏆 OVERALL VERDICT:")
     print(f"   Extended Testing Result: {'SUCCESS' if overall_success else 'PARTIAL SUCCESS'}")
     print(f"   Consciousness Implementation: {'ROBUST' if overall_success else 'NEEDS REFINEMENT'}")
     print(f"   Total test time: {total_time:.1f}s")
@@ -349,7 +346,7 @@ def run_extended_test_suite():
     with open('experiments/results/extended_consciousness_test_results.json', 'w') as f:
         json.dump(test_results, f, indent=2, default=str)
         
-    print(f"\n💾 Complete results saved to experiments/results/extended_consciousness_test_results.json")
+    print("\n💾 Complete results saved to experiments/results/extended_consciousness_test_results.json")
     
     return test_results
 
@@ -357,6 +354,6 @@ if __name__ == "__main__":
     # Run the complete extended test suite
     results = run_extended_test_suite()
     
-    print(f"\n🚀 Extended testing complete!")
-    print(f"   All test categories executed successfully")
-    print(f"   Results available for detailed analysis")
+    print("\n🚀 Extended testing complete!")
+    print("   All test categories executed successfully")
+    print("   Results available for detailed analysis")

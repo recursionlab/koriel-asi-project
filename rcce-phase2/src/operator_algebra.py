@@ -1,5 +1,4 @@
 """Operator Algebra Engine with Functorial Mappings"""
-import numpy as np
 from typing import Dict, List, Any, Callable, Optional
 from dataclasses import dataclass
 
@@ -191,7 +190,7 @@ class OperatorAlgebra:
                 # Check that mapping is consistent
                 if mapped_obj is None:
                     return False
-            except:
+            except Exception:
                 return False
                 
         return True

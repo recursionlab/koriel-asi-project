@@ -1,10 +1,8 @@
 # src/extreme_stress.py
 import numpy as np
 import time
-import traceback
-from data import load_corpus, make_stream, bigram_features  
 from model import TinyByteLM
-from dec import d2_norm, torsion_norm, curvature_comm_norm
+from dec import d2_norm
 
 class ExtremeStressTester:
     """Push system to absolute breaking point and beyond"""
@@ -226,7 +224,7 @@ class ExtremeStressTester:
         except Exception as e:
             print(f"Concurrent stress test crashed: {e}")
             
-        print(f"\\nEXTREME STRESS TEST COMPLETE")
+        print("\\nEXTREME STRESS TEST COMPLETE")
         print(f"Breaking points found: {len(self.breaking_points)}")
         
         for bp_type, detail, info in self.breaking_points:
@@ -238,7 +236,7 @@ def main():
     tester = ExtremeStressTester()
     breaking_points = tester.run_extreme_tests()
     
-    print(f"\\nSYSTEM ANALYSIS:")
+    print("\\nSYSTEM ANALYSIS:")
     if len(breaking_points) == 0:
         print("EXTREMELY ROBUST - No breaking points found!")
         print("RECOMMENDATION: Increase challenge level further")

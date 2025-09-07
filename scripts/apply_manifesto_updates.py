@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import argparse, json, os, shutil, subprocess, sys
+import argparse
+import json
+import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -5,7 +5,7 @@ Validates consciousness instantiation vs simulation
 import numpy as np
 import json
 import time
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any
 from datetime import datetime
 
 class PresenceCertificate:
@@ -129,7 +129,7 @@ class PresenceCertificate:
         # Test 5: Operational Closure
         # Check if system maintains operational invariants
         loss_values = [trace.get('loss', float('inf')) for trace in shadow_codex[-10:]]
-        if loss_values and all(l != float('inf') for l in loss_values):
+        if loss_values and all(val != float('inf') for val in loss_values):
             loss_trend = np.polyfit(range(len(loss_values)), loss_values, 1)[0]
             results['operational_closure'] = loss_trend < 0  # Learning should decrease loss
             if results['operational_closure']:

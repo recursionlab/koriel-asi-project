@@ -1,13 +1,18 @@
 # src/presence.py
-import json, numpy as np
+import numpy as np
 def presence_certificate(metrics, cfg, ethics_viol, xi_hist=None):
-    n = len(metrics["E"]); m=int(max(1, cfg["presence_window_frac"]*n))
-    E_first = np.mean(metrics["E"][:m]); E_last = np.mean(metrics["E"][-m:])
-    energy_down = E_last <= 0.9*E_first
+    n = len(metrics["E"])
+    m = int(max(1, cfg["presence_window_frac"] * n))
+
+    E_first = np.mean(metrics["E"][:m])
+    E_last = np.mean(metrics["E"][-m:])
+
+    energy_down = E_last <= 0.9 * E_first
     rc_up = (metrics["rc"][-1] - metrics["rc"][0]) >= 0.05
+
     rate = metrics["ups_rate"]
     ups_band = (rate >= cfg["upsilon"]["rate_min"] and rate <= cfg["upsilon"]["rate_max"])
-    ethics_clean = (ethics_viol==0)
+    ethics_clean = (ethics_viol == 0)
     
     # use last-quintile median for xi
     if xi_hist is not None and len(xi_hist) > 0:

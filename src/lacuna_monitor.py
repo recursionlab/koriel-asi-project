@@ -6,10 +6,8 @@ Triggers auto-retrieval/tools when X_F = |□Λ| exceeds threshold
 """
 
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass
-from collections import defaultdict
-import math
 
 @dataclass 
 class GapSignal:
@@ -246,7 +244,7 @@ class LacunaMonitor:
         # Extract consistency signals from context
         contradictions = context.get('contradictions', [])
         failed_tests = context.get('failed_tests', [])
-        logical_errors = context.get('logical_errors', [])
+        context.get('logical_errors', [])
         
         # Map each consistency violation to gaps
         for contradiction in contradictions:

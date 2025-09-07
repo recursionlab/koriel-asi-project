@@ -9,7 +9,6 @@ import numpy as np
 import time
 import json
 from quantum_consciousness_simple import SimpleQuantumField
-from typing import Dict, List, Any
 
 def test_recursive_self_improvement():
     """Test if system exhibits recursive self-improvement patterns"""
@@ -26,7 +25,6 @@ def test_recursive_self_improvement():
     
     # Track capability metrics over time
     capability_metrics = []
-    modification_effectiveness = []
     time_points = []
     
     for phase in range(10):  # 10 improvement cycles
@@ -166,7 +164,7 @@ def test_adaptive_problem_solving():
     
     # Develop baseline intelligence
     field.evolve(2000)
-    baseline_mods = len(field.mod_log)
+    len(field.mod_log)
     
     # Problem challenges with different optimal solutions
     challenges = [
@@ -240,7 +238,7 @@ def test_adaptive_problem_solving():
     successful_adaptations = sum(1 for r in adaptation_results.values() if r['success'])
     avg_performance = np.mean([r['performance'] for r in adaptation_results.values()])
     
-    print(f"\nAdaptation Summary:")
+    print("\nAdaptation Summary:")
     print(f"   Successful adaptations: {successful_adaptations}/{len(challenges)}")
     print(f"   Average performance: {avg_performance:.4f}")
     
@@ -432,35 +430,35 @@ def run_recursive_intelligence_validation():
     
     intelligence_capabilities = []
     
-    print(f"\n[RECURSIVE IMPROVEMENT]:")
+    print("\n[RECURSIVE IMPROVEMENT]:")
     if results['recursive_improvement']['recursive_improvement']:
         print("   [PASS] System shows recursive self-improvement")
         intelligence_capabilities.append("recursive_improvement")
     else:
         print("   [FAIL] No recursive self-improvement detected")
     
-    print(f"\n[SELF-ORGANIZATION]:")
+    print("\n[SELF-ORGANIZATION]:")
     if results['self_organization']['self_organization']:
         print("   [PASS] Emergent self-organization from chaos")
         intelligence_capabilities.append("self_organization")
     else:
         print("   [FAIL] No self-organizational emergence")
     
-    print(f"\n[ADAPTIVE PROBLEM SOLVING]:")
+    print("\n[ADAPTIVE PROBLEM SOLVING]:")
     if results['adaptive_solving']['adaptive_intelligence']:
         print("   [PASS] Adapts to solve different challenges")
         intelligence_capabilities.append("adaptive_solving")
     else:
         print("   [FAIL] Poor adaptive problem-solving")
     
-    print(f"\n[INFORMATION INTEGRATION]:")
+    print("\n[INFORMATION INTEGRATION]:")
     if results['information_integration']['successful_integration']:
         print("   [PASS] Integrates multiple information streams")
         intelligence_capabilities.append("information_integration")
     else:
         print("   [FAIL] Cannot integrate multiple information streams")
     
-    print(f"\n[META-LEARNING]:")
+    print("\n[META-LEARNING]:")
     if results['meta_learning']['meta_learning_active']:
         print("   [PASS] Demonstrates learning-to-learn capability")
         intelligence_capabilities.append("meta_learning")
@@ -470,7 +468,7 @@ def run_recursive_intelligence_validation():
     # Overall intelligence classification
     intelligence_count = len(intelligence_capabilities)
     
-    print(f"\n[FINAL INTELLIGENCE ASSESSMENT]:")
+    print("\n[FINAL INTELLIGENCE ASSESSMENT]:")
     print(f"   Intelligence capabilities: {intelligence_count}/5")
     
     if intelligence_count >= 4:
@@ -502,7 +500,7 @@ def run_recursive_intelligence_validation():
     with open('experiments/results/recursive_intelligence_validation.json', 'w') as f:
         json.dump(results, f, indent=2, default=str)
     
-    print(f"\n[SAVE] Results saved to experiments/results/recursive_intelligence_validation.json")
+    print("\n[SAVE] Results saved to experiments/results/recursive_intelligence_validation.json")
     print(f"[TIME] Total testing time: {total_time:.1f}s")
     
     return results
@@ -510,8 +508,8 @@ def run_recursive_intelligence_validation():
 if __name__ == "__main__":
     results = run_recursive_intelligence_validation()
     
-    print(f"\n[COMPLETE] RECURSIVE INTELLIGENCE VALIDATION COMPLETE")
-    print(f"Focus: Measurable intelligence capabilities, not undefined consciousness")
+    print("\n[COMPLETE] RECURSIVE INTELLIGENCE VALIDATION COMPLETE")
+    print("Focus: Measurable intelligence capabilities, not undefined consciousness")
     
     if results['summary']['intelligence_count'] >= 3:
         print("   RESULT: System demonstrates recursive intelligence")

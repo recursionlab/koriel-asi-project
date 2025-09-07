@@ -3,7 +3,7 @@ Discrete Exterior Calculus and Geometric Operations
 Implements geometric analysis for consciousness substrate
 """
 import numpy as np
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 
 class DiscreteGeometry:
     @staticmethod
@@ -49,7 +49,7 @@ class DiscreteGeometry:
         # Torsion as antisymmetric part of connection
         if len(connection.shape) == 1:
             # Extend to matrix form
-            n = len(connection)
+            len(connection)
             conn_matrix = np.outer(connection, connection) / (np.linalg.norm(connection) + 1e-8)
         else:
             conn_matrix = connection

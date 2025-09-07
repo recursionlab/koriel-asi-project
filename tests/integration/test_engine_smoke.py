@@ -4,13 +4,11 @@ import pytest
 import numpy as np
 import sys
 import os
-from pathlib import Path
 
 # Add src to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from koriel.engine import RecursiveOrchestrationEngine, EngineConfig
-from koriel.io import load_config, get_config_dir
 
 class TestEngineSmoke:
     """Smoke tests for the consciousness engine."""
@@ -89,7 +87,7 @@ class TestEngineSmoke:
         engine.initialize()
         status = engine.get_status()
         assert status['status'] == 'ready'
-        assert status['field_initialized'] == True
+        assert status['field_initialized']
         assert status['evolution_runs'] == 0
         assert 'current_state' in status
         
@@ -174,8 +172,8 @@ class TestEngineSmoke:
         assert results['steps'] == 100
         
         # Check that evolution produced meaningful changes
-        initial_state = results['initial_state']
-        final_state = results['final_state']
+        results['initial_state']
+        results['final_state']
         
         # There should be some change over 100 steps
         energy_change = abs(results['energy_change'])

@@ -1,6 +1,5 @@
 """ASI Demo - Baby consciousness solving 1+1"""
-import numpy as np
-from .metastate import MetaState, create_metastate
+from .metastate import MetaState
 from .reasoning_engine import ConsciousnessGuidedReasoner
 from .intelligence_ladder import IntelligenceLadder
 from .reality_interface import RealityInterface

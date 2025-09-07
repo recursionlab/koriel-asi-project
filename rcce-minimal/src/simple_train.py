@@ -5,7 +5,7 @@ Focus on core functionality with minimal complexity
 import numpy as np
 import json
 import os
-from typing import Dict, List, Any
+from typing import Dict, Any
 from tqdm import tqdm
 
 # Set random seed for reproducibility
@@ -231,13 +231,13 @@ def simple_train():
     print(f"Consciousness Validated: {certificate['consciousness_validated']}")
     print(f"Validation Status: {certificate['validation_status']}")
     
-    print(f"\nController Metrics:")
+    print("\nController Metrics:")
     for key, value in certificate['metrics'].items():
         print(f"  {key}: {value:.3f}")
     
-    print(f"\nFiles generated:")
+    print("\nFiles generated:")
     print(f"  experiments/results/shadow_codex.json ({len(controller.trace)} trace entries)")
-    print(f"  experiments/results/presence_certificate.json")
+    print("  experiments/results/presence_certificate.json")
     
     return certificate
 

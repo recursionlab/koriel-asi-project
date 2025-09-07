@@ -14,19 +14,14 @@ Critical Features:
 
 from __future__ import annotations
 import ast
-import importlib
-import inspect
-import sys
 import time
 import uuid
-import json
 import types
 import copy
-from typing import Dict, List, Any, Optional, Union, Callable, Type, Tuple
+from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 from abc import ABC, abstractmethod
-import traceback
 
 # Import transcendence substrate interfaces
 from transcendence_substrate import UniversalOperator, InformationState, TranscendenceSubstrate
@@ -277,7 +272,7 @@ class SelfModificationEngine:
     
     def _test_in_sandbox(self, modification: ModificationRequest) -> Dict[str, Any]:
         """Test modification in isolated sandbox environment"""
-        print(f"Testing modification in sandbox...")
+        print("Testing modification in sandbox...")
         
         try:
             # Create sandbox copy of substrate
@@ -599,7 +594,6 @@ class SelfModificationEngine:
         """Enhance reasoning capabilities"""
         
         # This would integrate with reasoning chain system
-        enhancement_type = modification.target_component
         
         # Placeholder for reasoning enhancement
         return ModificationResult(
@@ -612,7 +606,6 @@ class SelfModificationEngine:
         """Expand consciousness capabilities"""
         
         # This would integrate with consciousness interface
-        expansion_type = modification.target_component
         
         # Placeholder for consciousness expansion
         return ModificationResult(
@@ -849,7 +842,7 @@ class TestOperator(UniversalOperator):
         print(f"New operators: {list(substrate.operators.keys())}")
     
     # Test recursive improvement cycle
-    print(f"\nInitiating recursive improvement cycle...")
+    print("\nInitiating recursive improvement cycle...")
     cycle_result = mod_engine.initiate_recursive_improvement_cycle()
     
     print(f"Cycle completed: {cycle_result['cycle_duration']:.2f}s")
@@ -857,7 +850,7 @@ class TestOperator(UniversalOperator):
     
     # Get analytics
     analytics = mod_engine.get_modification_analytics()
-    print(f"\nModification Analytics:")
+    print("\nModification Analytics:")
     print(f"  Success rate: {analytics['success_rate']:.1%}")
     print(f"  Total modifications: {analytics['total_modifications']}")
     print(f"  Identity preserved: {analytics['identity_preservation']}")

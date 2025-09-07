@@ -7,11 +7,10 @@ No LLMs, no gradients - pure symbolic reasoning with QRFT control signals
 import re
 import time
 import json
-import hashlib
-from typing import Dict, List, Set, Tuple, Optional, Any, Union
+from typing import Dict, List, Set, Tuple, Optional, Any
 from dataclasses import dataclass, field
 from enum import Enum
-from collections import defaultdict, deque
+from collections import defaultdict
 import uuid
 
 # Local data utilities
@@ -497,7 +496,7 @@ class QRFTAgent:
         
         # Start reasoning chain for complex queries
         chain_type = "mathematical" if self._is_mathematical_query(user_input) else "general"
-        chain_id = self.state.start_reasoning_chain(user_input, chain_type)
+        self.state.start_reasoning_chain(user_input, chain_type)
         
         try:
             # Update state

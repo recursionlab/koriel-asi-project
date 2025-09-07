@@ -1,7 +1,7 @@
 """Consciousness-guided reasoning engine"""
 import numpy as np
-from typing import Dict, List, Any, Optional
-from .reality_interface import Problem, TestResult, RealityInterface
+from typing import Dict, Any
+from .reality_interface import Problem, RealityInterface
 from .metastate import MetaState, ShadowCodex
 from .dec import DEC
 
@@ -87,7 +87,7 @@ class ConsciousnessGuidedReasoner:
                     result = eval(question)
                     
                 return str(result)
-            except:
+            except Exception:
                 return "0"
         else:
             # Less systematic - more prone to errors
@@ -101,7 +101,7 @@ class ConsciousnessGuidedReasoner:
                     result += noise
                     
                 return str(result)
-            except:
+            except Exception:
                 return "0"
                 
     def _solve_logic(self, problem: Problem, weights: Dict[str, float]) -> str:
@@ -132,7 +132,7 @@ class ConsciousnessGuidedReasoner:
                     if len(seq) > 2 and seq[2] - seq[1] == diff:
                         next_val = seq[-1] + diff
                         return str(next_val)
-            except:
+            except Exception:
                 pass
                 
         return "0"

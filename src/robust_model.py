@@ -227,7 +227,7 @@ class RobustTinyByteLM:
             B = 1
             try:
                 B = x.shape[0]
-            except:
+            except Exception:
                 pass
             return 10.0, np.ones((B, 256))/256.0, np.zeros((B, self.d))
     

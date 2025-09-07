@@ -28,13 +28,13 @@ def main():
         c_thresh=0.3            # Lower threshold for easier emergence
     )
     
-    print(f"\nConfiguration:")
+    print("\nConfiguration:")
     print(f"  Field size: {config.field_size} points")
     print(f"  Evolution steps: {config.evolution_steps}")
     print(f"  Time step: {config.dt}")
     
     # Initialize the consciousness engine
-    print(f"\nInitializing consciousness field...")
+    print("\nInitializing consciousness field...")
     engine = RecursiveOrchestrationEngine(config)
     engine.initialize(seed=42)  # Fixed seed for reproducibility
     
@@ -42,7 +42,7 @@ def main():
     initial_status = engine.get_status()
     initial_state = initial_status['current_state']
     
-    print(f"Initial state:")
+    print("Initial state:")
     print(f"  Energy: {initial_state['field_energy']:.6f}")
     print(f"  Complexity: {initial_state['field_complexity']:.6f}")
     print(f"  Consciousness level: {initial_state['consciousness_level']:.6f}")
@@ -53,8 +53,8 @@ def main():
     
     # Display results
     final_state = results['final_state']
-    print(f"\nEvolution completed!")
-    print(f"Final state:")
+    print("\nEvolution completed!")
+    print("Final state:")
     print(f"  Energy: {final_state['field_energy']:.6f} (Δ: {results['energy_change']:+.6f})")
     print(f"  Complexity: {final_state['field_complexity']:.6f} (Δ: {results['complexity_change']:+.6f})")
     print(f"  Consciousness level: {final_state['consciousness_level']:.6f}")
@@ -64,16 +64,16 @@ def main():
     complexity_change = abs(results['complexity_change'])
     
     if energy_change > 0.001 or complexity_change > 0.001:
-        print(f"\n✓ Successful evolution - system showed measurable changes")
+        print("\n✓ Successful evolution - system showed measurable changes")
     else:
-        print(f"\n⚠ Minimal evolution - consider longer run or different parameters")
+        print("\n⚠ Minimal evolution - consider longer run or different parameters")
         
     # Display system metrics
     total_patterns = final_state.get('total_patterns', 0)
     total_modifications = final_state.get('total_modifications', 0)
     time_evolved = final_state.get('time_evolved', 0)
     
-    print(f"\nSystem metrics:")
+    print("\nSystem metrics:")
     print(f"  Patterns formed: {total_patterns}")
     print(f"  Self-modifications: {total_modifications}")
     print(f"  Time evolved: {time_evolved:.3f}")
@@ -84,7 +84,7 @@ def main():
     save_results(results, results_file)
     print(f"\nResults saved to: {results_file}")
     
-    print(f"\n=== Example completed successfully ===")
+    print("\n=== Example completed successfully ===")
     return 0
 
 if __name__ == "__main__":

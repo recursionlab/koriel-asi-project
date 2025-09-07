@@ -9,12 +9,9 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 import time
-import math
-import random
-import string
 import json
-from typing import List, Dict, Any, Tuple
-from qrft import create_integrated_agent, IntegratedQRFTAgent, Document
+from typing import Dict, Any
+from qrft import create_integrated_agent, Document
 
 class QRFTStressTester:
     """Comprehensive stress testing suite"""
@@ -722,7 +719,7 @@ class QRFTStressTester:
                 results['passed'] = 1
                 print(f"  ✓ CONSISTENT ({duration:.2f}s for {len(rapid_queries)} queries)")
             else:
-                print(f"  ✗ INCONSISTENT RESPONSES")
+                print("  ✗ INCONSISTENT RESPONSES")
                 
             results['details'].append({
                 'query_count': len(rapid_queries),
@@ -783,9 +780,9 @@ class QRFTStressTester:
                 
                 if handled:
                     results['passed'] += 1
-                    print(f"  ✓ HANDLED")
+                    print("  ✓ HANDLED")
                 else:
-                    print(f"  ✗ PROBLEMATIC")
+                    print("  ✗ PROBLEMATIC")
                     
                 results['details'].append({
                     'input': repr(malformed_input),
@@ -834,7 +831,7 @@ class QRFTStressTester:
             
             for i, query in enumerate(load_queries):
                 query_start = time.time()
-                response = self.agent.process_input(query)
+                self.agent.process_input(query)
                 query_time = time.time() - query_start
                 
                 response_times.append(query_time)
@@ -859,9 +856,9 @@ class QRFTStressTester:
             
             if good_performance:
                 results['passed'] = 1
-                print(f"  ✓ GOOD PERFORMANCE")
+                print("  ✓ GOOD PERFORMANCE")
             else:
-                print(f"  ✗ POOR PERFORMANCE")
+                print("  ✗ POOR PERFORMANCE")
                 
             results['details'].append({
                 'total_queries': len(load_queries),
@@ -923,7 +920,6 @@ class QRFTStressTester:
                 final_signals = (self.agent.signals.X_G, self.agent.signals.X_F, self.agent.signals.X_T)
                 
                 # Signals should only change based on legitimate state changes
-                legitimate_change = True  # Assume legitimate unless proven otherwise
                 
                 # Check for obvious gaming
                 gaming_indicators = [

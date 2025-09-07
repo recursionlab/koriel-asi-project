@@ -11,7 +11,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 import json
 import time
-from typing import Dict, List, Any
 
 try:
     from qrft import (
@@ -23,6 +22,7 @@ try:
         Gap,
         FactPolarity,
     )
+    _ = (QRFTAgent, AgentState, QRFTSignals, QRFTPolicy, Fact, Gap, FactPolarity)
     print("+ QRFT validation imports successful")
 except ImportError as e:
     print(f"- QRFT imports failed: {e}")
@@ -323,7 +323,7 @@ class QRFTValidationReport:
         for weakness in self.results['weaknesses']:
             print(f"  - {weakness}")
         
-        print(f"\nPERFORMACE METRICS:")
+        print("\nPERFORMACE METRICS:")
         for metric, value in self.results['performance_metrics'].items():
             print(f"  {metric}: {value:.2f}")
         
@@ -375,7 +375,7 @@ class QRFTValidationReport:
         with open('experiments/results/qrft_final_validation_report.json', 'w') as f:
             json.dump(self.results, f, indent=2)
         
-        print(f"\nComplete validation report saved to experiments/results/qrft_final_validation_report.json")
+        print("\nComplete validation report saved to experiments/results/qrft_final_validation_report.json")
         print("=" * 60)
         
         return success

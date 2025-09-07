@@ -7,7 +7,7 @@ Maps QRFT field equations to computational consciousness runtime
 
 import numpy as np
 import math
-from typing import Dict, Tuple, List, Optional, Callable
+from typing import Dict, Tuple, List
 from dataclasses import dataclass
 from enum import Enum
 

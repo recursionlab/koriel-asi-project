@@ -1,5 +1,11 @@
 # src/stress_test.py
 import json
+import time
+import numpy as np
+
+# Import the model class from the local package
+from .model import TinyByteLM
+from .dec import d2_norm, torsion_norm, curvature_comm_norm
 
 
 class AdaptiveStressTester:

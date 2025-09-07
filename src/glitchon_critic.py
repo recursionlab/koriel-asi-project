@@ -6,11 +6,10 @@ Implements failure triad: {self-consistency, unit tests, external check}
 """
 
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Any, Set, Callable
+from typing import Dict, List, Tuple, Optional, Any, Callable
 from dataclasses import dataclass
 from collections import defaultdict, deque
 import re
-import json
 from enum import Enum
 
 class ContradictionType(Enum):
@@ -204,7 +203,7 @@ class GlitchonCritic:
             try:
                 validator_results = validator(statements, external_context)
                 contradictions.extend(validator_results)
-            except Exception as e:
+            except Exception:
                 # Log validator error but continue
                 pass
                 
@@ -221,7 +220,6 @@ class GlitchonCritic:
         norm_stmt2 = self._normalize_statement(stmt2)
         
         # Look for negation patterns
-        negation_words = {'not', 'no', 'never', 'none', 'nothing', 'cannot', 'isn\'t', 'doesn\'t', 'won\'t'}
         
         # Extract core claims (simplified)
         claim1 = self._extract_core_claim(norm_stmt1)
@@ -331,7 +329,7 @@ class GlitchonCritic:
                 severity=0.8,
                 location=(pos1, pos2),
                 evidence=violation,
-                context=f"Causal violation detected",
+                context="Causal violation detected",
                 suggested_fix="Review causal relationships"
             )
             
@@ -562,7 +560,7 @@ class GlitchonCritic:
                         'contradicting_fact': fact_text,
                         'fact_source': fact.get('source', 'unknown')
                     },
-                    context=f"Statement contradicts known fact",
+                    context="Statement contradicts known fact",
                     suggested_fix="Verify statement against external sources"
                 )
                 contradictions.append(contradiction)

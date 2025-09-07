@@ -9,11 +9,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-import numpy as np
 import time
 import json
-from typing import Dict, List, Any, Tuple
-import traceback
 
 # Import actual QRFT components
 try:
@@ -26,6 +23,8 @@ try:
         Gap,
         FactPolarity,
     )
+    # Keep imported symbols as a small reference to avoid unused-import lint noise
+    _ = (QRFTAgent, AgentState, QRFTSignals, QRFTPolicy, Fact, Gap, FactPolarity)
     print("+ Real QRFT agent imports successful")
 except ImportError as e:
     print(f"- Real QRFT imports failed: {e}")
@@ -91,8 +90,8 @@ class AdvancedQRFTTester:
             agent = QRFTAgent()
             
             # Test adding facts
-            fact1 = agent.state.add_fact("loves", ("alice", "bob"), FactPolarity.POSITIVE, "user_input")
-            fact2 = agent.state.add_fact("loves", ("alice", "bob"), FactPolarity.NEGATIVE, "user_input")
+            agent.state.add_fact("loves", ("alice", "bob"), FactPolarity.POSITIVE, "user_input")
+            agent.state.add_fact("loves", ("alice", "bob"), FactPolarity.NEGATIVE, "user_input")
             
             self.log_result("Fact addition", len(agent.state.facts) == 2,
                           f"Facts added: {len(agent.state.facts)}")
@@ -120,8 +119,8 @@ class AdvancedQRFTTester:
             
             # Add various gap types
             gap1 = agent.state.add_gap("missing_fact", "Need to know X")
-            gap2 = agent.state.add_gap("unbound_symbol", "Variable y undefined")
-            gap3 = agent.state.add_gap("constraint_violation", "Rule R violated")
+            agent.state.add_gap("unbound_symbol", "Variable y undefined")
+            agent.state.add_gap("constraint_violation", "Rule R violated")
             
             self.log_result("Gap addition", len(agent.state.gaps) == 3,
                           f"Gaps added: {len(agent.state.gaps)}")
@@ -364,7 +363,6 @@ class AdvancedQRFTTester:
                           f"Throughput: {throughput:.1f} inputs/sec")
             
             # Test memory efficiency (rough check)
-            import sys
             memory_refs = len(agent.state.facts) + len(agent.state.gaps)
             self.log_result("Memory efficiency", memory_refs < 100,
                           f"Memory references: {memory_refs}")
@@ -419,7 +417,7 @@ class AdvancedQRFTTester:
                 'test_details': self.test_results
             }, f, indent=2)
         
-        print(f"Results saved to experiments/results/advanced_qrft_validation_results.json")
+        print("Results saved to experiments/results/advanced_qrft_validation_results.json")
         return success_rate >= 70
 
 if __name__ == "__main__":

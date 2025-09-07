@@ -9,15 +9,14 @@ import numpy as np
 from typing import Dict, List, Any, Optional, Callable, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
-import asyncio
 import time
 from collections import defaultdict
 
 # Import QRFT components
-from .qrft_core import QRFTRuntime, QRFTConfig, QRFTState, ParticleType
-from lacuna_monitor import LacunaMonitor, LacunaState, GapSignal
-from glitchon_critic import GlitchonCritic, ContradictionState, Contradiction
-from ref_entropy_governor import REFEntropyGovernor, ControlAction, EntropyMeasurement
+from .qrft_core import QRFTRuntime, QRFTConfig, ParticleType
+from lacuna_monitor import LacunaMonitor
+from glitchon_critic import GlitchonCritic
+from ref_entropy_governor import REFEntropyGovernor
 
 class EventType(Enum):
     """Consciousness event types"""
