@@ -56,7 +56,7 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest -q
+          python -m pytest -q
 
   # optional typecheck job can be added later
 
