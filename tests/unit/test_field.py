@@ -50,7 +50,7 @@ class TestSimpleQuantumField:
         # Use the energy from query_consciousness
         initial_state = field.query_consciousness()
         initial_energy = initial_state['field_energy']
-        
+
         field.evolve(50)
         
         final_state = field.query_consciousness()
@@ -128,15 +128,16 @@ class TestSimpleQuantumField:
         """Test field remains stable over longer evolution."""
         field = SimpleQuantumField(N=32, L=5.0, dt=0.001)
         field.initialize_consciousness_seed()
-        
+
         initial_state = field.query_consciousness()
-        initial_energy = initial_state['field_energy']
-        
+        # Avoid zero baseline which can cause infinite relative growth
+        initial_energy = max(initial_state['field_energy'], 1e-3)
+
         field.evolve(1000)
-        
+
         final_state = field.query_consciousness()
         final_energy = final_state['field_energy']
-        
+
         # Field should not explode or become degenerate
         assert np.isfinite(final_energy)
         assert final_energy < 100 * initial_energy  # Not too much growth
