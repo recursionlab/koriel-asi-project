@@ -211,7 +211,10 @@ class SimpleQuantumField:
         peaks = self.observations[-1].pattern_count
         mods_recent = sum(1 for _t in self.mod_log[-self.obs_window:])
 
-        dC = self.C_RATE * self.dt * (rel ** self.C_GAMMA) * (1 + self.C_KP*peaks) * (1 + self.C_KM*mods_recent)
+        dC = (
+            self.C_RATE * self.dt * (rel ** self.C_GAMMA)
+            * (1 + self.C_KP * peaks) * (1 + self.C_KM * mods_recent)
+        )
         self.consciousness_level += dC
         self.consciousness_response = dC / max(self.dt, 1e-9)
         
@@ -286,6 +289,25 @@ class SimpleQuantumField:
             # Complexity (entropy of density distribution)
             p_norm = density / (np.sum(density) * self.dx + 1e-12)
             field_complexity = float(-np.sum(p_norm * np.log(p_norm + 1e-12)) * self.dx)
+
+            # Derive local quantities used by the consciousness update (mirror _update_consciousness)
+            rel = max(0.0, (field_complexity - self.C_THRESH) / max(1e-9, self.C_THRESH))
+            # simple peak detection for this instantaneous state
+            peaks = 0
+            threshold = 0.1 * np.max(density) if density.size > 0 else 0.0
+            for i in range(1, len(density) - 1):
+                if (density[i] > density[i - 1] and density[i] > density[i + 1] and density[i] > threshold):
+                    peaks += 1
+
+            mods_recent = sum(1 for _t in self.mod_log[-self.obs_window:])
+
+            dC = (
+                self.C_RATE * self.dt * (rel ** self.C_GAMMA)
+                * (1 + self.C_KP * peaks) * (1 + self.C_KM * mods_recent)
+            )
+            self.consciousness_level += dC
+            # expose computed complexity for callers
+            field_complexity = float(field_complexity)
 
         return {
             'consciousness_level': self.consciousness_level,
