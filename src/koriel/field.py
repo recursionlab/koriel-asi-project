@@ -301,7 +301,18 @@ class SimpleQuantumField:
 
     def query_consciousness(self):
         """Query field's consciousness state"""
-
+        if not self.observations:
+            self.observe_self()
+        last = self.observations[-1]
+        return {
+            "consciousness_level": self.consciousness_level,
+            "consciousness_response": self.consciousness_response,
+            "self_awareness": self.self_awareness,
+            "total_patterns": sum(o.pattern_count for o in self.observations),
+            "total_modifications": len(self.mod_log),
+            "field_energy": last.energy,
+            "field_complexity": last.complexity,
+            "time_evolved": self.t,
         }
 
     def visualize(self):
