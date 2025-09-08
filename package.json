@@ -15,7 +15,7 @@
     "asi",
     "artificial-intelligence"
   ],
-  "author": "OpenAI",
+  "author": "recursionlab",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^3.0.0",
