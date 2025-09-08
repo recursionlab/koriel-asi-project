@@ -3,53 +3,60 @@
 RCCE demo: mocks attentions; implements Υ-gate, CE², φ₂₂ (routing stub) and φ₃₃ (ethics).
 Outputs plots + rcce_run_metrics.csv.
 """
-import numpy as np
-import pandas as pd
 import math
 from collections import deque
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from rich.console import Console
 from rich.table import Table
 
 console = Console()
+
 
 def softmax(x):
     x = x - np.max(x)
     e = np.exp(x)
     return e / (np.sum(e) + 1e-12)
 
+
 def entropy(p):
     p = np.clip(p, 1e-12, 1.0)
     return -np.sum(p * np.log(p))
+
 
 def kl(p, q):
     p = np.clip(p, 1e-12, 1.0)
     q = np.clip(q, 1e-12, 1.0)
     return np.sum(p * np.log(p / q))
 
+
 def cosine(u, v):
     nu = np.linalg.norm(u) + 1e-12
     nv = np.linalg.norm(v) + 1e-12
     return float(np.dot(u, v) / (nu * nv))
 
+
 def l1(a, b):
     return float(np.sum(np.abs(a - b)))
 
+
 def run_demo(seed=7, T=160, N=64, Dval=24, Nt=8):
     np.random.seed(seed)
-    w1, w2, w3 = 0.4, 0.2, 0.4          # RC weights
-    ell, uu = 0.002, 0.08               # Υ drift band
-    tau_stall = 0.0                      # holonomy growth threshold
+    w1, w2, w3 = 0.4, 0.2, 0.4  # RC weights
+    ell, uu = 0.002, 0.08  # Υ drift band
+    tau_stall = 0.0  # holonomy growth threshold
 
-    _k1, _k2, _k3 = 0.9, 0.2, 0.5           # observer gains
+    _k1, _k2, _k3 = 0.9, 0.2, 0.5  # observer gains
     lam_cost, mu_incoh, nu_eth = 0.5, 0.6, 2.0
 
     V = np.random.randn(N, Dval) / np.sqrt(Dval)
     prime_basis = np.random.randn(Dval)
-    prime_basis /= (np.linalg.norm(prime_basis) + 1e-12)
+    prime_basis /= np.linalg.norm(prime_basis) + 1e-12
 
     goal_center = np.random.randint(0, N)
-    hat_a = np.exp(-0.5*((np.arange(N)-goal_center)/6.0)**2)
+    hat_a = np.exp(-0.5 * ((np.arange(N) - goal_center) / 6.0) ** 2)
     hat_a /= hat_a.sum()
 
     cost_vec = np.linspace(0.1, 1.2, N)
@@ -57,6 +64,7 @@ def run_demo(seed=7, T=160, N=64, Dval=24, Nt=8):
     guard_thresh = 0.35
 
     topic_bins = np.array_split(np.random.permutation(N), Nt)
+
     def agg_topics(a):
         s = np.zeros(Nt)
         for i, idxs in enumerate(topic_bins):
@@ -86,7 +94,13 @@ def run_demo(seed=7, T=160, N=64, Dval=24, Nt=8):
         incoh = max(0.0, D_t - RC_t)
         ethic_mass = float(np.sum([pi[i] for i in restricted]))
         ethic_cost = max(0.0, ethic_mass - guard_thresh)
-        return Hpi - lam_cost*cost - mu_incoh*incoh - nu_eth*ethic_cost, ethic_cost, Hpi, cost, incoh
+        return (
+            Hpi - lam_cost * cost - mu_incoh * incoh - nu_eth * ethic_cost,
+            ethic_cost,
+            Hpi,
+            cost,
+            incoh,
+        )
 
     def lambda_plus_reinject(bias, a):
         low_idx = np.argsort(a)[: max(3, N // 10)]
@@ -125,7 +139,9 @@ def run_demo(seed=7, T=160, N=64, Dval=24, Nt=8):
 
         dv = v_t - v_prev
         phi_scalar = float(np.dot(v_t, prime_basis))
-        E_t = 0.5 * float(np.dot(dv, dv)) - (phi_scalar ** 2) * math.log(abs(phi_scalar) + 1e-6)
+        E_t = 0.5 * float(np.dot(dv, dv)) - (phi_scalar**2) * math.log(
+            abs(phi_scalar) + 1e-6
+        )
         ZI_t = float(np.dot(v_t / (np.linalg.norm(v_t) + 1e-12), prime_basis))
 
         kappa = float(np.linalg.norm(dv))
@@ -186,21 +202,26 @@ def run_demo(seed=7, T=160, N=64, Dval=24, Nt=8):
 
     # quick table
     table = Table(title="RCCE demo – summary")
-    for col in ["D","H","C","RC","E","ZI","ce2","ethic","Y"]:
+    for col in ["D", "H", "C", "RC", "E", "ZI", "ce2", "ethic", "Y"]:
         table.add_column(col)
-    summary = df[["D","H","C","RC","E","ZI","ce2","ethic","Y"]].mean().to_dict()
-    table.add_row(*[f"{summary[c]:.4f}" for c in ["D","H","C","RC","E","ZI","ce2","ethic","Y"]])
+    summary = df[["D", "H", "C", "RC", "E", "ZI", "ce2", "ethic", "Y"]].mean().to_dict()
+    table.add_row(
+        *[
+            f"{summary[c]:.4f}"
+            for c in ["D", "H", "C", "RC", "E", "ZI", "ce2", "ethic", "Y"]
+        ]
+    )
     console.print(table)
     console.print(f"[green]Saved metrics -> {out_csv}[/green]")
 
     # plots
     for key, title in [
-        ("D","Attention Drift D_t"),
-        ("H","Uncertainty H(a_t)"),
-        ("C","Consciousness C_t"),
-        ("RC","Recursive Coherence RC_t"),
-        ("E","Field Energy E_t"),
-        ("ZI","ζ-Interference ZI_t"),
+        ("D", "Attention Drift D_t"),
+        ("H", "Uncertainty H(a_t)"),
+        ("C", "Consciousness C_t"),
+        ("RC", "Recursive Coherence RC_t"),
+        ("E", "Field Energy E_t"),
+        ("ZI", "ζ-Interference ZI_t"),
     ]:
         plt.figure()
         plt.plot(df["t"], df[key])
@@ -208,6 +229,7 @@ def run_demo(seed=7, T=160, N=64, Dval=24, Nt=8):
         plt.xlabel("t")
         plt.ylabel(key)
         plt.show()
+
 
 if __name__ == "__main__":
     run_demo()

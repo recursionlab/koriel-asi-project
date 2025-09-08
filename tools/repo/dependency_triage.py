@@ -8,12 +8,12 @@ Classify imports found across the repository into:
 Usage:
     python tools/repo/dependency_triage.py
 """
+
 from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
 from typing import List, Set
-
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -54,7 +54,11 @@ def is_importable(module: str) -> bool:
 
 
 def main() -> int:
-    search_paths = [p for p in REPO_ROOT.rglob("*.py") if "venv" not in str(p) and ".venv" not in str(p)]
+    search_paths = [
+        p
+        for p in REPO_ROOT.rglob("*.py")
+        if "venv" not in str(p) and ".venv" not in str(p)
+    ]
     imports = collect_imports(search_paths)
 
     internal = []

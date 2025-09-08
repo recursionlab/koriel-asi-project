@@ -74,7 +74,10 @@ def detect(clauses: List[Any]) -> Dict[str, Any]:
             neg.setdefault(atom, []).append(i)
 
     contradictions = sorted([a for a in atoms if a in pos and a in neg])
-    witnesses = [{"atom": a, "pos": pos.get(a, []), "neg": neg.get(a, [])} for a in contradictions]
+    witnesses = [
+        {"atom": a, "pos": pos.get(a, []), "neg": neg.get(a, [])}
+        for a in contradictions
+    ]
 
     total_unique = len(atoms) if atoms else 1
     x_g = (len(contradictions) / total_unique) if total_unique else 0.0
@@ -85,4 +88,3 @@ def detect(clauses: List[Any]) -> Dict[str, Any]:
 if __name__ == "__main__":
     sample = ["P(a)", "¬P(a)", "Q", (True, "R"), {"atom": "not S", "polarity": True}]
     print(detect(sample))
-

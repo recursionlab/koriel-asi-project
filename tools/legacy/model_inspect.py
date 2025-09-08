@@ -15,10 +15,11 @@ import os
 import sys
 from pathlib import Path
 
+
 def try_hf_load(path, report):
     try:
-        from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
         import torch
+        from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
     except Exception as e:
         report["hf_error"] = f"transformers_import_failed: {repr(e)}"
         return False
@@ -36,7 +37,7 @@ def try_hf_load(path, report):
         report["tokenizer"] = {
             "name_or_path": getattr(tokenizer, "name_or_path", None),
             "fast": getattr(tokenizer, "is_fast", None),
-            "vocab_size": getattr(tokenizer, "vocab_size", None)
+            "vocab_size": getattr(tokenizer, "vocab_size", None),
         }
     except Exception as e:
         report["tokenizer_error"] = repr(e)
@@ -58,6 +59,7 @@ def try_hf_load(path, report):
         try:
             model.eval()
             import torch
+
             prompt = "Test prompt."
             inputs = tokenizer(prompt, return_tensors="pt")
             with torch.no_grad():
@@ -76,12 +78,21 @@ def try_hf_load(path, report):
             report["sample_inference_error"] = repr(e)
     return True
 
+
 def try_torch_state_dict(path, report):
     import torch
+
     # Try common checkpoint file names
     candidates = []
     p = Path(path)
-    for name in ["pytorch_model.bin", "model.bin", "model.pt", "checkpoint.pt", "model.ckpt", "ckpt.pt"]:
+    for name in [
+        "pytorch_model.bin",
+        "model.bin",
+        "model.pt",
+        "checkpoint.pt",
+        "model.ckpt",
+        "ckpt.pt",
+    ]:
         if (p / name).exists():
             candidates.append(str(p / name))
     # Also accept a single file path
@@ -103,7 +114,7 @@ def try_torch_state_dict(path, report):
             elif isinstance(sd, dict) and "model_state_dict" in sd:
                 sd = sd["model_state_dict"]
             # iterate over tensors
-            for k,v in sd.items():
+            for k, v in sd.items():
                 try:
                     if hasattr(v, "numel"):
                         total += v.numel()
@@ -115,24 +126,29 @@ def try_torch_state_dict(path, report):
         return False
     return True
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-dir", "-m", required=True, help="Path to model dir or checkpoint file")
-    parser.add_argument("--out", "-o", default="model_report.json", help="Output JSON file")
+    parser.add_argument(
+        "--model-dir", "-m", required=True, help="Path to model dir or checkpoint file"
+    )
+    parser.add_argument(
+        "--out", "-o", default="model_report.json", help="Output JSON file"
+    )
     args = parser.parse_args()
 
     report = {
         "inspected_path": os.path.abspath(args.model_dir),
         "timestamp_utc": __import__("datetime").datetime.utcnow().isoformat() + "Z",
-        "env": {
-            "python": sys.version
-        }
+        "env": {"python": sys.version},
     }
 
     # Quick filesystem scan for typical tokenizer/checkpoint files
     p = Path(args.model_dir)
     if p.exists() and p.is_dir():
-        report["contains"] = [str(x.relative_to(p)) for x in p.rglob("*") if x.is_file()]
+        report["contains"] = [
+            str(x.relative_to(p)) for x in p.rglob("*") if x.is_file()
+        ]
     elif p.exists() and p.is_file():
         report["contains"] = [str(p.name)]
     else:
@@ -157,6 +173,7 @@ def main():
         json.dump(report, f, indent=2)
     print(f"Wrote report to {args.out}")
     print(json.dumps(report, indent=2))
+
 
 if __name__ == "__main__":
     main()
