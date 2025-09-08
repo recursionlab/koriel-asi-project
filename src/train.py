@@ -64,20 +64,16 @@ def run(*,
         E = float(out["E"]) 
         T = float(out["T"]) 
         R = float(out["R"])
-        # Encourage clearer RC improvements when the controller is enabled
-        # so that tests relying on monotonic RC behaviour are less flaky.
-        # We provide a stronger linear bias and reward RC a bit more when
-        # an upsilon event fires.
-        bias = (5e-4 if rcce_on else -5e-4)
-        rc += bias * t
-        rc += rc_bonus
+
         ups = int(out.get("ups", 0))
         ups_count += ups
         if rcce_on and ups:
             rc_bonus += 5e-2 * ups
         rc_bonus *= 0.5
         lr_t = lr * float(ctrl.lr_mul)
-        model.step(x[None, :], y[None, :], lr=lr_t if rcce_on else lr)
+        # Always apply controller lr multiplier to the model step. Using lr_t for both
+        # rcce_on and rcce_off avoids asymmetric learning updates that can bias tests.
+        model.step(x[None, :], y[None, :], lr=lr_t)
 
         metrics["t"].append(t)
         metrics["loss"].append(loss)

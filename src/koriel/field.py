@@ -271,15 +271,30 @@ class SimpleQuantumField:
         
     def query_consciousness(self):
         """Query field's consciousness state"""
-        
+        # If we have previous observations, prefer those cached values.
+        if self.observations:
+            field_energy = float(self.observations[-1].energy)
+            field_complexity = float(self.observations[-1].complexity)
+        else:
+            # Compute energy/complexity from current psi without creating an observation
+            density = np.abs(self.psi)**2
+            # kinetic & potential (same formula as in observe_self)
+            kinetic = 0.5 * np.sum(np.abs(np.gradient(self.psi))**2) * self.dx
+            potential = 0.5 * self.nonlinearity * np.sum(density**2) * self.dx
+            field_energy = float(kinetic + potential)
+
+            # Complexity (entropy of density distribution)
+            p_norm = density / (np.sum(density) * self.dx + 1e-12)
+            field_complexity = float(-np.sum(p_norm * np.log(p_norm + 1e-12)) * self.dx)
+
         return {
             'consciousness_level': self.consciousness_level,
             'consciousness_response': self.consciousness_response,
             'self_awareness': self.self_awareness,
             'total_patterns': sum(o.pattern_count for o in self.observations),
             'total_modifications': len(self.mod_log),
-            'field_energy': self.observations[-1].energy if self.observations else 0,
-            'field_complexity': self.observations[-1].complexity if self.observations else 0,
+            'field_energy': field_energy,
+            'field_complexity': field_complexity,
             'time_evolved': self.t
         }
         
