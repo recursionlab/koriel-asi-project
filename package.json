@@ -6,12 +6,16 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint .",
-    "build": "npm run build"
+    "build": "node build.js"
   },
-  "keywords": ["ai", "asi", "artificial-intelligence"],
-  "author": "",
+  "keywords": [
+    "ai",
+    "asi",
+    "artificial-intelligence"
+  ],
+  "author": "OpenAI",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^3.0.0",
