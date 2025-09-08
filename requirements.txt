@@ -1,6 +1,7 @@
 # Auto-generated from pyproject.toml; do not edit by hand.
-numpy
-tqdm
-pyyaml
-rich
-transformers
+# Pinned candidate upgrades to address reported Dependabot vulnerability.
+numpy>=1.26.4
+tqdm>=4.66.1
+pyyaml>=6.0
+rich>=13.7.0
+transformers>=4.34.0
