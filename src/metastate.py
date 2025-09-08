@@ -1,9 +1,12 @@
 # src/metastate.py
-import json
 import hashlib
-import numpy as np
+import json
 from dataclasses import dataclass
 from pathlib import Path
+
+import numpy as np
+
+
 def digest_arr(a: np.ndarray) -> str:
     return hashlib.sha1(a.tobytes()).hexdigest()
 

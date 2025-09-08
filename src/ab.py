@@ -1,8 +1,10 @@
 # src/ab.py
 import json
-import numpy as np
 from pathlib import Path
-from .train import run, load_cfg
+
+import numpy as np
+
+from .train import load_cfg, run
 
 
 def slope(y):
@@ -53,8 +55,13 @@ def cohens_d(x, y):
     y = np.array(y, float)
     mx, my = x.mean(), y.mean()
     sx, sy = x.std(ddof=1) + 1e-12, y.std(ddof=1) + 1e-12
-    sp = np.sqrt(((len(x) - 1) * sx * sx + (len(y) - 1) * sy * sy) / max(1, (len(x) + len(y) - 2)))
+    sp = np.sqrt(
+        ((len(x) - 1) * sx * sx + (len(y) - 1) * sy * sy)
+        / max(1, (len(x) + len(y) - 2))
+    )
     return float((mx - my) / sp)
+
+
 def main():
     Path("logs").mkdir(exist_ok=True)
     on_rc, on_ls, on_u = run_many(True)

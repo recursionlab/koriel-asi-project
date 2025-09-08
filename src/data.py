@@ -1,13 +1,15 @@
 # src/data.py
 import os
-import numpy as np
 import typing as T
 from pathlib import Path
+
+import numpy as np
 
 try:
     from datasets import load_dataset  # type: ignore
 except Exception:  # pragma: no cover - optional dependency
     load_dataset = None
+
 
 def _default_corpus() -> T.List[bytes]:
     s = [
@@ -20,8 +22,13 @@ def _default_corpus() -> T.List[bytes]:
     ]
     return s
 
-def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = None,
-                text_column: str = "text") -> T.List[np.ndarray]:
+
+def load_corpus(
+    root: str = "conversations-pocket",
+    *,
+    dataset: str | None = None,
+    text_column: str = "text"
+) -> T.List[np.ndarray]:
     """Load a text corpus from disk or HuggingFace Datasets.
 
     Priority is given to the ``dataset`` argument if provided; otherwise, the environment variable
@@ -32,7 +39,9 @@ def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = Non
     ``.txt`` shards and read recursively.
     """
 
-    ds_name = dataset if dataset is not None else os.environ.get("KORIEL_CORPUS_DATASET")
+    ds_name = (
+        dataset if dataset is not None else os.environ.get("KORIEL_CORPUS_DATASET")
+    )
     lines: T.List[bytes] = []
     if ds_name and load_dataset is not None:
         try:
@@ -58,6 +67,7 @@ def load_corpus(root: str = "conversations-pocket", *, dataset: str | None = Non
         lines = _default_corpus()
 
     return [np.frombuffer(x, dtype=np.uint8) for x in lines]
+
 
 def make_stream(corpus, ctx: int, steps: int, seed: int):
     rng = np.random.default_rng(seed)

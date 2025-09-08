@@ -9,9 +9,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 UPDATES = ROOT / "manifesto" / "updates"
 
+
 def run(cmd, cwd=None):
     p = subprocess.run(cmd, cwd=cwd or ROOT, text=True, capture_output=True)
     return p.returncode, p.stdout.strip(), p.stderr.strip()
+
 
 def copy_tree(src: Path, dst: Path, dry: bool):
     copied = []
@@ -26,15 +28,23 @@ def copy_tree(src: Path, dst: Path, dry: bool):
         copied.append(str(rel))
     return copied
 
+
 def apply_patches(patches_dir: Path, dry: bool):
     applied, failed = [], []
-    for patch in sorted(patches_dir.rglob("*.patch")) + sorted(patches_dir.rglob("*.diff")):
+    for patch in sorted(patches_dir.rglob("*.patch")) + sorted(
+        patches_dir.rglob("*.diff")
+    ):
         if dry:
             applied.append(patch.name)
             continue
-        code, out, err = run(["git", "apply", "--whitespace=fix", "--reject", str(patch)])
-        (applied if code == 0 else failed).append({"file": str(patch), "code": code, "stderr": err})
+        code, out, err = run(
+            ["git", "apply", "--whitespace=fix", "--reject", str(patch)]
+        )
+        (applied if code == 0 else failed).append(
+            {"file": str(patch), "code": code, "stderr": err}
+        )
     return applied, failed
+
 
 def main():
     ap = argparse.ArgumentParser(description="Apply manifesto/updates to repo.")
@@ -54,13 +64,13 @@ def main():
 
     # 2) Conventional folders
     conventions = {
-        "files": ROOT,                                 # arbitrary files mirrored to repo root
-        "workflows": ROOT / ".github" / "workflows",   # YAML workflows
-        "requirements": ROOT,                          # requirement files
-        "docs": ROOT / "docs",                         # docs
-        "scripts": ROOT / "scripts",                   # scripts
-        "src": ROOT / "src",                           # source drops
-        "tests": ROOT / "tests",                       # tests
+        "files": ROOT,  # arbitrary files mirrored to repo root
+        "workflows": ROOT / ".github" / "workflows",  # YAML workflows
+        "requirements": ROOT,  # requirement files
+        "docs": ROOT / "docs",  # docs
+        "scripts": ROOT / "scripts",  # scripts
+        "src": ROOT / "src",  # source drops
+        "tests": ROOT / "tests",  # tests
     }
     for name, dest in conventions.items():
         src = UPDATES / name
@@ -92,6 +102,7 @@ def main():
 
     print(json.dumps(summary, indent=2))
     return 0 if not summary["patches"]["failed"] else 3
+
 
 if __name__ == "__main__":
     sys.exit(main())

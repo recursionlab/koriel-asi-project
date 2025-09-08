@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def logprob(model, prompt: str, continuation: str) -> float:
     """Compute log-prob of ``continuation`` given ``prompt`` using TinyByteLM.
 
@@ -8,9 +9,9 @@ def logprob(model, prompt: str, continuation: str) -> float:
     buf = np.zeros(model.ctx, dtype=np.uint8)
     p_bytes = prompt.encode("utf-8")
     if len(p_bytes) >= model.ctx:
-        buf[:] = np.frombuffer(p_bytes[-model.ctx:], dtype=np.uint8)
+        buf[:] = np.frombuffer(p_bytes[-model.ctx :], dtype=np.uint8)
     else:
-        buf[-len(p_bytes):] = np.frombuffer(p_bytes, dtype=np.uint8)
+        buf[-len(p_bytes) :] = np.frombuffer(p_bytes, dtype=np.uint8)
     logp = 0.0
     for b in continuation.encode("utf-8"):
         probs, *_ = model.forward(buf[None, :])

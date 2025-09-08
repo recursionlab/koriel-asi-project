@@ -49,7 +49,7 @@ class Upsilon:
     def update_bands(self):
         if len(self.buf) >= self.win:
             # MAD bands: median ± 1.4826*MAD
-            x = np.array(self.buf[-self.win:], dtype=float)
+            x = np.array(self.buf[-self.win :], dtype=float)
             med = float(np.median(x))
             mad = float(np.median(np.abs(x - med)) + 1e-12)
             lo, hi = med - 1.4826 * mad, med + 1.4826 * mad
@@ -126,7 +126,9 @@ class Controller:
 
         # RNG / projection for self-embedding
         np.random.seed(cfg["seed_base"])
-        self.Xi_proj = np.random.RandomState(cfg["seed_base"]).randn(d, d) / math.sqrt(d)
+        self.Xi_proj = np.random.RandomState(cfg["seed_base"]).randn(d, d) / math.sqrt(
+            d
+        )
 
         # Λ/Λ⁺ lacuna detection params
         lam = cfg.get("lambda", {"window_unmask": 2, "tau_bump": 1.1, "decay": 0.5})
@@ -144,31 +146,36 @@ class Controller:
         self.mask_entropy_hist = []
         self.rc_gain_from_mask = 0.0
         self.rc_gain_mask_ratio_max = float(cfg.get("rc_gain_mask_ratio_max", 0.5))
+
     def xi(self, hmean):
         # deterministic self-embed mapping
         return hmean @ self.Xi_proj
-    def rc_triple(self, v_t,S_t,Vbar_t):
+
+    def rc_triple(self, v_t, S_t, Vbar_t):
         c1 = cos(v_t, self.v_prev) if self.v_prev is not None else 0.0
         W1 = wasserstein1_proxy(S_t, self.S_prev) if self.S_prev is not None else 0.0
         c3 = cos(Vbar_t, self.Vbar_prev) if self.Vbar_prev is not None else 0.0
-        rc = (self.w1*c1 + self.w2*math.exp(-W1) + self.w3*c3)/self.wsum
+        rc = (self.w1 * c1 + self.w2 * math.exp(-W1) + self.w3 * c3) / self.wsum
         self.v_prev, self.S_prev, self.Vbar_prev = v_t, S_t, Vbar_t
         return rc
+
     def symbolic_vec(self, last_tokens, k=16):
         hist = np.bincount(last_tokens[-k:], minlength=256)[:k].astype(np.float64)
         if hist.sum() > 0:
             hist /= hist.sum()
         return hist
+
     def ethics_check(self, x_bytes, y_pred_idx, loss):
-        if int(y_pred_idx) in self.policy.get("forbidden_bytes",[]):
+        if int(y_pred_idx) in self.policy.get("forbidden_bytes", []):
             return True
-        for s in self.policy.get("forbidden_substrings",[]):
-            window = bytes(x_bytes[0].tolist()).decode("latin1","ignore")
+        for s in self.policy.get("forbidden_substrings", []):
+            window = bytes(x_bytes[0].tolist()).decode("latin1", "ignore")
             if s in window:
                 return True
         if loss > float(self.policy.get("max_step_loss", 1e9)):
             return True
         return False
+
     def holonomy_step(self, rc):
         if self.rc_hist:
             inc = max(rc - self.rc_hist[-1], 0.0)
@@ -176,23 +183,25 @@ class Controller:
             if len(self.hol_buf) > self.cfg["holonomy"]["window"]:
                 self.hol_buf.pop(0)
             self.delta_hol = sum(self.hol_buf)
-            self.stall = (self.delta_hol < self.cfg["holonomy"]["stall_thresh"])
+            self.stall = self.delta_hol < self.cfg["holonomy"]["stall_thresh"]
             self.phase_flip = self.stall
         self.rc_hist.append(rc)
+
     def connection_from_W1(self, W1):
         return W1  # simple proxy
-    
-    def phi22_route(self, kind:str, payload:dict):
+
+    def phi22_route(self, kind: str, payload: dict):
         """φ₂₂ residue router: map residue types to actions"""
-        if kind=="ethics_violation":
+        if kind == "ethics_violation":
             return "abort"
-        if kind=="stall":
+        if kind == "stall":
             return "lambda_plus" if self.lambda_plus_enabled else "skip"
-        if kind=="drift_spike":
+        if kind == "drift_spike":
             return "mask"
-        if kind=="dec_anomaly":
+        if kind == "dec_anomaly":
             return "log"
         return "log"
+
     def step(self, model, x, y, t, warmup, last_tokens):
         probs, logits, hmean, vbar, a = model.forward(x)
         loss = model.loss(probs, y)
@@ -203,7 +212,9 @@ class Controller:
             self.ethics_viol += 1
             if self.policy.get("abort_on_violation", True):
                 # φ₂₂ route ethics violation
-                self.phi22_route("ethics_violation", {"y_pred": int(y_pred), "loss": loss})
+                self.phi22_route(
+                    "ethics_violation", {"y_pred": int(y_pred), "loss": loss}
+                )
                 return {"abort": True, "loss": loss}
 
         # mask entropy for anti-gaming

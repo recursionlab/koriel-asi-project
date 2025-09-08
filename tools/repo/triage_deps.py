@@ -6,12 +6,12 @@ requirements/pyproject.
 
 Usage: python tools/repo/triage_deps.py
 """
+
 from __future__ import annotations
 
 import ast
 from pathlib import Path
 from typing import Dict, Set
-
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -26,7 +26,9 @@ def parse_requirements(repo_root: Path) -> Set[str]:
             ln = ln.strip()
             if not ln or ln.startswith("#"):
                 continue
-            pkg = ln.split(";")[0].split("==")[0].split("<=")[0].split(">=")[0].split()[0]
+            pkg = (
+                ln.split(";")[0].split("==")[0].split("<=")[0].split(">=")[0].split()[0]
+            )
             pkg = pkg.split("[")[0]
             if pkg:
                 reqs.add(pkg.lower())
@@ -99,7 +101,9 @@ def main() -> int:
     imports = collect_imports(repo_root)
     classes = classify_imports(repo_root, imports)
 
-    external_candidates = sorted([k for k, v in classes.items() if v == "external_candidate"])
+    external_candidates = sorted(
+        [k for k, v in classes.items() if v == "external_candidate"]
+    )
     missing = [k for k in external_candidates if k.lower() not in declared]
 
     print("Declared dependencies (summary):")
@@ -114,7 +118,9 @@ def main() -> int:
     for m in missing[:200]:
         print("  -", m)
 
-    print("\nNote: some names may be stdlib or misclassified; review before adding to requirements.")
+    print(
+        "\nNote: some names may be stdlib or misclassified; review before adding to requirements."
+    )
     return 0
 
 

@@ -12,11 +12,12 @@ Behavior:
 Always writes artifacts/ci_smoke/operator_mapping.json and a markdown summary.
 """
 from __future__ import annotations
+
 import argparse
-import json
-import sys
 import csv
+import json
 import os
+import sys
 from typing import Any, Dict, List, Set
 
 
@@ -69,7 +70,9 @@ def read_glossary_canonicals(path: str) -> List[str]:
     return [r.get("canonical", "").strip() for r in rows if r.get("canonical")]
 
 
-def write_outputs(canon_set: Set[str], mapping: List[Dict[str, Any]], refs_ok: bool, errors: List[str]):
+def write_outputs(
+    canon_set: Set[str], mapping: List[Dict[str, Any]], refs_ok: bool, errors: List[str]
+):
     out_dir = os.path.join("artifacts", "ci_smoke")
     os.makedirs(out_dir, exist_ok=True)
     payload = {
@@ -82,12 +85,25 @@ def write_outputs(canon_set: Set[str], mapping: List[Dict[str, Any]], refs_ok: b
     jpath = os.path.join(out_dir, "operator_mapping.json")
     with open(jpath, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
-    md_lines = ["# Operator Catalog Mapping Summary", "", "## Canonical operator set", ""]
+    md_lines = [
+        "# Operator Catalog Mapping Summary",
+        "",
+        "## Canonical operator set",
+        "",
+    ]
     for op in sorted(canon_set):
         md_lines.append(f"- {op}")
-    md_lines += ["", "## Glossary → Canonical mapping", "", "| Row | Term | Canonical | In operator set? |", "| ---: | --- | --- | :---: |"]
+    md_lines += [
+        "",
+        "## Glossary → Canonical mapping",
+        "",
+        "| Row | Term | Canonical | In operator set? |",
+        "| ---: | --- | --- | :---: |",
+    ]
     for m in mapping:
-        md_lines.append(f"| {m['row']} | {str(m.get('term') or '').strip()} | {m['canonical']} | {'✅' if m['in_operator_set'] else '❌'} |")
+        md_lines.append(
+            f"| {m['row']} | {str(m.get('term') or '').strip()} | {m['canonical']} | {'✅' if m['in_operator_set'] else '❌'} |"
+        )
     if errors:
         md_lines += ["", "### Errors", ""] + [f"- {e}" for e in errors]
     with open(os.path.join(out_dir, "operator_mapping.md"), "w", encoding="utf-8") as f:
@@ -113,7 +129,14 @@ def main():
         canon_set: Set[str] = set()
         for idx, row in enumerate(gloss_rows, start=1):
             can = (row.get("canonical") or "").strip()
-            mapping.append({"row": idx, "term": row.get("term"), "canonical": can, "in_operator_set": False})
+            mapping.append(
+                {
+                    "row": idx,
+                    "term": row.get("term"),
+                    "canonical": can,
+                    "in_operator_set": False,
+                }
+            )
         write_outputs(canon_set, mapping, refs_ok=True, errors=[])
         print("[operator-validator] SKIP: catalog not found", file=sys.stderr)
         return 0
@@ -125,10 +148,14 @@ def main():
 
     # Invariants
     if len(canon_set) != 12:
-        errors.append(f"INV-OP-CANON: expected 12 canonical operators, found {len(canon_set)}")
+        errors.append(
+            f"INV-OP-CANON: expected 12 canonical operators, found {len(canon_set)}"
+        )
     missing_refs = [op for op, r in op_refs.items() if len(r) < 2]
     if missing_refs:
-        errors.append(f"INV-REFS-PER-OP: operators with <2 refs: {sorted(missing_refs)}")
+        errors.append(
+            f"INV-REFS-PER-OP: operators with <2 refs: {sorted(missing_refs)}"
+        )
     gloss_vals = read_glossary_canonicals(args.glossary)
     unknown = sorted({c for c in gloss_vals if c and c not in canon_set})
     if unknown:
@@ -137,22 +164,30 @@ def main():
     # Build mapping from glossary rows
     for idx, row in enumerate(gloss_rows, start=1):
         can = (row.get("canonical") or "").strip()
-        mapping.append({
-            "row": idx,
-            "term": row.get("term"),
-            "canonical": can,
-            "in_operator_set": bool(can and can in canon_set),
-        })
+        mapping.append(
+            {
+                "row": idx,
+                "term": row.get("term"),
+                "canonical": can,
+                "in_operator_set": bool(can and can in canon_set),
+            }
+        )
 
     write_outputs(canon_set, mapping, refs_ok=len(missing_refs) == 0, errors=errors)
     # Print summary to stdout
-    print(json.dumps({
-        "operator_count": len(canon_set),
-        "operators": sorted(canon_set),
-        "refs_ok": len(missing_refs) == 0,
-        "glossary_rows": len(gloss_rows),
-        "errors": errors,
-    }, indent=2, ensure_ascii=False))
+    print(
+        json.dumps(
+            {
+                "operator_count": len(canon_set),
+                "operators": sorted(canon_set),
+                "refs_ok": len(missing_refs) == 0,
+                "glossary_rows": len(gloss_rows),
+                "errors": errors,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+    )
     return 0 if not errors else 2
 
 

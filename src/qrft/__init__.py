@@ -1,52 +1,36 @@
 """QRFT package: centralized exports for core modules."""
 
-from .qrft_core import QRFTRuntime, QRFTConfig, QRFTState, ParticleType
-from .qrft_consciousness import (
-    create_qrft_consciousness,
-    QRFTConsciousness,
-    ConsciousnessEvent,
-    EventType,
-)
 from .qrft_agent_core import (
-    QRFTAgent,
     AgentState,
-    QRFTSignals,
-    QRFTPolicy,
     Fact,
-    Gap,
     FactPolarity,
+    Gap,
+    QRFTAgent,
+    QRFTPolicy,
+    QRFTSignals,
     create_qrft_agent,
 )
+from .qrft_consciousness import (
+    ConsciousnessEvent,
+    EventType,
+    QRFTConsciousness,
+    create_qrft_consciousness,
+)
+from .qrft_core import ParticleType, QRFTConfig, QRFTRuntime, QRFTState
 
 try:  # Optional reasoner components
-    from .qrft_reasoners import (
-        ReasonerHub,
-        Document,
-        create_reasoner_hub,
-    )
+    from .qrft_reasoners import Document, ReasonerHub, create_reasoner_hub
 except Exception:  # pragma: no cover - optional dependency
     ReasonerHub = Document = create_reasoner_hub = None
 
 try:  # Integrated agent depends on reasoners
-    from .qrft_agent_integrated import (
-        IntegratedQRFTAgent,
-        create_integrated_agent,
-    )
+    from .qrft_agent_integrated import IntegratedQRFTAgent, create_integrated_agent
 except Exception:  # pragma: no cover - optional dependency
     IntegratedQRFTAgent = create_integrated_agent = None
-from .qrft_math_engine import (
-    QRFTMathEngine,
-    MathTask,
-    MathResult,
-    MathTaskType,
-)
+from .qrft_math_engine import MathResult, MathTask, MathTaskType, QRFTMathEngine
 
 try:  # Simulator requires matplotlib
-    from .qrft_simulator import (
-        QRFT1DSimulator,
-        QRFTConfig1D,
-        QRFTEvent,
-    )
+    from .qrft_simulator import QRFT1DSimulator, QRFTConfig1D, QRFTEvent
 except Exception:  # pragma: no cover - optional dependency
     QRFT1DSimulator = QRFTConfig1D = QRFTEvent = None
 

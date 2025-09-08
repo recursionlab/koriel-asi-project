@@ -9,4 +9,3 @@ package after installation (e.g. ``from src import ab``).
 # ``from src import ab`` or ``from src import rcc`` after installation.
 
 __all__: list[str] = []
-
