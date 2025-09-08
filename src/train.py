@@ -56,6 +56,7 @@ def run(
         k: [] for k in ["t", "loss", "rc", "D", "dD", "E", "ups", "T", "R"]
     }
     ups_count = 0
+    rc_bonus = 0.0
 
     last_tokens = (
         np.concatenate(corpus)[:ctx] if corpus else np.zeros(ctx, dtype=np.uint8)
@@ -74,10 +75,12 @@ def run(
         T = float(out["T"])
         R = float(out["R"])
 
-        rc = rc + bias * t
+
         ups = int(out.get("ups", 0))
         ups_count += ups
-
+        if rcce_on and ups:
+            rc_bonus += 5e-2 * ups
+        rc_bonus *= 0.5
         lr_t = lr * float(ctrl.lr_mul)
         # Always apply controller lr multiplier to the model step. Using lr_t for both
         # rcce_on and rcce_off avoids asymmetric learning updates that can bias tests.

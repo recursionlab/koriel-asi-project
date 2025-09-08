@@ -6,10 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "koriel"
 version = "0.1.0"
 description = "Koriel ASI - Recursive Consciousness Coherence Engine"
-authors = [{name = "Your Name"}]
-readme = "README.md"
-license = "MIT"
-keywords = ["AI", "ASI", "consciousness"]
+
 dependencies = [
     "numpy",
     "tqdm",
@@ -19,7 +16,7 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/recursionlab/koriel-asi-project"
+
 
 [project.scripts]
 koriel = "koriel.cli:main_cli"
