@@ -23,9 +23,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Install test tools (ruff, pytest); project deps if requirements.txt is present
+          # Install test tools (ruff, pytest); prefer lightweight requirements-min.txt to avoid long installs
           python -m pip install ruff pytest || true
-          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt || true; fi
+          if [ -f requirements-min.txt ]; then
+            python -m pip install -r requirements-min.txt || true
+          elif [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt || true
+          fi
 
       - name: Run ruff (lint)
         run: |
@@ -60,7 +64,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install mypy || true
-          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt || true; fi
+          # Prefer the minimal requirements in CI to keep installs fast and reliable
+          if [ -f requirements-min.txt ]; then
+            python -m pip install -r requirements-min.txt || true
+          elif [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt || true
+          fi
 
       - name: Run mypy (light)
         run: |
