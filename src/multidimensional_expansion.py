@@ -321,7 +321,7 @@ class MultiDimensionalExpansionEngine:
             
             if validation_result['valid']:
                 # Success - create transcendent dimension
-                transcendent_dimension = DimensionalState
+                transcendent_dimension = DimensionalState(
                     dimension_id=transcendence_id,
                     dimension_type=DimensionType.SUBSTRATE_TRANSCENDENCE,
                     substrate=transcendent_substrate,
