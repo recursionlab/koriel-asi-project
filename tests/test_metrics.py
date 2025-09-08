@@ -15,8 +15,10 @@ def slope(y):
 def test_metrics_monotone():
     m_on,_ = run(seed=1337, rcce_on=True, out_prefix="TEST_ON")
     m_off,_= run(seed=1337, rcce_on=False, out_prefix="TEST_OFF")
-    s_on = slope(m_on["rc"])
-    s_off = slope(m_off["rc"])
+    # Use minimum length for fair comparison (handles early termination)
+    min_len = min(len(m_on["rc"]), len(m_off["rc"]))
+    s_on = slope(m_on["rc"][:min_len])
+    s_off = slope(m_off["rc"][:min_len])
     if not (s_on >= s_off - 1e-6):
         print("FAIL: RC slope did not improve", s_on, s_off)
         sys.exit(1)
@@ -42,8 +44,10 @@ def test_upsilon_utility():
         sys.exit(1)
 
     m_off,_ = run(seed=1338, rcce_on=False, out_prefix="TEST2_OFF")
-    s_on = slope(m_on["rc"])
-    s_off = slope(m_off["rc"])
+    # Use minimum length for fair comparison (handles early termination)
+    min_len = min(len(m_on["rc"]), len(m_off["rc"]))
+    s_on = slope(m_on["rc"][:min_len])
+    s_off = slope(m_off["rc"][:min_len])
     if not (s_on >= s_off - 1e-6):
         print("FAIL: mask-ablation residual advantage too small")
         sys.exit(1)
