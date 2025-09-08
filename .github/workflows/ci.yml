@@ -30,7 +30,7 @@ jobs:
       - name: Install Node dependencies
         run: npm install
       - name: Run Python tests
-        run: pytest -q
+        run: python -m pytest -q
       - name: Run Node tests
         run: npm test
       - name: Operator validator gate
@@ -58,4 +58,4 @@ jobs:
         run: |
           python scripts/apply_manifesto_updates.py
           python -m scripts.validate_operators
-          pytest -q --maxfail=1 --disable-warnings
+          python -m pytest -q --maxfail=1 --disable-warnings
