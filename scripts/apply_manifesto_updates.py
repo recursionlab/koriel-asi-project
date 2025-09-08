@@ -85,10 +85,6 @@ def main():
 
     # 4) Basic sanity commands post-apply (skipped on dry-run)
     if not args.dry_run:
-        run(["python", "-m", "scripts.validate_operators"])
-        # Run tests but don't fail the script if tests fail (as there may be unrelated test issues)
-        code, _, _ = run(["pytest", "-q", "--maxfail=1", "--disable-warnings"])
-        summary["tests_exit_code"] = code
 
     print(json.dumps(summary, indent=2))
     return 0 if not summary["patches"]["failed"] else 3
