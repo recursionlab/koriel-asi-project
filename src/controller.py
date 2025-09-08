@@ -1,34 +1,60 @@
-# src/controller.py
+"""Training controller for coordinating safety checks and metrics.
+
+This module provides helper utilities for computing comparison metrics and a
+``Controller`` class that orchestrates model training steps.  The controller
+tracks coherence signals, ethics violations, and energy usage to decide when to
+take corrective actions such as masking or adjusting learning rates.
+"""
+
 import math
+
 import numpy as np
+
 from .dec import torsion_curvature
+
+
 def cos(u, v):
+    """Compute cosine similarity between two vectors."""
+
     nu = np.linalg.norm(u) + 1e-12
     nv = np.linalg.norm(v) + 1e-12
     return float(np.dot(u, v) / (nu * nv))
+
+
 def wasserstein1_proxy(p, q):
-    # sorted cumulative diffs
+    """Approximate the Wasserstein-1 distance between ``p`` and ``q``."""
+
     P = np.cumsum(np.sort(p))
     Q = np.cumsum(np.sort(q))
     return float(np.abs(P - Q).mean())
+
+
 def kl(p, q):
+    """Compute the KL divergence ``KL(p || q)``."""
+
     eps = 1e-12
     return float(np.sum(p * (np.log(p + eps) - np.log(q + eps))))
+
+
 class Upsilon:
+    """MAD-band anomaly detector used for Λ⁺ gating."""
+
     def __init__(self, pct_low, pct_high, win):
         self.pct_low, self.pct_high, self.win = pct_low, pct_high, win
         self.buf = []
         self.bands = (None, None)
         self.fires = 0
         self.total = 0
+
     def update_bands(self):
-        if len(self.buf)>=self.win:
+        if len(self.buf) >= self.win:
             # MAD bands: median ± 1.4826*MAD
             x = np.array(self.buf[-self.win:], dtype=float)
             med = float(np.median(x))
-            mad = float(np.median(np.abs(x-med))+1e-12)
-            lo, hi = med-1.4826*mad, med+1.4826*mad
+            mad = float(np.median(np.abs(x - med)) + 1e-12)
+            lo, hi = med - 1.4826 * mad, med + 1.4826 * mad
             self.bands = (lo, hi)
+
     def step(self, dDt):
         self.total += 1
         self.buf.append(dDt)
@@ -36,23 +62,35 @@ class Upsilon:
         lo, hi = self.bands
         if lo is None:
             return False
-        fire = (dDt >= lo and dDt <= hi)
+        fire = lo <= dDt <= hi
         if fire:
             self.fires += 1
         return fire
+
     def rate(self):
-        return self.fires/max(self.total,1)
+        return self.fires / max(self.total, 1)
+
+
 class EnergyVar:
+    """Exponentially weighted variance tracker."""
+
     def __init__(self, half_life):
         self.alpha = 0.5 ** (1.0 / max(half_life, 1.0))
         self.m = 0.0
         self.s2 = 0.0
-    def update(self,x):
+
+    def update(self, x):
+        """Update the variance estimate with a new observation ``x``."""
+
         # exponential moving variance (Knuth style)
-        self.m = (1-self.alpha)*self.m + self.alpha*x
-        self.s2 = (1-self.alpha)*self.s2 + self.alpha*(x-self.m)**2
+        self.m = (1 - self.alpha) * self.m + self.alpha * x
+        self.s2 = (1 - self.alpha) * self.s2 + self.alpha * (x - self.m) ** 2
         return self.s2
+
+
 class Controller:
+    """Coordinate model training metrics and adaptive safety responses."""
+
     def __init__(self, cfg, policy, d):
         self.cfg = cfg
         self.policy = policy
