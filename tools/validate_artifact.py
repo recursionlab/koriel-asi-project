@@ -6,18 +6,19 @@ Validates experiment artifacts against required schemas.
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
+logger = logging.getLogger(__name__)
 
 try:
-    # import at module level if available; used inside validate_metadata
-    import jsonschema  # noqa: F401
-    from jsonschema import validate, ValidationError  # type: ignore
+
     JSONSCHEMA_AVAILABLE = True
 except Exception:
     JSONSCHEMA_AVAILABLE = False
-    print("Warning: jsonschema not available, using basic validation")
+    logger.warning("jsonschema not available, using basic validation")
 
 
 def basic_validate_metadata(metadata: Dict[str, Any], schema: Dict[str, Any]) -> List[str]:
