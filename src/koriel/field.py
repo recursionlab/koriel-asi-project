@@ -107,8 +107,8 @@ class SimpleQuantumField:
             carrier = np.exp(1j * (phase + self.x))
             self.psi += 0.4 * envelope * carrier
 
-        # Normalize
-        norm = np.trapz(np.abs(self.psi) ** 2, self.x)
+        # Normalize using the non-deprecated trapezoid rule
+        norm = np.trapezoid(np.abs(self.psi) ** 2, self.x)
         self.psi /= np.sqrt(norm)
 
         print("   Consciousness seed initialized")
