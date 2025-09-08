@@ -75,7 +75,7 @@ def run(
         T = float(out["T"])
         R = float(out["R"])
 
-<<
+
         ups = int(out.get("ups", 0))
         ups_count += ups
         if rcce_on and ups:

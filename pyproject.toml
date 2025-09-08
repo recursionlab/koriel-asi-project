@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://example.com"
+
 
 [project.scripts]
 koriel = "koriel.cli:main_cli"
