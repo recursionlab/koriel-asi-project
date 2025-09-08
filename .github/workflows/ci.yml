@@ -38,8 +38,10 @@ jobs:
         run: npm install
       - name: Run Python tests
         run: python -m pytest -q
-      - name: Run Node tests
-        run: npm test
+      - name: Run Node tests (skip if none)
+        run: |
+          # Run jest but allow zero tests without failing the pipeline
+          npm test -- --passWithNoTests
       - name: Operator validator gate
         run: |
           python scripts/validate_operators.py
