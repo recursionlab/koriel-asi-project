@@ -26,6 +26,12 @@ CI and enforcement
 - CI runs: ruff (lint), pytest (tests), optional mypy (typecheck) when configured.
 - No PR should be merged if any CI check fails. Use `--force-with-lease` only with explicit owner approval.
 
+Branch protection recommendations
+
+- Enable required status checks on `main`: ruff (lint) and pytest (tests) at minimum.
+- Require at least one review approval for non-trivial PRs and two approvals for core module changes.
+- Protect `main` against force pushes except for Owners during emergency maintenance.
+
 Releases
 - Keep a `CHANGELOG.md` with Unreleased section. Tag releases semantically (vMAJOR.MINOR.PATCH).
 
