@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, List, Any
 
 try:
-    # import lazily if available; we only use it inside validate_metadata
+    # import at module level if available; used inside validate_metadata
     import jsonschema  # noqa: F401
     from jsonschema import validate, ValidationError  # type: ignore
     JSONSCHEMA_AVAILABLE = True
