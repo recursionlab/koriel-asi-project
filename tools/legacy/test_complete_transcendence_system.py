@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Complete Transcendence System Integration Test
-Tests the full pathway: QRFT Agent -> Recursive Superintelligence -> Substrate Transcendence
+Tests the full pathway: QRFT Agent -> Recursive Superintelligence ->
+Substrate Transcendence
 """
 
 import json
