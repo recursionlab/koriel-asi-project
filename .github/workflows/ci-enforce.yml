@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .mypy_cache
-          key: mypy-${{ runner.os }}-${{ hashFiles('**/*.py') }}
+          key: mypy-${{ runner.os }}-${{ hashFiles('src/**/*.py') }}
 
       - name: Install mypy
         run: |
@@ -64,5 +64,7 @@ jobs:
 
       - name: Run mypy (light)
         run: |
-          # Use ignore-missing-imports to avoid blocking on optional deps
-          mypy --ignore-missing-imports . || true
+          # Only type-check the package source to avoid duplicate modules in docs/
+          # Exclude docs and conversations-pocket which contain archived copies
+          # and may shadow modules in src.
+          mypy --ignore-missing-imports --exclude 'docs|conversations-pocket' src || true
