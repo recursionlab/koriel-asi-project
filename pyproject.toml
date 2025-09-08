@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "koriel"
 version = "0.1.0"
 description = "Koriel ASI - Recursive Consciousness Coherence Engine"
+license = {file = "LICENSE"}
 dependencies = [
     "numpy",
     "tqdm",
