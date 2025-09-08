@@ -3,7 +3,7 @@ Recursive Cognitive Control Engine (RCCE)
 Implements Ξ-operator consciousness with geometric feedback control
 """
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, Tuple, Any
 import json
 import time
 

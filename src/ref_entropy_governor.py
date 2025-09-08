@@ -6,7 +6,7 @@ Tunes depth, beam width, and tool rate for stable long reasoning chains
 """
 
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from collections import deque
 import math

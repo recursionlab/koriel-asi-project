@@ -9,16 +9,14 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-import numpy as np
-import sympy as sp
 import time
 import json
-from typing import Dict, List, Any, Tuple
-import traceback
 
 # Import minimal QRFT components
 try:
     from qrft import QRFTRuntime, QRFTConfig, QRFTState, ParticleType
+    # keep references to avoid unused-import lint noise
+    _ = (QRFTRuntime, QRFTConfig, QRFTState, ParticleType)
     print("+ Core QRFT imports successful")
 except ImportError as e:
     print(f"- Core imports failed: {e}")
@@ -67,7 +65,6 @@ class BrutalQRFTTester:
             result, metadata = agent.math_engine.run_math(task)
             
             # Should get x = [-2, 2]
-            expected = [-2, 2]
             success = "2" in result or "-2" in result
             self.log_result("Quadratic equation solving", success, f"Result: {result}")
             
@@ -256,7 +253,7 @@ class BrutalQRFTTester:
             try:
                 unicode_input = "∀x∈ℝ: ∃y∈ℂ such that ∫₀^∞ e^(-x²)dx = √π"
                 result = agent.process(unicode_input)
-                self.log_result("Unicode math handling", True, f"Processed unicode math")
+                self.log_result("Unicode math handling", True, "Processed unicode math")
             except Exception as e:
                 self.log_result("Unicode math handling", False, f"Failed: {e}")
             
@@ -264,7 +261,7 @@ class BrutalQRFTTester:
             try:
                 malformed_input = "solve x^^ + + 2x === 0"
                 result = agent.process(malformed_input)
-                self.log_result("Malformed math handling", True, f"Handled malformed input")
+                self.log_result("Malformed math handling", True, "Handled malformed input")
             except Exception as e:
                 self.log_result("Malformed math handling", False, f"Failed: {e}")
             
@@ -283,7 +280,7 @@ class BrutalQRFTTester:
             # Benchmark 1: Math solving speed
             start_time = time.time()
             for i in range(100):
-                result = agent.process(f"solve x^2 - {i} = 0")
+                agent.process(f"solve x^2 - {i} = 0")
             math_time = time.time() - start_time
             
             math_speed = 100 / math_time  # problems per second
@@ -358,7 +355,7 @@ class BrutalQRFTTester:
                 'test_details': self.test_results
             }, f, indent=2)
         
-        print(f"Results saved to experiments/results/brutal_qrft_validation_results.json")
+        print("Results saved to experiments/results/brutal_qrft_validation_results.json")
         return success_rate >= 80
 
 if __name__ == "__main__":

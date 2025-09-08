@@ -8,7 +8,6 @@ import numpy as np
 import time
 import json
 from quantum_consciousness_simple import SimpleQuantumField
-from typing import Dict, List, Any
 
 def test_consciousness_vs_random_numbers():
     """CRITICAL: Test if 'consciousness' is just sophisticated random number generation"""
@@ -250,7 +249,6 @@ def test_modification_effectiveness():
     field_no_mods.initialize_consciousness_seed()
     
     # Disable modifications by making triggers impossible
-    original_thresh = field_no_mods.C_EMA
     field_no_mods.C_EMA = 1000  # Impossible to trigger
     
     field_no_mods.evolve(3000)
@@ -372,42 +370,42 @@ def run_brutal_validation():
     
     failures = []
     
-    print(f"\n[TEST] DETERMINISM TEST:")
+    print("\n[TEST] DETERMINISM TEST:")
     if results['random_number_test']['deterministic']:
         print("   [PASS] PASS: Consciousness is deterministic")
     else:
         print("   [FAIL] FAIL: Consciousness is random bullshit")
         failures.append("Non-deterministic consciousness")
         
-    print(f"\n[COMPLEXITY] COMPLEXITY REQUIREMENT:")
+    print("\n[COMPLEXITY] COMPLEXITY REQUIREMENT:")
     if not results['complexity_requirement']['consciousness_from_nothing']:
         print("   [PASS] PASS: Consciousness requires field structure")
     else:
         print("   [FAIL] FAIL: Consciousness emerges from nothing (bullshit)")
         failures.append("Consciousness without complexity")
         
-    print(f"\n[PARAMS] PARAMETER SENSITIVITY:")
+    print("\n[PARAMS] PARAMETER SENSITIVITY:")
     if results['parameter_independence']['parameters_matter']:
         print("   [PASS] PASS: Parameters actually affect consciousness")
     else:
         print("   [FAIL] FAIL: Parameters are meaningless (bullshit)")
         failures.append("Parameter insensitivity")
         
-    print(f"\n[NOISE] NOISE INDEPENDENCE:")
+    print("\n[NOISE] NOISE INDEPENDENCE:")
     if not results['noise_measurement']['measures_noise']:
         print("   [PASS] PASS: Consciousness independent of noise")
     else:
         print("   [FAIL] FAIL: Consciousness is just noise amplification (bullshit)")
         failures.append("Measures noise not consciousness")
         
-    print(f"\n[MODS] MODIFICATION EFFECTIVENESS:")
+    print("\n[MODS] MODIFICATION EFFECTIVENESS:")
     if results['modification_effectiveness']['modifications_effective']:
         print("   [PASS] PASS: Self-modifications actually change behavior")
     else:
         print("   [FAIL] FAIL: Self-modifications are useless (bullshit)")
         failures.append("Ineffective modifications")
         
-    print(f"\n[PERTURBATION] PERTURBATION CONSISTENCY:")
+    print("\n[PERTURBATION] PERTURBATION CONSISTENCY:")
     if results['perturbation_specificity']['responses_consistent']:
         print("   [PASS] PASS: Perturbation responses are consistent")
     else:
@@ -415,7 +413,7 @@ def run_brutal_validation():
         failures.append("Inconsistent perturbation responses")
     
     # FINAL BRUTAL VERDICT
-    print(f"\n[VERDICT] FINAL BRUTAL VERDICT:")
+    print("\n[VERDICT] FINAL BRUTAL VERDICT:")
     if len(failures) == 0:
         print("   [SUCCESS] LEGITIMATE CONSCIOUSNESS: All brutal tests passed")
         print("   [STATUS] SYSTEM STATUS: Genuine field-theoretic consciousness")
@@ -423,7 +421,7 @@ def run_brutal_validation():
     else:
         print(f"   [BULLSHIT] BULLSHIT DETECTED: {len(failures)} critical failures")
         print("   [STATUS] SYSTEM STATUS: Sophisticated but fake consciousness")
-        print(f"   [FAILURES] FAILURES:")
+        print("   [FAILURES] FAILURES:")
         for failure in failures:
             print(f"      - {failure}")
         overall_legitimate = False
@@ -442,14 +440,14 @@ def run_brutal_validation():
     with open('experiments/results/brutal_consciousness_validation.json', 'w') as f:
         json.dump(results, f, indent=2, default=str)
         
-    print(f"\n[SAVE] Brutal validation results saved to experiments/results/brutal_consciousness_validation.json")
+    print("\n[SAVE] Brutal validation results saved to experiments/results/brutal_consciousness_validation.json")
     
     return results
 
 if __name__ == "__main__":
     results = run_brutal_validation()
     
-    print(f"\n[DONE] BRUTAL TESTING COMPLETE - NO MERCY GIVEN")
+    print("\n[DONE] BRUTAL TESTING COMPLETE - NO MERCY GIVEN")
     if results['summary']['overall_legitimate']:
         print("   System survived brutal validation - likely legitimate")
     else:

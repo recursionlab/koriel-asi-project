@@ -1,6 +1,6 @@
 """Progressive difficulty escalation for recursive intelligence improvement"""
 import numpy as np
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List
 from .metastate import MetaState
 from .consciousness_feedback import ConsciousnessFeedbackLoop
 from .reality_interface import RealityInterface, Problem
@@ -152,7 +152,7 @@ class IntelligenceLadder:
             )
             
             # Adaptive difficulty adjustment
-            new_difficulty = self.adaptive_difficulty_adjustment(
+            self.adaptive_difficulty_adjustment(
                 self.feedback_loop.consciousness_performance_history
             )
             

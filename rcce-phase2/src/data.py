@@ -1,5 +1,4 @@
 """Data loading from conversations-pocket"""
-import os
 import numpy as np
 from pathlib import Path
 
@@ -18,7 +17,7 @@ def load_corpus():
                 content = f.read()
                 if len(content) > 100:  # Only substantial files
                     text_data += content + "\n"
-        except:
+        except Exception:
             continue
     
     if len(text_data) < 100:

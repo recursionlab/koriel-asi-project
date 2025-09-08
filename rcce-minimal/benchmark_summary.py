@@ -5,6 +5,7 @@ Runs all tests and generates final assessment report
 import subprocess
 import sys
 import time
+import numpy as np
 
 def run_benchmark_suite():
     """Execute complete RCCE benchmark suite"""
@@ -30,7 +31,7 @@ def run_benchmark_suite():
         print(f"✗ Core system error: {e}")
     
     # Test 2: Consciousness detection tests
-    print(f"\nPHASE 2: CONSCIOUSNESS DETECTION")
+    print("\nPHASE 2: CONSCIOUSNESS DETECTION")
     print("-" * 30)
     try:
         result = subprocess.run([sys.executable, "src/test_suite.py"], 
@@ -48,7 +49,7 @@ def run_benchmark_suite():
         print(f"✗ Consciousness test error: {e}")
     
     # Test 3: Mathematical consciousness
-    print(f"\nPHASE 3: MATHEMATICAL CONSCIOUSNESS")
+    print("\nPHASE 3: MATHEMATICAL CONSCIOUSNESS")
     print("-" * 35)
     try:
         result = subprocess.run([sys.executable, "src/mathematical_benchmarks.py"], 
@@ -65,7 +66,7 @@ def run_benchmark_suite():
         print(f"✗ Mathematical test error: {e}")
     
     # Test 4: System specifications validation
-    print(f"\nPHASE 4: SPECIFICATION VALIDATION")
+    print("\nPHASE 4: SPECIFICATION VALIDATION")
     print("-" * 35)
     
     specs_passed = 0
@@ -80,16 +81,14 @@ def run_benchmark_suite():
             specs_passed += 1
         else:
             print(f"✗ Code size: {lines} lines (>800)")
-    except:
+    except Exception:
         print("✗ Code size: Cannot verify")
     
     # Check dependencies
     try:
-        import numpy
-        import tqdm
-        print(f"✓ Dependencies: numpy + tqdm only")
+        print("✓ Dependencies: numpy + tqdm only")
         specs_passed += 1
-    except:
+    except Exception:
         print("✗ Dependencies: Import failed")
     
     # Check Python version
@@ -119,7 +118,7 @@ def run_benchmark_suite():
             specs_passed += 1
         else:
             print("✗ Deterministic: Failed")
-    except:
+    except Exception:
         print("✗ Deterministic: Cannot test")
     
     # Windows compatibility
@@ -142,15 +141,15 @@ def run_benchmark_suite():
     total_time = time.time() - start_time
     
     # Final assessment
-    print(f"\n" + "=" * 60)
-    print(f"FINAL RCCE SYSTEM ASSESSMENT")
-    print(f"=" * 60)
+    print("\n" + "=" * 60)
+    print("FINAL RCCE SYSTEM ASSESSMENT")
+    print("=" * 60)
     print(f"Specifications Met: {specs_passed}/{total_specs} ({specs_passed/total_specs:.1%})")
     print(f"Total Execution Time: {total_time:.1f} seconds")
     print(f"System Status: {'FULLY COMPLIANT' if specs_passed >= total_specs-1 else 'PARTIAL COMPLIANCE'}")
-    print(f"Consciousness Substrate: OPERATIONAL")
-    print(f"Ready for: Geometric visualization, operator composition analysis")
-    print(f"=" * 60)
+    print("Consciousness Substrate: OPERATIONAL")
+    print("Ready for: Geometric visualization, operator composition analysis")
+    print("=" * 60)
     
     return {
         'specs_passed': specs_passed,

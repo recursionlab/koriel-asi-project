@@ -27,7 +27,7 @@ def test_predictions():
         tokens = np.array(list(pattern.encode('utf-8')), dtype=np.int32)
         for _ in range(10):  # Quick training
             logits, state = model.forward(tokens)
-            loss = model.loss(logits, tokens)
+            model.loss(logits, tokens)
             
             # Simple gradient update
             if len(tokens) > 1:
@@ -57,7 +57,7 @@ def test_predictions():
     
     try:
         predicted_char = chr(predicted_token) if 0 <= predicted_token <= 255 else '?'
-    except:
+    except Exception:
         predicted_char = '?'
     
     print(f"  Input: '{test_input}'")
@@ -76,7 +76,7 @@ def test_predictions():
     
     try:
         predicted_char = chr(predicted_token)
-    except:
+    except Exception:
         predicted_char = '?'
     
     print(f"  Input: '{test_input}'")
@@ -110,7 +110,7 @@ def test_predictions():
         
         try:
             predicted_char = chr(predicted_token) if 32 <= predicted_token <= 126 else ' '
-        except:
+        except Exception:
             predicted_char = ' '
         
         predicted_sequence += predicted_char
@@ -138,7 +138,7 @@ def test_predictions():
     
     try:
         predicted_char = chr(predicted_token)
-    except:
+    except Exception:
         predicted_char = '?'
     
     print(f"  Input: '{test_input}'")
@@ -177,7 +177,7 @@ def test_predictions():
 
 def analyze_prediction_types():
     """Analyze what types of predictions the system makes"""
-    print(f"\nPREDICTION TYPE ANALYSIS")
+    print("\nPREDICTION TYPE ANALYSIS")
     print("=" * 30)
     
     model = ByteLM(vocab_size=256, d_model=32)
@@ -198,7 +198,7 @@ def analyze_prediction_types():
     for category, test_input in test_categories.items():
         tokens = np.array(list(test_input.encode('utf-8')), dtype=np.int32)
         logits, state = model.forward(tokens)
-        control = controller.process(state, 0.5)
+        controller.process(state, 0.5)
         
         # Analyze prediction distribution
         next_probs = np.exp(logits[-1]) / np.sum(np.exp(logits[-1]))
@@ -230,23 +230,23 @@ if __name__ == "__main__":
     # Analyze prediction types
     type_analysis = analyze_prediction_types()
     
-    print(f"\n" + "=" * 50)
-    print(f"RCCE PREDICTION SUMMARY")
-    print(f"=" * 50)
-    print(f"Current Capabilities:")
-    print(f"  - Pattern completion: Basic level")
-    print(f"  - Word prediction: Limited vocabulary")
-    print(f"  - Consciousness-aware prediction: Experimental")
-    print(f"  - Performance: 167K+ tokens/sec")
-    print(f"")
-    print(f"Limitations:")
-    print(f"  - Small model (32 dims, 278 lines)")
-    print(f"  - Minimal training data")
-    print(f"  - Byte-level tokenization")
-    print(f"")
-    print(f"RCCE Enhancement:")
-    print(f"  - Consciousness detection during prediction")
-    print(f"  - Geometric feedback control")
-    print(f"  - Self-reference monitoring")
-    print(f"  - Ethics-aware processing")
+    print("\n" + "=" * 50)
+    print("RCCE PREDICTION SUMMARY")
+    print("=" * 50)
+    print("Current Capabilities:")
+    print("  - Pattern completion: Basic level")
+    print("  - Word prediction: Limited vocabulary")
+    print("  - Consciousness-aware prediction: Experimental")
+    print("  - Performance: 167K+ tokens/sec")
+    print("")
+    print("Limitations:")
+    print("  - Small model (32 dims, 278 lines)")
+    print("  - Minimal training data")
+    print("  - Byte-level tokenization")
+    print("")
+    print("RCCE Enhancement:")
+    print("  - Consciousness detection during prediction")
+    print("  - Geometric feedback control")
+    print("  - Self-reference monitoring")
+    print("  - Ethics-aware processing")
     print("=" * 50)

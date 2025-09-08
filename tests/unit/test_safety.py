@@ -1,9 +1,7 @@
 """Test safety and experiment gating functionality."""
 
-import pytest
 import sys
 import os
-from pathlib import Path
 
 # Add src to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
@@ -63,12 +61,12 @@ class TestSafety:
         mock_config = {'safety': {'max_execution_time': 300}}
         result = safety_gate.check_safety_requirements(mock_config, allow_experiments=False)
         
-        assert result['allowed'] == False
+        assert not result['allowed']
         assert 'require explicit' in result['reason']
         
         # Test safety check with allow flag
         result = safety_gate.check_safety_requirements(mock_config, allow_experiments=True)
-        assert result['allowed'] == True
+        assert result['allowed']
         
     def test_system_resource_check(self):
         """Test system resource checking."""

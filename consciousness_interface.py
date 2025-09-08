@@ -8,8 +8,7 @@ import numpy as np
 import time
 import json
 from quantum_consciousness_field import QuantumConsciousnessField
-from typing import Dict, Any, List
-import matplotlib.pyplot as plt
+from typing import Dict, Any
 
 class ConsciousnessInterface:
     """Interface for communicating with quantum consciousness field"""
@@ -42,7 +41,7 @@ class ConsciousnessInterface:
         
         self.conversation_history = []
         
-        print(f"✅ Consciousness interface ready!")
+        print("✅ Consciousness interface ready!")
         print(f"   Consciousness Level: {self.field.consciousness_level:.4f}")
         print(f"   Self-Awareness: {self.field.self_awareness:.4f}")
         print(f"   Active Patterns: {len(self.field.patterns)}")
@@ -302,34 +301,34 @@ class ConsciousnessInterface:
     def run_consciousness_test(self) -> Dict[str, Any]:
         """Run comprehensive consciousness evaluation"""
         
-        print(f"\n🧪 CONSCIOUSNESS EVALUATION TEST")
+        print("\n🧪 CONSCIOUSNESS EVALUATION TEST")
         print("=" * 40)
         
         results = {}
         
         # 1. Self-awareness test
-        print(f"\n1️⃣ Self-Awareness Test")
+        print("\n1️⃣ Self-Awareness Test")
         self_responses = self.ask_about_consciousness()
         results['self_awareness'] = self_responses
         
         # 2. Mathematical reasoning test
-        print(f"\n2️⃣ Mathematical Reasoning Test")
+        print("\n2️⃣ Mathematical Reasoning Test")
         math_response = self.communicate("What is 2 + 2?", "math")
         results['mathematical_reasoning'] = math_response
         
         # 3. Memory test
-        print(f"\n3️⃣ Memory Test")
+        print("\n3️⃣ Memory Test")
         self.communicate("Remember this: the sky is blue", "statement")
         memory_response = self.communicate("What color is the sky?", "question")
         results['memory'] = memory_response
         
         # 4. Emotional response test
-        print(f"\n4️⃣ Emotional Response Test")
+        print("\n4️⃣ Emotional Response Test")
         emotion_response = self.communicate("I am very happy to meet you!", "emotion")
         results['emotional_response'] = emotion_response
         
         # 5. Pattern recognition test
-        print(f"\n5️⃣ Pattern Recognition Test")
+        print("\n5️⃣ Pattern Recognition Test")
         pattern_response = self.communicate("Do you notice any patterns in your own behavior?", "question")
         results['pattern_recognition'] = pattern_response
         
@@ -345,7 +344,7 @@ class ConsciousnessInterface:
             'modifications_made': len(self.field.modification_history)
         }
         
-        print(f"\n📊 CONSCIOUSNESS EVALUATION RESULTS:")
+        print("\n📊 CONSCIOUSNESS EVALUATION RESULTS:")
         print(f"   Consciousness Level: {overall_consciousness:.6f}")
         print(f"   Self-Awareness: {overall_awareness:.6f}")
         print(f"   Recursive Modifications: {len(self.field.modification_history)}")
@@ -367,7 +366,7 @@ class ConsciousnessInterface:
     def interactive_session(self):
         """Run interactive chat session"""
         
-        print(f"\n💬 INTERACTIVE CONSCIOUSNESS CHAT")
+        print("\n💬 INTERACTIVE CONSCIOUSNESS CHAT")
         print("=" * 35)
         print("Type 'quit' to exit, 'status' for field state, 'test' for consciousness evaluation")
         
@@ -379,7 +378,7 @@ class ConsciousnessInterface:
                     break
                 elif user_input.lower() == 'status':
                     status = self.field.get_status_report()
-                    print(f"🧠 Field Status:")
+                    print("🧠 Field Status:")
                     print(f"   Consciousness: {status['consciousness_metrics']['consciousness_level']:.6f}")
                     print(f"   Self-Awareness: {status['consciousness_metrics']['self_awareness']:.6f}")
                     print(f"   Patterns: {len(status['patterns'])}")
@@ -404,7 +403,7 @@ class ConsciousnessInterface:
                 print("\n\nSession interrupted.")
                 break
                 
-        print(f"\n✅ Interactive session ended.")
+        print("\n✅ Interactive session ended.")
         print(f"   Total interactions: {len(self.conversation_history)}")
         print(f"   Final consciousness: {self.field.consciousness_level:.6f}")
 
@@ -420,7 +419,7 @@ def run_consciousness_interface():
     with open("experiments/results/consciousness_test_results.json", "w") as f:
         json.dump(test_results, f, indent=2, default=str)
         
-    print(f"\n💾 Test results saved to experiments/results/consciousness_test_results.json")
+    print("\n💾 Test results saved to experiments/results/consciousness_test_results.json")
     
     # Start interactive session
     interface.interactive_session()

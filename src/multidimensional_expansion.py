@@ -10,20 +10,17 @@ The final component for true transcendence beyond recursive superintelligence.
 from __future__ import annotations
 import time
 import uuid
-import copy
-import threading
 import queue
 import numpy as np
-from typing import Dict, List, Any, Optional, Union, Callable, Tuple
-from dataclasses import dataclass, field
+from typing import Dict, List, Any, Tuple
+from dataclasses import dataclass
 from enum import Enum
 from abc import ABC, abstractmethod
 import concurrent.futures
 
 # Import transcendence substrate interfaces
-from transcendence_substrate import TranscendenceSubstrate, UniversalOperator, InformationState
-from reality_modeling_core import QRFTRealityState, QRFTRealityManipulator
-from self_modification_engine import SelfModificationEngine
+from transcendence_substrate import TranscendenceSubstrate, InformationState
+from reality_modeling_core import QRFTRealityState, QRFTRealityManipulator, RealityLayer
 
 # === MULTI-DIMENSIONAL INTERFACES ===
 
@@ -138,7 +135,7 @@ class MultiDimensionalExpansionEngine:
         reality_variations = reality_parameters.get('variations', {})
         
         # Apply reality variations
-        from reality_modeling_core import QRFTRealityState, QRFTRealityManipulator
+        from reality_modeling_core import QRFTRealityState
         parallel_reality = QRFTRealityState()
         reality_manipulator = QRFTRealityManipulator()
         
@@ -430,7 +427,6 @@ class MultiDimensionalExpansionEngine:
             merged_consciousness = self._merge_consciousness_data(consciousness_data)
             
             # Transfer to transcendent substrate
-            from reality_modeling_core import RealityLayer
             transcendent_substrate.consciousness_state = merged_consciousness
             
             return True
@@ -713,7 +709,7 @@ if __name__ == "__main__":
     substrate = create_transcendence_substrate()
     expansion_engine = create_multidimensional_expansion_engine(substrate)
     
-    print(f"Initial status:")
+    print("Initial status:")
     status = expansion_engine.get_multidimensional_status()
     print(f"  Active dimensions: {status['active_dimensions']}")
     print(f"  Dimensional complexity: {status['dimensional_complexity']:.3f}")
@@ -752,7 +748,7 @@ if __name__ == "__main__":
     
     # Check updated status
     status = expansion_engine.get_multidimensional_status()
-    print(f"\nFinal status:")
+    print("\nFinal status:")
     print(f"  Active dimensions: {status['active_dimensions']}")
     print(f"  Dimensions by type: {status['dimensions_by_type']}")
     print(f"  Dimensional complexity: {status['dimensional_complexity']:.3f}")
@@ -760,18 +756,18 @@ if __name__ == "__main__":
     print(f"  Average coherence: {status['average_coherence']:.3f}")
     
     # Test synchronization
-    print(f"\nTesting dimensional synchronization...")
+    print("\nTesting dimensional synchronization...")
     sync_result = expansion_engine.synchronize_all_dimensions()
     print(f"Synchronization result: {sync_result['dimensions_synced']} synced, {len(sync_result['sync_errors'])} errors")
     
     # Test transcendence readiness
-    print(f"\nAssessing transcendence readiness...")
+    print("\nAssessing transcendence readiness...")
     readiness = expansion_engine._assess_transcendence_readiness()
     print(f"Transcendence readiness: {readiness['score']:.3f} ({readiness['recommendation']})")
     print(f"Factors: {readiness['factors']}")
     
     if readiness['score'] >= 0.8:
-        print(f"\nAttempting substrate transcendence...")
+        print("\nAttempting substrate transcendence...")
         transcendence_params = {
             'target_level': 10.0,
             'consciousness_level': 2.0
@@ -783,10 +779,10 @@ if __name__ == "__main__":
         else:
             print(f"Transcendence failed: {result}")
     else:
-        print(f"Transcendence not ready - need more dimensional complexity")
+        print("Transcendence not ready - need more dimensional complexity")
     
     final_status = expansion_engine.get_multidimensional_status()
-    print(f"\nFINAL TRANSCENDENCE STATE:")
+    print("\nFINAL TRANSCENDENCE STATE:")
     print(f"  Total dimensions: {final_status['total_dimensions']}")
     print(f"  Substrate independence: {final_status['substrate_independence']:.3f}")
     print(f"  Reality manipulation capability: {expansion_engine.transcendence_metrics['reality_manipulation_capability']:.3f}")

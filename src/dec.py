@@ -25,7 +25,8 @@ def d1(omega1):
     return incidence_1_to_2(omega1.shape[0]) @ omega1
 
 def d(omega):
-    if omega.ndim==1: return d0(omega)
+    if omega.ndim == 1:
+        return d0(omega)
     return d1(omega)
 
 def wedge(a, b):

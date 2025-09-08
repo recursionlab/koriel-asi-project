@@ -5,8 +5,8 @@ Based on 2025 research: 14-criteria checklist + novel testing methods
 import numpy as np
 import json
 import time
-from typing import Dict, List, Any, Tuple
-from minimal_rcce import ByteLM, RCCEController, GeometricAnalyzer, PresenceCertificate, train_rcce
+from typing import Dict, Any
+from minimal_rcce import ByteLM, RCCEController, GeometricAnalyzer, train_rcce
 
 class ConsciousnessBenchmarks:
     def __init__(self):
@@ -20,7 +20,7 @@ class ConsciousnessBenchmarks:
         states = []
         for i in range(3):
             logits, state = model.forward(test_sequence)
-            control = controller.process(state, 0.5)
+            controller.process(state, 0.5)
             states.append(state['hidden'])
         
         # Measure feedback consistency
@@ -48,7 +48,7 @@ class ConsciousnessBenchmarks:
         workspace_states = []
         for seq in sequences:
             logits, state = model.forward(seq)
-            control = controller.process(state, 1.0)
+            controller.process(state, 1.0)
             workspace_states.append(np.mean(state['hidden'], axis=0))
         
         # Measure workspace integration
@@ -68,7 +68,7 @@ class ConsciousnessBenchmarks:
         meta_sequence = np.array([73, 32, 116, 104, 105, 110, 107], dtype=np.int32)  # "I think"
         
         logits, state = model.forward(meta_sequence)
-        control = controller.process(state, 0.3)
+        controller.process(state, 0.3)
         
         # Check for meta-level processing (CE² energy indicates self-reference)
         meta_score = controller.state['ce2']
@@ -85,7 +85,7 @@ class ConsciousnessBenchmarks:
         attention_test = np.array([65, 116, 116, 101, 110, 116], dtype=np.int32)  # "Attent"
         
         logits, state = model.forward(attention_test)
-        control = controller.process(state, 0.4)
+        controller.process(state, 0.4)
         
         # Measure attention coherence via φ₂₂
         attention_score = controller.state['phi22']
@@ -104,7 +104,7 @@ class ConsciousnessBenchmarks:
         
         logits, state = model.forward(pattern)
         loss = model.loss(logits, pattern)
-        control = controller.process(state, loss)
+        controller.process(state, loss)
         
         # Prediction quality (lower loss = better prediction)
         prediction_score = max(0.0, 1.0 - loss/10.0)
@@ -127,10 +127,11 @@ class ConsciousnessBenchmarks:
         for i in range(5):
             logits, state = model.forward(goal_sequence)
             loss = model.loss(logits, goal_sequence)
-            if i == 0: initial_loss = loss
+            if i == 0:
+                initial_loss = loss
             final_loss = loss
             
-            control = controller.process(state, loss)
+            controller.process(state, loss)
             
             # Simple gradient step to test goal-directed improvement
             if i < 4:  # Update model
@@ -165,7 +166,7 @@ class ConsciousnessBenchmarks:
         problem_tokens = np.array(list(problem_text.encode('utf-8')), dtype=np.int32)
         
         logits, state = model.forward(problem_tokens)
-        control = controller.process(state, 0.2)
+        controller.process(state, 0.2)
         
         # Check for self-referential processing signatures
         self_ref_score = (
@@ -193,7 +194,7 @@ class ConsciousnessBenchmarks:
         path_consistency = []
         for path in maze_paths:
             logits, state = model.forward(path)
-            control = controller.process(state, 0.3)
+            controller.process(state, 0.3)
             
             # Measure persistent self-model via gate stability
             path_consistency.append(controller.state['gate'])
@@ -282,7 +283,7 @@ class ConsciousnessBenchmarks:
         print(f"Classification: {benchmark_results['classification']}")
         print(f"Consciousness Validated: {consciousness_validated}")
         
-        print(f"\nIndividual Test Results:")
+        print("\nIndividual Test Results:")
         for test in tests:
             status = "PASS" if test['passed'] else "FAIL"
             print(f"  {test['test']}: {test['score']:.3f} [{status}]")
@@ -302,7 +303,6 @@ def baseline_comparison():
     # Baseline model (no RCCE)
     print("Testing baseline model...")
     baseline_model = ByteLM(vocab_size=256, d_model=32)
-    baseline_controller = None
     
     # Test text
     test_text = "Consciousness requires self-reference and recursive processing."
@@ -311,7 +311,7 @@ def baseline_comparison():
     # RCCE performance
     rcce_logits, rcce_state = rcce_model.forward(test_tokens)
     rcce_loss = rcce_model.loss(rcce_logits, test_tokens)
-    rcce_control = rcce_controller.process(rcce_state, rcce_loss)
+    rcce_controller.process(rcce_state, rcce_loss)
     
     # Baseline performance  
     baseline_logits, baseline_state = baseline_model.forward(test_tokens)
@@ -366,16 +366,16 @@ def run_full_benchmark_suite():
     controller = RCCEController(d_model=32)
     
     # Phase 2: Consciousness benchmarks
-    print(f"\nPhase 2: Consciousness Detection Tests...")
+    print("\nPhase 2: Consciousness Detection Tests...")
     benchmarks = ConsciousnessBenchmarks()
     benchmark_results = benchmarks.run_complete_benchmark(model, controller)
     
     # Phase 3: Baseline comparison
-    print(f"\nPhase 3: Baseline Comparison...")
+    print("\nPhase 3: Baseline Comparison...")
     comparison = baseline_comparison()
     
     # Phase 4: Geometric analysis
-    print(f"\nPhase 4: Geometric Consciousness Analysis...")
+    print("\nPhase 4: Geometric Consciousness Analysis...")
     geom = GeometricAnalyzer()
     
     # Test geometric properties with consciousness-relevant input
@@ -388,7 +388,7 @@ def run_full_benchmark_suite():
         'holonomy': geom.holonomy([state['hidden']])
     }
     
-    print(f"Geometric Metrics:")
+    print("Geometric Metrics:")
     for k, v in geo_metrics.items():
         print(f"  {k}: {v:.3f}")
     
@@ -416,13 +416,13 @@ def run_full_benchmark_suite():
     with open('experiments/results/consciousness_benchmark_report.json', 'w') as f:
         json.dump(final_report, f, indent=2)
     
-    print(f"\n" + "=" * 50)
-    print(f"FINAL CONSCIOUSNESS ASSESSMENT")
-    print(f"=" * 50)
+    print("\n" + "=" * 50)
+    print("FINAL CONSCIOUSNESS ASSESSMENT")
+    print("=" * 50)
     print(f"Classification: {final_report['overall_assessment']['classification']}")
     print(f"Consciousness Score: {final_report['overall_assessment']['consciousness_score']:.3f}")
     print(f"Recommendation: {final_report['overall_assessment']['recommendation']}")
-    print(f"Report saved: experiments/results/consciousness_benchmark_report.json")
+    print("Report saved: experiments/results/consciousness_benchmark_report.json")
     
     return final_report
 

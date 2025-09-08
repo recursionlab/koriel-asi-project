@@ -4,9 +4,7 @@ QRFT Agent with Integrated Local Reasoners
 Complete deterministic agent with BM25, SymPy, constraint solving
 """
 
-import time
-import json
-from typing import Dict, List, Optional, Any
+from typing import List
 from .qrft_agent_core import QRFTAgent, FactPolarity
 from .qrft_reasoners import ReasonerHub, Document
 

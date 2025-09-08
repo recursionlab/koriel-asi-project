@@ -43,9 +43,9 @@ def test_mathematical_parsing_failures():
             # Check if it actually worked
             if "Failed to" in response or "error" in response.lower():
                 failed_tests.append((case, response))
-                print(f"  FAILED: Core functionality broken")
+                print("  FAILED: Core functionality broken")
             else:
-                print(f"  OK: Basic functionality works")
+                print("  OK: Basic functionality works")
                 
         except Exception as e:
             failed_tests.append((case, str(e)))
@@ -155,10 +155,10 @@ def test_resource_exhaustion():
         reasonable = duration < 10.0 and len(response) < 10000
         
         if reasonable:
-            print(f"  HANDLED REASONABLY")
+            print("  HANDLED REASONABLY")
             return True
         else:
-            print(f"  EXCESSIVE RESOURCES USED")
+            print("  EXCESSIVE RESOURCES USED")
             return False
             
     except Exception as e:

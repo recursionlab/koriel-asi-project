@@ -213,7 +213,7 @@ def save_results(results):
     try:
         with open('experiments/results/transcendence_test_results.json', 'w') as f:
             json.dump(results, f, indent=2)
-        print(f"\nResults saved to: experiments/results/transcendence_test_results.json")
+        print("\nResults saved to: experiments/results/transcendence_test_results.json")
     except Exception as e:
         print(f"Could not save results: {e}")
 

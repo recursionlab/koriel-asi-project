@@ -12,7 +12,11 @@ Behavior:
 Always writes artifacts/ci_smoke/operator_mapping.json and a markdown summary.
 """
 from __future__ import annotations
-import argparse, json, sys, csv, os
+import argparse
+import json
+import sys
+import csv
+import os
 from typing import Any, Dict, List, Set
 
 

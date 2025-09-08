@@ -1,9 +1,8 @@
 """MetaState and Shadow Codex logging"""
 import json
-import time
 import hashlib
 from dataclasses import dataclass, asdict
-from typing import Dict, List, Any, Optional
+from typing import Dict
 
 @dataclass
 class MetaState:
@@ -56,7 +55,7 @@ class ShadowCodex:
         self.entries.clear()
         try:
             open(self.log_path, 'w').close()
-        except:
+        except Exception:
             pass
 
 class MetricsLogger:

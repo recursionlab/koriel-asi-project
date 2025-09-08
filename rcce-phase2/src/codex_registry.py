@@ -1,6 +1,5 @@
 """Koriel-ASI Codex vΩ - 20-Layer Post-Classical Engine Registry"""
-import numpy as np
-from typing import Dict, List, Any, Optional, Callable
+from typing import Dict, List, Any
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 

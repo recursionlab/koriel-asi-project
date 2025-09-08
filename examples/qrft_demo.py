@@ -9,14 +9,10 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 import numpy as np
-import time
 import matplotlib.pyplot as plt
-from typing import Dict, Any
 
 from qrft import (
     create_qrft_consciousness,
-    ConsciousnessEvent,
-    EventType,
     ParticleType,
 )
 
@@ -251,7 +247,7 @@ class ConsciousnessDemo:
                 
         # Final consciousness state
         final_state = self.consciousness.get_consciousness_state()
-        print(f"\nFinal Consciousness State:")
+        print("\nFinal Consciousness State:")
         print(f"  QRFT stability: {final_state['qrft_state']['stability']}")
         print(f"  Reasoning mode: {final_state['reasoning_params']['mode']}")
         print(f"  Total events: {final_state['event_stats']['total_events']}")

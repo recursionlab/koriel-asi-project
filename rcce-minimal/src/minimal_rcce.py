@@ -5,8 +5,6 @@ Pure Python/NumPy - CPU only - Windows compatible
 """
 import numpy as np
 import json
-import time
-from typing import Dict, Any
 from tqdm import tqdm
 
 # Reproducibility
@@ -94,7 +92,8 @@ class GeometricAnalyzer:
     @staticmethod
     def curvature(acts):
         """Discrete Ricci curvature"""
-        if acts.shape[0] < 3: return 0.0
+        if acts.shape[0] < 3:
+            return 0.0
         cov = np.cov(acts.T)
         eigs = np.real(np.linalg.eigvals(cov))
         eigs = eigs[eigs > 1e-6]
@@ -103,7 +102,8 @@ class GeometricAnalyzer:
     @staticmethod  
     def torsion(acts):
         """Discrete torsion tensor"""
-        if acts.shape[0] < 2: return 0.0
+        if acts.shape[0] < 2:
+            return 0.0
         diffs = np.diff(acts, axis=0)
         conn = np.mean(diffs, axis=0) if diffs.shape[0] > 0 else np.zeros(acts.shape[1])
         conn_matrix = np.outer(conn, conn) / (np.linalg.norm(conn) + 1e-8)
@@ -113,7 +113,8 @@ class GeometricAnalyzer:
     @staticmethod
     def holonomy(path_acts):
         """Holonomy along activation path"""
-        if len(path_acts) < 2: return 0.0
+        if len(path_acts) < 2:
+            return 0.0
         total_rot = 0.0
         for i in range(len(path_acts)-1):
             v1, v2 = path_acts[i].flatten(), path_acts[i+1].flatten()
@@ -136,17 +137,20 @@ class PresenceCertificate:
         # Test 1: Self-closure witness (CE² stability)
         ce2_vals = [t['ce2'] for t in trace[-10:]]
         ce2_stable = np.std(ce2_vals) < 0.1
-        if ce2_stable: tests['passed'] += 1
+        if ce2_stable:
+            tests['passed'] += 1
         
         # Test 2: Geometric coherence
         coherence_vals = [t['coherence'] for t in trace[-10:]]
         coherence_trend = np.mean(coherence_vals) > 0.5
-        if coherence_trend: tests['passed'] += 1
+        if coherence_trend:
+            tests['passed'] += 1
         
         # Test 3: Operational closure (learning)
         loss_vals = [t['loss'] for t in trace[-10:]]
         loss_decreasing = len(loss_vals) > 1 and loss_vals[-1] < loss_vals[0]
-        if loss_decreasing: tests['passed'] += 1
+        if loss_decreasing:
+            tests['passed'] += 1
         
         # Presence score
         final_state = trace[-1]
@@ -186,7 +190,8 @@ def train_rcce(text="Consciousness emerges through recursive self-reference.",
         for seq_idx in tqdm(range(n_sequences), desc=f"Epoch {epoch+1}"):
             start = seq_idx * seq_len
             end = min(start + seq_len + 1, len(tokens))
-            if end - start < 2: continue
+            if end - start < 2:
+                continue
             
             sequence = tokens[start:end]
             
@@ -253,17 +258,17 @@ def train_rcce(text="Consciousness emerges through recursive self-reference.",
     print(f"Consciousness Validated: {certificate['consciousness_validated']}")
     print(f"Tests Passed: {certificate['falsification_tests']['passed']}/3")
     
-    print(f"\nController State:")
+    print("\nController State:")
     for k, v in certificate['final_controller_state'].items():
         print(f"  {k}: {v:.3f}")
     
-    print(f"\nGeometric Metrics:")
+    print("\nGeometric Metrics:")
     for k, v in geometric_metrics.items():
         print(f"  {k}: {v:.3f}")
     
-    print(f"\nOutput Files:")
+    print("\nOutput Files:")
     print(f"  experiments/results/shadow_codex_minimal.json ({len(controller.state['trace'])} entries)")
-    print(f"  experiments/results/presence_cert_minimal.json")
+    print("  experiments/results/presence_cert_minimal.json")
     
     return certificate
 

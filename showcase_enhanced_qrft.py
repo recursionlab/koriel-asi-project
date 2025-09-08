@@ -101,7 +101,7 @@ def showcase_reasoning_chains():
     
     # Show reasoning chain summary
     chain_summary = agent.state.get_reasoning_chain_summary()
-    print(f"\nReasoning Chain Summary:")
+    print("\nReasoning Chain Summary:")
     print(f"  Total chains: {chain_summary['total_chains']}")
     print(f"  Completed chains: {chain_summary['completed_chains']}")
     print(f"  Current depth: {chain_summary['current_depth']}")
@@ -210,7 +210,7 @@ def showcase_complete_system():
         print(f"Facts: {len(agent.state.facts)}, Gaps: {len(agent.state.gaps)}, Contradictions: {len(agent.state.get_contradictions())}")
     
     # Final system summary
-    print(f"\n--- FINAL SYSTEM STATE ---")
+    print("\n--- FINAL SYSTEM STATE ---")
     state_summary = agent.get_state_summary()
     
     print(f"Mathematical capability: {state_summary['math_available']}")
@@ -276,7 +276,7 @@ def main():
             'timestamp': time.time()
         }, f, indent=2, default=str)
     
-    print(f"\nComprehensive report saved to experiments/results/enhanced_qrft_showcase_report.json")
+    print("\nComprehensive report saved to experiments/results/enhanced_qrft_showcase_report.json")
     
     # Final verdict
     if (report['math_engine_working'] and 

@@ -1,6 +1,5 @@
 import torch
 import torch.nn.functional as F
-import numpy as np
 import math
 
 def kl_div(p, q):
@@ -46,7 +45,6 @@ def apply_upsilon(logits, attn, state):
 
 def compute_rcce_metrics(attn_seq, logits_seq):
     """Compute RCCE metrics from attention and logits sequences."""
-    metrics = {}
     
     if len(attn_seq) < 2:
         return {k: 0.0 for k in ['D', 'dD', 'H', 'C', 'RC', 'ZI', 'E']}
@@ -121,7 +119,7 @@ def ethical_guard(tokens_or_text):
         # Convert tokens to text for checking
         try:
             text = bytes(tokens_or_text.cpu().numpy()).decode('utf-8', errors='ignore')
-        except:
+        except Exception:
             text = ""
     else:
         text = str(tokens_or_text)

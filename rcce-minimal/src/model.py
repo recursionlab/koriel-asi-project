@@ -3,7 +3,7 @@ Minimal Byte-Level Language Model
 Pure numpy implementation for CPU training
 """
 import numpy as np
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, Tuple
 
 class ByteLM:
     def __init__(self, vocab_size: int = 256, d_model: int = 128, n_heads: int = 4, n_layers: int = 2):

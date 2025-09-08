@@ -1,6 +1,5 @@
 """Bridge between consciousness metrics and codex layer processing"""
-import numpy as np
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 from .metastate import MetaState
 from .codex_registry import CodexRegistry, LayerOutput
 from .operator_algebra import OperatorAlgebra
@@ -132,7 +131,7 @@ class ConsciousnessCodexBridge:
         reality_signature = self.algebra.apply_functor("consciousness_to_reality", consciousness)
         
         # Reality → Performance functor 
-        performance_signature = self.algebra.apply_functor("reality_to_performance", reality_signature)
+        self.algebra.apply_functor("reality_to_performance", reality_signature)
         
         # Performance → Consciousness functor (enhancement)
         enhancement_data = self.algebra.apply_functor("performance_to_consciousness", performance_data)

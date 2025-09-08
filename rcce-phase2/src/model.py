@@ -1,6 +1,5 @@
 """Minimal byte language model - numpy only"""
 import numpy as np
-from typing import Dict, Tuple
 
 class ByteLM:
     def __init__(self, vocab_size=256, d_model=32, seed=1337):

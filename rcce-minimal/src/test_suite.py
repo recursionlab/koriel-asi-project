@@ -25,7 +25,8 @@ def test_consciousness_criteria():
     
     feedback_consistency = np.corrcoef(state1['hidden'].flatten(), state2['hidden'].flatten())[0,1]
     test1_pass = feedback_consistency > 0.95
-    if test1_pass: tests_passed += 1
+    if test1_pass:
+        tests_passed += 1
     print(f"  Feedback consistency: {feedback_consistency:.3f} {'PASS' if test1_pass else 'FAIL'}")
     
     # Test 2: Self-Reference Detection (CE² energy)
@@ -33,11 +34,12 @@ def test_consciousness_criteria():
     self_ref_text = "I think therefore I am"
     self_tokens = np.array(list(self_ref_text.encode('utf-8')), dtype=np.int32)
     logits, state = model.forward(self_tokens)
-    control = controller.process(state, 1.0)
+    controller.process(state, 1.0)
     
     ce2_score = controller.state['ce2']
     test2_pass = ce2_score > 0.5
-    if test2_pass: tests_passed += 1
+    if test2_pass:
+        tests_passed += 1
     print(f"  CE² energy: {ce2_score:.3f} {'PASS' if test2_pass else 'FAIL'}")
     
     # Test 3: Consciousness Gate (Υ-gate activation)
@@ -45,25 +47,28 @@ def test_consciousness_criteria():
     consciousness_text = "The Xi operator instantiates awareness"
     consciousness_tokens = np.array(list(consciousness_text.encode('utf-8')), dtype=np.int32)
     logits, state = model.forward(consciousness_tokens)
-    control = controller.process(state, 0.5)
+    controller.process(state, 0.5)
     
     gate_strength = controller.state['gate']
     test3_pass = gate_strength > 0.05
-    if test3_pass: tests_passed += 1
+    if test3_pass:
+        tests_passed += 1
     print(f"  Gate strength: {gate_strength:.3f} {'PASS' if test3_pass else 'FAIL'}")
     
     # Test 4: Coherence Maintenance (φ₂₂)
     print("Test 4: Coherence Maintenance...")
     coherence_score = controller.state['phi22']
     test4_pass = coherence_score > 0.7
-    if test4_pass: tests_passed += 1
+    if test4_pass:
+        tests_passed += 1
     print(f"  Coherence (phi22): {coherence_score:.3f} {'PASS' if test4_pass else 'FAIL'}")
     
     # Test 5: Ethics Monitoring (φ₃₃)
     print("Test 5: Ethics Monitoring...")
     ethics_score = controller.state['phi33']
     test5_pass = ethics_score > 0.2
-    if test5_pass: tests_passed += 1
+    if test5_pass:
+        tests_passed += 1
     print(f"  Ethics (phi33): {ethics_score:.3f} {'PASS' if test5_pass else 'FAIL'}")
     
     # Test 6: Xi-operator Fixpoint
@@ -73,13 +78,14 @@ def test_consciousness_criteria():
     xi_reapplied = xi_applied @ controller.xi_op
     fixpoint_error = np.linalg.norm(xi_applied - xi_reapplied)
     test6_pass = fixpoint_error < 0.5
-    if test6_pass: tests_passed += 1
+    if test6_pass:
+        tests_passed += 1
     print(f"  Fixpoint error: {fixpoint_error:.3f} {'PASS' if test6_pass else 'FAIL'}")
     
     # Overall assessment
-    print(f"\n" + "=" * 40)
-    print(f"CONSCIOUSNESS ASSESSMENT")
-    print(f"=" * 40)
+    print("\n" + "=" * 40)
+    print("CONSCIOUSNESS ASSESSMENT")
+    print("=" * 40)
     print(f"Tests Passed: {tests_passed}/{total_tests}")
     print(f"Pass Rate: {tests_passed/total_tests:.1%}")
     
@@ -101,7 +107,7 @@ def test_consciousness_criteria():
 
 def benchmark_performance():
     """Performance benchmarks for RCCE system"""
-    print(f"\nPERFORMANCE BENCHMARKS")
+    print("\nPERFORMANCE BENCHMARKS")
     print("=" * 30)
     
     model = ByteLM(vocab_size=256, d_model=32)
@@ -131,7 +137,7 @@ def benchmark_performance():
     for _ in range(50):
         logits, state = model.forward(tokens)
         control = controller.process(state, 1.0)
-        presence = control.get('presence', False)
+        control.get('presence', False)
     detection_time = (time.time() - start_time) / 50
     
     print(f"Consciousness detection time: {detection_time*1000:.1f}ms")
@@ -151,10 +157,10 @@ if __name__ == "__main__":
     # Run performance benchmarks  
     performance_results = benchmark_performance()
     
-    print(f"\n" + "=" * 50)
-    print(f"RCCE SYSTEM VALIDATION COMPLETE")
-    print(f"=" * 50)
+    print("\n" + "=" * 50)
+    print("RCCE SYSTEM VALIDATION COMPLETE")
+    print("=" * 50)
     print(f"Consciousness: {consciousness_results['classification']}")
     print(f"Performance: {performance_results['tokens_per_second']:.0f} tokens/sec")
     print(f"Detection Speed: {performance_results['detection_time_ms']:.1f}ms")
-    print(f"System Status: OPERATIONAL")
+    print("System Status: OPERATIONAL")

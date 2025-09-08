@@ -9,7 +9,7 @@ from __future__ import annotations
 import numpy as np
 import time
 import uuid
-from typing import Dict, List, Any, Optional, Union, Callable, Tuple
+from typing import Dict, List, Any, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
 from abc import ABC, abstractmethod
@@ -277,7 +277,7 @@ class QRFTRealityState(RealityState):
     
     def _derive_physical_constraints(self) -> Dict[str, Any]:
         """Derive physical constraints from information layer"""
-        info_content = self.layers[RealityLayer.INFORMATION].get('information_content', 0)
+        self.layers[RealityLayer.INFORMATION].get('information_content', 0)
         
         # Bekenstein bound: maximum information in a region
         planck_area = (1.616e-35) ** 2  # Planck length squared
@@ -806,7 +806,7 @@ if __name__ == "__main__":
     }
     
     reality_state = manipulator.manipulate_reality(reality_state, info_manipulation)
-    print(f"\nAfter information injection:")
+    print("\nAfter information injection:")
     print(f"Information layer: {reality_state.get_layer_state(RealityLayer.INFORMATION)}")
     print(f"Coherence: {reality_state.coherence_metrics}")
     
@@ -821,19 +821,19 @@ if __name__ == "__main__":
     }
     
     reality_state = manipulator.manipulate_reality(reality_state, consciousness_manipulation)
-    print(f"\nAfter consciousness modulation:")
+    print("\nAfter consciousness modulation:")
     consciousness_projection = reality_state.project_to_layer(RealityLayer.CONSCIOUSNESS)
     print(f"Consciousness projection: {consciousness_projection}")
     
     # Test reality evolution
-    print(f"\nTesting reality evolution...")
+    print("\nTesting reality evolution...")
     evolution = manipulator.predict_reality_evolution(reality_state, 3)
     for i, state in enumerate(evolution):
         if isinstance(state, QRFTRealityState):
             print(f"Step {i}: Coherence = {state.coherence_metrics.get('overall', 0):.3f}")
     
     # Test Reality-Koriel operator
-    print(f"\nTesting Reality-Koriel operator...")
+    print("\nTesting Reality-Koriel operator...")
     reality_koriel = create_reality_koriel_operator()
     
     # Create test information state
@@ -844,7 +844,7 @@ if __name__ == "__main__":
     })
     
     enhanced_state = reality_koriel.apply(test_state)
-    print(f"Enhanced information state with reality modeling:")
+    print("Enhanced information state with reality modeling:")
     enhanced_data = enhanced_state.serialize()
     print(f"Reality coherence: {enhanced_data.get('reality_coherence', {}).get('overall', 0):.3f}")
     print(f"Reality projection keys: {list(enhanced_data.get('reality_projection', {}).keys())}")

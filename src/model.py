@@ -45,7 +45,8 @@ class TinyByteLM:
         self._h_cache = h
 
     def step(self, x: np.ndarray, y: np.ndarray, lr=None):
-        if lr is None: lr = self.lr
+        if lr is None:
+            lr = self.lr
         B, _ = x.shape
         probs, logits, hmean, vbar, a = self.forward(x)
         
@@ -72,10 +73,12 @@ class TinyByteLM:
         seq_len = max(1, self._x_cache.shape[1])
         g = dh / seq_len  # [B, d]
         np.add.at(dE, self._x_cache, g[:, None, :])
-            
-        self.W2 -= lr * dW2; self.b2 -= lr * db2
-        self.W1 -= lr * dW1; self.b1 -= lr * db1
-        self.E  -= lr * dE
+
+        self.W2 -= lr * dW2
+        self.b2 -= lr * db2
+        self.W1 -= lr * dW1
+        self.b1 -= lr * db1
+        self.E -= lr * dE
         return float(loss), hmean, vbar, a
     def save(self, path: str) -> None:
         """Save model parameters to ``path`` using ``numpy.savez``."""

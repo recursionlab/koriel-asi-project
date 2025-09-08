@@ -1,6 +1,5 @@
 """Discrete Exterior Calculus - mathematically coherent"""
 import numpy as np
-from typing import Dict, Tuple
 
 class DEC:
     def __init__(self, tolerance=1e-6):

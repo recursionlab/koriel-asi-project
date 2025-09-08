@@ -13,8 +13,6 @@ import numpy as np
 import time
 import json
 import gc
-from typing import Dict, List, Any, Tuple
-import traceback
 import threading
 import queue
 
@@ -29,6 +27,7 @@ try:
         Gap,
         FactPolarity,
     )
+    _ = (QRFTAgent, AgentState, QRFTSignals, QRFTPolicy, Fact, Gap, FactPolarity)
     print("+ QRFT stress test imports successful")
 except ImportError as e:
     print(f"- QRFT imports failed: {e}")
@@ -426,7 +425,7 @@ class ExtremeQRFTStressTester:
                           f"Throughput: {throughput:.1f} inputs/sec over {processing_time:.2f}s")
             
             # Test garbage collection effectiveness
-            facts_before_gc = len(agent.state.facts)
+            len(agent.state.facts)
             agent.state.facts.clear()  # Manual cleanup
             gc.collect()
             
@@ -504,7 +503,7 @@ class ExtremeQRFTStressTester:
                 'test_details': self.test_results
             }, f, indent=2)
         
-        print(f"Results saved to experiments/results/extreme_qrft_stress_results.json")
+        print("Results saved to experiments/results/extreme_qrft_stress_results.json")
         return success_rate >= 70
 
 if __name__ == "__main__":

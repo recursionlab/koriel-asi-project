@@ -6,8 +6,6 @@ BM25 retrieval, SymPy CAS, basic constraint solving
 
 import re
 import math
-import json
-import hashlib
 from typing import Dict, List, Set, Tuple, Optional, Any
 from dataclasses import dataclass
 from collections import defaultdict, Counter

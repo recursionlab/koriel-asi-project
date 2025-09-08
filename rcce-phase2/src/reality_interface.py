@@ -1,7 +1,7 @@
 """Reality interface for math problem generation and validation"""
 import numpy as np
 import random
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Any
 from dataclasses import dataclass
 
 @dataclass
@@ -88,7 +88,7 @@ class RealityInterface:
                 expected=problem.answer,
                 problem_id=f"{problem.category}_{problem.difficulty}"
             )
-        except:
+        except Exception:
             return TestResult(
                 correct=False,
                 response=response,

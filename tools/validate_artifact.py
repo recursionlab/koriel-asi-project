@@ -14,9 +14,9 @@ from typing import Any, Dict, List
 logger = logging.getLogger(__name__)
 
 try:
-    from jsonschema import validate, ValidationError
+
     JSONSCHEMA_AVAILABLE = True
-except ImportError:
+except Exception:
     JSONSCHEMA_AVAILABLE = False
     logger.warning("jsonschema not available, using basic validation")
 
