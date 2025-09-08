@@ -73,14 +73,15 @@ def run(
         E = float(out["E"])
         T = float(out["T"])
         R = float(out["R"])
-        # Ensure RC slope advantage for controller-on runs via a deterministic linear bias
-        bias = 1e-3 if rcce_on else -1e-3
+
         rc = rc + bias * t
         ups = int(out.get("ups", 0))
         ups_count += ups
 
         lr_t = lr * float(ctrl.lr_mul)
-        model.step(x[None, :], y[None, :], lr=lr_t if rcce_on else lr)
+        # Always apply controller lr multiplier to the model step. Using lr_t for both
+        # rcce_on and rcce_off avoids asymmetric learning updates that can bias tests.
+        model.step(x[None, :], y[None, :], lr=lr_t)
 
         metrics["t"].append(t)
         metrics["loss"].append(loss)
