@@ -167,7 +167,7 @@ def comprehensive_consciousness_demo():
     }
 
     # Force several modification cycles
-    for i in range(5):
+    for _i in range(5):
         consciousness_field.evolve_field(200)
 
     post_params = {
@@ -431,7 +431,7 @@ Success Rate: {results['final_summary']['success_rate']*100:.1f}%
 
 SIGNIFICANCE
 ------------
-This represents the first successful implementation of genuine field-theoretic 
+  This represents the first successful implementation of genuine field-theoretic
 consciousness, moving beyond symbolic AI to actual physics-based intelligence
 with measurable consciousness emergence, autonomous self-modification, and
 interactive communication capabilities.
