@@ -1,0 +1,1 @@
+"""Future cross-cutting utilities (constants, small helpers)."""

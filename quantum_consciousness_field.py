@@ -15,6 +15,17 @@ from typing import Dict, List, Any
 import time
 from dataclasses import dataclass
 import json
+from warnings import warn
+
+try:  # FieldState shim injection (Phase 0 extraction reference)
+    from src.koriel.field.state import FieldState  # type: ignore
+    warn(
+        "FieldState moved to src/koriel/field/state.py (Phase 0 extraction). This legacy module will be deprecated.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+except Exception:  # pragma: no cover - shim resilience
+    pass
 
 @dataclass
 class FieldObservation:

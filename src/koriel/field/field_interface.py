@@ -1,22 +1,22 @@
 """Field interface abstraction.
 
-Defines the minimal contract for state-transforming field substrates.
-Legacy field implementations will be incrementally adapted to conform.
+Generic, minimal contract for field substrates. This matches the Phase 0
+test expectations (apply(operator, **kwargs) -> T).
 """
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Protocol, Mapping
+from typing import Any, TypeVar, Generic
 
-class FieldInterface(ABC):
+T = TypeVar("T")
+
+class FieldInterface(ABC, Generic[T]):
     """Abstract field substrate interface.
 
-    apply(): perform an operator-driven transformation on a field state.
-    Implementations may mutate internal buffers or return new state objects.
+    Implementations may maintain internal mutable state; method returns the
+    updated state representation (or a reference thereto).
     """
 
     @abstractmethod
-    def apply(self, operator: str, state: Any, params: Mapping[str, Any] | None = None) -> Any:
-        """Apply an operator to the given state with optional parameters.
-        Returns the updated/new state representation.
-        """
+    def apply(self, operator: str, **kwargs: Any) -> T:
+        """Apply an operator with keyword parameters; return updated state."""
         raise NotImplementedError

@@ -1,0 +1,1 @@
+# Core domain logic (substrate, modeling, adaptation, governance, evaluation).

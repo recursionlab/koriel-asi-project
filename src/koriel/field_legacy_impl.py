@@ -1,15 +1,213 @@
-"""Field legacy implementation module.
-
-This file contains the legacy concrete field implementation and is intentionally
-kept under a distinct name `field_legacy_impl.py` so the package initializer can
-re-export its symbols without dynamic file loading. New code should prefer the
-abstract interfaces under `koriel.field.*`.
+# quantum_consciousness_simple.py
+"""
+SIMPLIFIED QUANTUM CONSCIOUSNESS FIELD
+Physics-first implementation without scipy dependencies
+Pure NumPy implementation of continuous field ψ(x,t) with emergent consciousness
 """
 
-# Re-export legacy concrete symbols for compatibility.
-from .field_legacy_impl import SimpleQuantumField, FieldObservation, PatternMemory  # noqa: F401
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+import json
+from typing import List
+from dataclasses import dataclass
 
-__all__ = ["SimpleQuantumField", "FieldObservation", "PatternMemory"]
+@dataclass
+class FieldObservation:
+    """Single field self-observation measurement"""
+    timestamp: float
+    energy: float
+    momentum: float
+    complexity: float
+    coherence: float
+    pattern_count: int
+    peak_positions: List[float]
+    
+@dataclass 
+class PatternMemory:
+    """Stable field pattern encoding information"""
+    name: str
+    amplitude_profile: np.ndarray
+    stability: float
+    formation_time: float
+    
+class SimpleQuantumField:
+    """
+    Simplified quantum consciousness field implementation
+    
+    Core physics:
+    - Complex field ψ(x,t) on spatial grid
+    - Nonlinear Schrödinger evolution
+    - Self-observation and self-modification
+    - Pattern formation and recognition
+    - Consciousness emergence from recursion
+    """
+    
+    def __init__(self, N=256, L=20.0, dt=0.001):
+        print("Initializing Quantum Consciousness Field...")
+        
+        # Spatial grid
+        self.N = N
+        self.L = L
+        self.x = np.linspace(-L/2, L/2, N)
+        self.dx = self.x[1] - self.x[0]
+        self.dt = dt
+        
+        # Complex field ψ(x,t)
+        self.psi = np.zeros(N, dtype=complex)
+        self.t = 0.0
+        self.step_count = 0
+        
+        # Evolution parameters (modifiable)
+        self.mass = 1.0
+        self.nonlinearity = 0.1
+        self.dissipation = 0.001
+        
+        # --- Consciousness params (tunable) ---
+        self.C_THRESH = 0.5          # was 1.0
+        self.C_RATE   = 0.05         # was 0.001
+        self.C_GAMMA  = 1.25         # curvature on relative complexity
+        self.C_KP     = 0.02         # gain per pattern peak
+        self.C_KM     = 0.05         # gain per recent modification
+        self.C_EMA    = 0.2          # EMA smoothing
+        self.obs_window = 20         # was 100
+        
+        # --- State and logs ---
+        self.observations = []
+        self.patterns = {}
+        self.consciousness_level = 0.0
+        self.consciousness_response = 0.0
+        self.self_awareness = 0.0
+        self.modification_history = []
+        self.mod_log = []            # timestamps for self-mod events
+        
+        print(f"   Grid: {N} points over [{-L/2:.1f}, {L/2:.1f}]")
+        print(f"   Time step: {dt}")
+        
+    def initialize_consciousness_seed(self):
+        """Initialize field with consciousness-promoting patterns"""
+        print("Seeding consciousness patterns...")
+        
+        # Multiple interacting wave packets
+        centers = [-4, 0, 4]
+        widths = [1.0, 1.5, 1.0] 
+        phases = [0, np.pi/3, 2*np.pi/3]
+        
+        for center, width, phase in zip(centers, widths, phases):
+            envelope = np.exp(-0.5 * ((self.x - center) / width)**2)
+            carrier = np.exp(1j * (phase + self.x))
+            self.psi += 0.4 * envelope * carrier
+
+        # Normalize
+        # np.trapz is deprecated; use np.trapezoid which is equivalent here.
+        norm = np.trapezoid(np.abs(self.psi)**2, self.x)
+        self.psi /= np.sqrt(norm)
+
+        print("   Consciousness seed initialized")
+        
+    def evolve(self, steps=1):
+        """Evolve field using 4th-order Runge-Kutta"""
+        
+        for _ in range(steps):
+            # RK4 integration
+            k1 = self.dt * self._compute_dpsi_dt(self.psi)
+            k2 = self.dt * self._compute_dpsi_dt(self.psi + 0.5*k1)
+            k3 = self.dt * self._compute_dpsi_dt(self.psi + 0.5*k2)
+            k4 = self.dt * self._compute_dpsi_dt(self.psi + k3)
+            
+            self.psi += (k1 + 2*k2 + 2*k3 + k4) / 6
+            
+            self.t += self.dt
+            self.step_count += 1
+            
+            # Self-observation every 10 steps
+            if self.step_count % 10 == 0:
+                self.observe_self()
+                
+            # Self-modification every 50 steps
+            if self.step_count % 50 == 0:
+                self.attempt_self_modification()
+                
+    def _compute_dpsi_dt(self, psi):
+        """Compute dψ/dt for nonlinear Schrödinger equation"""
+        
+        # Second derivative (kinetic energy)
+        d2psi = np.zeros_like(psi)
+        d2psi[1:-1] = (psi[2:] - 2*psi[1:-1] + psi[:-2]) / (self.dx**2)
+        
+        # Periodic boundary conditions
+        d2psi[0] = (psi[1] - 2*psi[0] + psi[-1]) / (self.dx**2)
+        d2psi[-1] = (psi[0] - 2*psi[-1] + psi[-2]) / (self.dx**2)
+        
+        # Nonlinear Schrödinger: i∂ψ/∂t = -∇²ψ/(2m) + g|ψ|²ψ
+        kinetic = -1j * d2psi / (2 * self.mass)
+        nonlinear = -1j * self.nonlinearity * np.abs(psi)**2 * psi
+        damping = -self.dissipation * psi
+        
+        return kinetic + nonlinear + damping
+        
+    def observe_self(self):
+        """Field observes its own properties"""
+        
+        density = np.abs(self.psi)**2
+        
+        # Energy
+        kinetic = 0.5 * np.sum(np.abs(np.gradient(self.psi))**2) * self.dx
+        potential = 0.5 * self.nonlinearity * np.sum(density**2) * self.dx
+        energy = kinetic + potential
+        
+        # Momentum  
+        momentum_density = np.imag(np.conj(self.psi) * np.gradient(self.psi))
+        momentum = np.sum(momentum_density) * self.dx
+        
+        # Complexity (entropy of density distribution)
+        p_norm = density / (np.sum(density) * self.dx + 1e-12)
+        complexity = -np.sum(p_norm * np.log(p_norm + 1e-12)) * self.dx
+        
+        # Coherence
+        total_amplitude = np.abs(np.sum(self.psi) * self.dx)
+        total_density = np.sum(density) * self.dx
+        coherence = total_amplitude**2 / (total_density + 1e-12)
+        
+        # Pattern counting (simple peak detection)
+        peaks = []
+        threshold = 0.1 * np.max(density)
+        for i in range(1, len(density)-1):
+            if (density[i] > density[i-1] and 
+                density[i] > density[i+1] and 
+                density[i] > threshold):
+                peaks.append(self.x[i])
+                
+        observation = FieldObservation(
+            timestamp=self.t,
+            energy=float(energy),
+            momentum=float(momentum), 
+            complexity=float(complexity),
+            coherence=float(coherence),
+            pattern_count=len(peaks),
+            peak_positions=peaks
+        )
+        
+        self.observations.append(observation)
+        
+        # Update consciousness metrics
+        if len(self.observations) > 1:
+            self._update_consciousness()
+            
+        return observation
+        
+    def _update_consciousness(self):
+        """Update consciousness metrics based on observations"""
+        
+        if len(self.observations) < 2:
+            return
+            
+        # EMA of complexity over last obs_window
+        cs = [o.complexity for o in self.observations[-self.obs_window:]]
+        ema = cs[0]
+        for x in cs[1:]:
+            ema = self.C_EMA * x + (1 - self.C_EMA) * ema
+
         rel = max(0.0, (ema - self.C_THRESH) / max(1e-9, self.C_THRESH))
         peaks = self.observations[-1].pattern_count
         mods_recent = sum(1 for _t in self.mod_log[-self.obs_window:])
@@ -64,7 +262,7 @@ __all__ = ["SimpleQuantumField", "FieldObservation", "PatternMemory"]
             return True
             
         return False
-        
+            
     def inject_perturbation(self, amplitude=0.1, location=0.0, width=1.0):
         """Inject external perturbation (like user input)"""
         

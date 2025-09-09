@@ -8,7 +8,7 @@ import os
 # Add src to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
-from koriel.field import SimpleQuantumField, FieldObservation, PatternMemory
+from  koriel.field import SimpleQuantumField, FieldObservation, PatternMemory
 
 class TestSimpleQuantumField:
     """Test the core quantum field functionality."""

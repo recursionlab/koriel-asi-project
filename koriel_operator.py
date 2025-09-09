@@ -10,6 +10,10 @@ import numpy as np
 from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    # Avoid runtime import cycles; used only for type hints in legacy code.
+    from src.koriel.operators.registry import OperatorRegistry
 
 @dataclass
 class KorielState:
@@ -104,7 +108,9 @@ class KorielOperator:
                  tau_gradient: float = 0.01, # Gradient threshold
                  tau_uncoherence: float = 1.0, # Uncoherence threshold
                  epsilon: float = 0.001,   # Progress threshold
-                 k_stall: int = 5):        # Stall detection window
+                 k_stall: int = 5,       # Stall detection window
+                 operator_registry: Optional["OperatorRegistry"] = None,
+                 ):
         
         self.goal_manifold = goal_manifold
         
@@ -126,6 +132,16 @@ class KorielOperator:
         self.history: List[KorielStep] = []
         self.cache: Dict[str, KorielState] = {}  # Cairn protocol
         self.external_carriers: List[ExternalCarrier] = []
+        # Operator registry (DI). Create a local registry if none provided.
+        if operator_registry is None:
+            try:
+                # Local import to avoid adding a hard import at module load time.
+                from src.koriel.operators.registry import OperatorRegistry as _OR
+                self.operator_registry = _OR()
+            except Exception:
+                self.operator_registry = None
+        else:
+            self.operator_registry = operator_registry
         
     def measure_uncoherence(self, state: KorielState) -> UncoherenceMetrics:
         """Compute uncoherence metric U(s) = α‖∂s‖ + β·paradox(s) + γ·drift_G(s) + η·|holonomy(s)|"""
