@@ -15,11 +15,8 @@ from typing import Any, Dict, List, Optional
 
 try:
     import sympy as sp
-    from sympy import (  # Common symbols and functions
-        symbols, Symbol, Function, Eq, solve, simplify, expand, factor,
-        diff, integrate, limit, series, latex, pi, E, I, oo, sin, cos, tan,
-        exp, log, sqrt, Matrix, zeros, ones, eye, det, transpose
-    )
+    # Note: We import sympy as 'sp' and use sp.Symbol, sp.solve, etc. to avoid
+    # ruff unused import warnings while maintaining access to all sympy functions
     from sympy.parsing.sympy_parser import parse_expr, transformations
 
     SYMPY_AVAILABLE = True
