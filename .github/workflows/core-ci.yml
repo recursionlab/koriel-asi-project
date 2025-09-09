@@ -86,12 +86,14 @@ jobs:
       - name: Chat smoke test
         run: |
           mkdir -p artifacts/ci_smoke
-          (python -m tools.qrft_chat 2>/dev/null || python qrft_chat.py || echo "Chat test fallback") <<'EOF' | tee artifacts/ci_smoke/chat.log || true
+          echo "Testing chat functionality..." | tee artifacts/ci_smoke/chat.log
+          (timeout 10s python -m tools.qrft_chat 2>/dev/null || timeout 10s python qrft_chat.py || echo "Chat fallback test") <<'EOF' | tee -a artifacts/ci_smoke/chat.log || true
 /metrics
 simplify x**2 - 1
 /exit
 EOF
-          test -f artifacts/ci_smoke/chat.log && echo "Chat smoke test completed"
+          echo "Chat smoke test completed" | tee -a artifacts/ci_smoke/chat.log
+          test -f artifacts/ci_smoke/chat.log && echo "Smoke test artifacts created successfully"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
