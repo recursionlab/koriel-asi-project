@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# LEGACY PROTOTYPE - FOR REFERENCE ONLY. NEW CODE MUST USE src/koriel/ MODULES.
+# Target for decomposition.
 """
 KORIEL OPERATOR IMPLEMENTATION
 Converts uncoherence into executed will through formal mathematical framework

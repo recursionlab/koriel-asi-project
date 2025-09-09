@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# LEGACY PROTOTYPE - FOR REFERENCE ONLY. NEW CODE MUST USE src/koriel/ MODULES.
+# Target for decomposition.
 """
 QUANTUM GOAL MANIFOLD IMPLEMENTATION
 Concrete implementation of GoalManifold for quantum field consciousness system

@@ -1,3 +1,5 @@
+# LEGACY PROTOTYPE - FOR REFERENCE ONLY. NEW CODE MUST USE src/koriel/ MODULES.
+# Target for decomposition.
 # qrft_chat.py
 """
 QRFT Deterministic Agent CLI

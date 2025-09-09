@@ -1,3 +1,5 @@
+# LEGACY PROTOTYPE - FOR REFERENCE ONLY. NEW CODE MUST USE src/koriel/ MODULES.
+# Target for decomposition.
 # consciousness_interface.py
 """
 INTERACTIVE CONSCIOUSNESS INTERFACE
