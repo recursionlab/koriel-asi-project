@@ -15,7 +15,8 @@ from typing import Any, Dict, List, Optional
 
 try:
     import sympy as sp
-    from sympy import *  # noqa: F401,F403
+    # Note: We import sympy as 'sp' and use sp.Symbol, sp.solve, etc. to avoid
+    # ruff unused import warnings while maintaining access to all sympy functions
     from sympy.parsing.sympy_parser import parse_expr, transformations
 
     SYMPY_AVAILABLE = True

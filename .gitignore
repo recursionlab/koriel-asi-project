@@ -117,3 +117,6 @@ data/processed/*
 
 # Auto-mesh artifacts
 ops/ingest/
+
+# Backup workflow files
+.github/workflows/*.bak
