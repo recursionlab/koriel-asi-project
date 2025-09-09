@@ -15,7 +15,11 @@ from typing import Any, Dict, List, Optional
 
 try:
     import sympy as sp
-    from sympy import *  # noqa: F401,F403
+    from sympy import (  # Common symbols and functions
+        symbols, Symbol, Function, Eq, solve, simplify, expand, factor,
+        diff, integrate, limit, series, latex, pi, E, I, oo, sin, cos, tan,
+        exp, log, sqrt, Matrix, zeros, ones, eye, det, transpose
+    )
     from sympy.parsing.sympy_parser import parse_expr, transformations
 
     SYMPY_AVAILABLE = True
