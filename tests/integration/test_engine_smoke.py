@@ -1,15 +1,9 @@
 """Integration tests for engine module - smoke tests with limits."""
 
-import os
-import sys
-
 import numpy as np
 import pytest
 
-# Add src to path for testing
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
-
-from koriel.engine import EngineConfig, RecursiveOrchestrationEngine
+from src.koriel.engine import EngineConfig, RecursiveOrchestrationEngine
 
 
 class TestEngineSmoke:
