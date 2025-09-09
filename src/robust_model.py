@@ -77,7 +77,9 @@ class RobustTinyByteLM:
             self.b1 = self.last_stable_state["b1"].copy()
             self.W2 = self.last_stable_state["W2"].copy()
             self.b2 = self.last_stable_state["b2"].copy()
-            warnings.warn("Restored from stable state due to numerical instability")
+            warnings.warn(
+                "Restored from stable state due to numerical instability", stacklevel=2
+            )
 
     def check_parameter_health(self):
         """Monitor parameter health and detect instability"""
@@ -85,12 +87,14 @@ class RobustTinyByteLM:
 
         for name, param in zip(["E", "W1", "b1", "W2", "b2"], params):
             if not np.isfinite(param).all():
-                warnings.warn(f"Non-finite values in parameter {name}")
+                warnings.warn(f"Non-finite values in parameter {name}", stacklevel=2)
                 return False
 
             param_norm = np.linalg.norm(param)
             if param_norm > 100.0:  # Parameter explosion
-                warnings.warn(f"Parameter explosion in {name}: norm={param_norm}")
+                warnings.warn(
+                    f"Parameter explosion in {name}: norm={param_norm}", stacklevel=2
+                )
                 return False
 
         return True
@@ -123,14 +127,16 @@ class RobustTinyByteLM:
 
             # Numerical stability check
             if self.stability_checks and not np.isfinite(logits).all():
-                warnings.warn("Non-finite logits detected, applying correction")
+                warnings.warn(
+                    "Non-finite logits detected, applying correction", stacklevel=2
+                )
                 logits = np.nan_to_num(logits, nan=0.0, posinf=10.0, neginf=-10.0)
 
             return logits, h1, h
 
         except Exception as e:
             self.error_count += 1
-            warnings.warn(f"Forward pass error #{self.error_count}: {e}")
+            warnings.warn(f"Forward pass error #{self.error_count}: {e}", stacklevel=2)
 
             # Return safe fallback values
             B = x_bytes.shape[0] if hasattr(x_bytes, "shape") else 1
@@ -172,7 +178,7 @@ class RobustTinyByteLM:
             loss = -np.log(selected_probs).mean()
 
             if not np.isfinite(loss):
-                warnings.warn("Non-finite loss, skipping update")
+                warnings.warn("Non-finite loss, skipping update", stacklevel=2)
                 return float(loss), probs, h1
 
             # Backward pass with gradient clipping
@@ -222,7 +228,7 @@ class RobustTinyByteLM:
 
         except Exception as e:
             self.error_count += 1
-            warnings.warn(f"Training step error #{self.error_count}: {e}")
+            warnings.warn(f"Training step error #{self.error_count}: {e}", stacklevel=2)
 
             if self.stability_checks and self.last_stable_state is not None:
                 self.restore_stable_state()
@@ -241,7 +247,7 @@ class RobustTinyByteLM:
             self._x_cache = x
             self._h_cache = h
         except Exception as e:
-            warnings.warn(f"Caching error: {e}")
+            warnings.warn(f"Caching error: {e}", stacklevel=2)
 
 
 # Export as drop-in replacement

@@ -577,7 +577,7 @@ class SelfModificationEngine:
 
             # Find operator class
             operator_class = None
-            for name, obj in namespace.items():
+            for _name, obj in namespace.items():
                 if (
                     isinstance(obj, type)
                     and issubclass(obj, UniversalOperator)
