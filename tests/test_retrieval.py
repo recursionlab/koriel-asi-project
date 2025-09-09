@@ -1,9 +1,4 @@
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).resolve().parents[1]))
-
-from qrft import QRFTAgent
+from src.qrft import QRFTAgent
 
 
 def test_retrieve_success():

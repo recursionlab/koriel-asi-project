@@ -17,7 +17,7 @@ def safe_norm(x, ord=None, axis=None, keepdims=False, eps=1e-12):
         # Handle NaN/Inf cases
         finite_mask = np.isfinite(x)
         if not finite_mask.any():
-            warnings.warn("All values non-finite in norm computation")
+            warnings.warn("All values non-finite in norm computation", stacklevel=2)
             return np.zeros_like(x.sum(axis=axis, keepdims=keepdims)) + eps
         x = np.where(finite_mask, x, 0.0)
 
@@ -35,7 +35,7 @@ def safe_matmul(A, B):
     try:
         result = A @ B
         if not np.isfinite(result).all():
-            warnings.warn("Non-finite result in matrix multiplication")
+            warnings.warn("Non-finite result in matrix multiplication", stacklevel=2)
             result = np.nan_to_num(result, nan=0.0, posinf=1e10, neginf=-1e10)
         return result
     except Exception as e:
@@ -108,7 +108,7 @@ def robust_d2_norm(omega0, max_value=1e10):
         return min(float(result), max_value)  # Prevent overflow
 
     except Exception as e:
-        warnings.warn(f"d2_norm computation failed: {e}, returning 0")
+        warnings.warn(f"d2_norm computation failed: {e}, returning 0", stacklevel=2)
         return 0.0
 
 
@@ -123,7 +123,7 @@ def robust_torsion_norm(Gamma, max_value=1e10):
         return min(float(result), max_value)
 
     except Exception as e:
-        warnings.warn(f"Torsion computation failed: {e}, returning 0")
+        warnings.warn(f"Torsion computation failed: {e}, returning 0", stacklevel=2)
         return 0.0
 
 
@@ -142,7 +142,7 @@ def robust_curvature_comm_norm(G1, G2, max_value=1e10):
         return min(float(result), max_value)
 
     except Exception as e:
-        warnings.warn(f"Curvature computation failed: {e}, returning 0")
+        warnings.warn(f"Curvature computation failed: {e}, returning 0", stacklevel=2)
         return 0.0
 
 
@@ -155,7 +155,9 @@ def adaptive_precision_wrapper(func):
             return func(*args, **kwargs)
         except (NumericalStabilityError, np.linalg.LinAlgError):
             # Retry with increased precision if needed
-            warnings.warn(f"Retrying {func.__name__} with fallback precision")
+            warnings.warn(
+                f"Retrying {func.__name__} with fallback precision", stacklevel=2
+            )
             return 0.0
 
     return wrapper

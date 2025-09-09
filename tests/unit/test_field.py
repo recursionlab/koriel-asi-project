@@ -1,15 +1,9 @@
 """Unit tests for field module - deterministic pure functions."""
 
-import os
-import sys
-
 import numpy as np
 import pytest
 
-# Add src to path for testing
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
-
-from koriel.field import FieldObservation, PatternMemory, SimpleQuantumField
+from src.koriel.field import FieldObservation, PatternMemory, SimpleQuantumField
 
 
 class TestSimpleQuantumField:

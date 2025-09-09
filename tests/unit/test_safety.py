@@ -1,12 +1,6 @@
 """Test safety and experiment gating functionality."""
 
-import os
-import sys
-
-# Add src to path for testing
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
-
-from koriel.safety import (
+from src.koriel.safety import (
     ExperimentSafetyGate,
     ResourceLimits,
     ResourceMonitor,

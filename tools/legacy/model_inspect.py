@@ -58,7 +58,6 @@ def try_hf_load(path, report):
     if model is not None and tokenizer is not None:
         try:
             model.eval()
-            import torch
 
             prompt = "Test prompt."
             inputs = tokenizer(prompt, return_tensors="pt")
@@ -114,7 +113,7 @@ def try_torch_state_dict(path, report):
             elif isinstance(sd, dict) and "model_state_dict" in sd:
                 sd = sd["model_state_dict"]
             # iterate over tensors
-            for k, v in sd.items():
+            for _k, v in sd.items():
                 try:
                     if hasattr(v, "numel"):
                         total += v.numel()

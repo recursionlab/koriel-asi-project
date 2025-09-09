@@ -30,7 +30,9 @@ def run_minimal_cycle(
     logger.info("Koriel ASI - Running minimal consciousness cycle")
 
     if dry_run:
-        logger.info("DRY RUN MODE: No actual computation will be performed")
+        message = "DRY RUN MODE: No actual computation will be performed"
+        logger.info(message)
+        print(message)
         return 0
 
     try:
@@ -103,7 +105,9 @@ def run_experiment(
     setup_logging({"monitoring": {"log_level": "INFO"}})
 
     if not allow_experiments:
-        logger.error("ERROR: Experiments require explicit --allow-experiments flag")
+        message = "ERROR: Experiments require explicit --allow-experiments flag"
+        logger.error(message)
+        print(message)
         logger.warning("This is for safety - experiments may modify system behavior")
         return 1
 
@@ -257,10 +261,15 @@ Examples:
             dry_run=args.dry_run,
         )
     elif args.command == "status":
-        logger.info("Koriel ASI System Status:")
-        logger.info("- Package: Installed")
-        logger.info("- Configuration: Available")
-        logger.info("- Experiments: Gated (require --allow-experiments)")
+        messages = [
+            "Koriel ASI System Status:",
+            "- Package: Installed",
+            "- Configuration: Available",
+            "- Experiments: Gated (require --allow-experiments)",
+        ]
+        for message in messages:
+            logger.info(message)
+            print(message)
         return 0
     else:
         parser.print_help()
